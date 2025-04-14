@@ -6,7 +6,6 @@
 
 ## Branch Structure
 - `main`: Production-ready code
-- `dev`: Integration branch for testing
 - `parsing`: Development branch for parser components
 - `execution`: Development branch for execution components
 

@@ -1,22 +1,45 @@
 #include "minishell.h"
 
-void    ft_putstr_fd(char *s, int fd)
+void free_tab(char **tab)
 {
-        int     i;
+    int i = 0;
+    while (tab[i])
+        free(tab[i++]);
+    free(tab);
+}
 
-        i = 0;
-        while (s[i])
-        {
-                write(fd, &s[i], 1);
-                i++;
-        }
+int valid_option(char **args, int i)
+{
+    int j;
+
+    if (args[i][0] != '-')
+        return (0);
+    j = 1;
+    while (args[i][j])
+    {
+        if (args[i][j] == 'n')
+            j++;
+        else
+            break;    
+    }
+    if (args[i][j] == '\0')
+        return (1);
+    else
+        return (0);
 }
 
 void    echo(char **args)
 {
     int i;
+    int option;
 
     i = 1;
+    option = 0;
+    while (args[i] && valid_option(args, i) == 1)
+    {
+        option = 1;
+        i++;
+    }
     while (args[i])
     {
         ft_putstr_fd(args[i], 1);
@@ -24,13 +47,17 @@ void    echo(char **args)
             ft_putstr_fd(" ", 1);
         i++;
     }
-    write(1, "\n", 1);  
+    if (!option)
+        write(1, "\n", 1);  
 }
 
-int main()
+int main(int ac, char **av, char **env)
 {
     char *line;
 
+    (void)ac;
+    (void)av;
+    (void)env;
     while (1)
     {
         line = readline("minishell>");
@@ -45,6 +72,7 @@ int main()
         if (args && args[0] && (strcmp(args[0], "echo") == 0))
             echo(args);
         free(line);
+        free_tab(args);
     }
     return (0);
 }

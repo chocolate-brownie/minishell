@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:24:04 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 10:51:07 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:52:29 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,3 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 		ft_memcpy(d, s, n);
 	return (dest);
 }
-//#include <stdio.h>
-// int main()
-//{
-//	char s[] = "hello world";
-//	ft_memmove((s + 6), s, 5);
-//	printf("%s\n", s);
-//	return (0);
-//}

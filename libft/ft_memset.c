@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:32:44 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 10:51:20 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:52:33 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,3 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-//#include <stdio.h>
-// int main()
-//{
-//	char s[] = "hello";
-//	ft_memset(s, 'a', 3);
-//	printf("%s\n", s);
-//	return (0);
-//}

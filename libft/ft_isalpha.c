@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:11:50 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/12 10:18:56 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:03:07 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,3 @@ int	ft_isalpha(int c)
 	else
 		return (0);
 }
-//#include <stdio.h>
-//int main()
-//{
-//	printf("%d\n", ft_isalpha('g'));
-//	return 0;
-//}

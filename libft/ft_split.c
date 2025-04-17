@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 11:10:22 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/18 10:25:53 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:52:56 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,3 @@ char	**ft_split(char const *s, char c)
 	split[len] = NULL;
 	return (split);
 }
-// #include <stdio.h>
-// int main()
-// {
-//     char *s = "--hello----word-from---now--";
-//     char **ret = ft_split(s, '-');
-//     int i = 0;
-//     while (ret[i] != NULL)
-//     {
-//         printf("%s ", ret[i]);
-//         i++;
-//     }
-//     return (0);
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 12:36:43 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 14:45:25 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:03:25 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,3 @@ char	*ft_itoa(int n)
 	}
 	return (itoa);
 }
-// #include <stdio.h>
-// int main()
-// {
-//     char *ret = ft_itoa(-2147483648);
-
-//     printf("%s\n", ret);
-//     return (0);
-// }

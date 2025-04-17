@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 16:14:54 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/12 16:32:04 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:51:01 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,3 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
-//#include <stdio.h>
-//int main()
-//{
-//	char s[] = "    -1234dl";
-//	char s1[] = "  +123";
-//	char s2[] = "qgy123";
-//	char s3[] = "";
-//	printf("%d\n", ft_atoi(s));
-//	printf("%d\n", ft_atoi(s1));
-//	printf("%d\n", ft_atoi(s2));
-//	printf("%d\n", ft_atoi(s3));
-//	return 0;
-//}

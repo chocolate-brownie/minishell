@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:44:30 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/12 09:50:35 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:51:10 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,3 @@ void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);
 }
-//#include <stdio.h>
-//int main()
-//{
-//      char s[] = "hello";
-//     ft_bzero(s, 3);
-//      printf("%s\n", s);
-//      return 0;
-//}

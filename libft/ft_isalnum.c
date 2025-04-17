@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:39 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/12 10:34:40 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:51:43 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,3 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
-//#include <stdio.h>
-//int main()
-//{
-//	printf("%d\n", ft_isalnum('u'));
-//	return 0;
-//}

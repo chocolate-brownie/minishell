@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:16:51 by shasinan          #+#    #+#             */
-/*   Updated: 2025/01/24 19:48:35 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:53:55 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,23 +117,3 @@ char	*get_next_line(int fd)
 	big_buf = update_big_buf(big_buf);
 	return (line);
 }
-
-//  #include <stdio.h>
-//  int main()
-//  {
-//      char *line;
-//      int count = 0;
-
-//      int fd = open("test.txt", O_RDONLY);
-//      while (1)
-//      {
-//          line = get_next_line(fd);
-//          if (line == NULL)
-//              break ;
-//          count++;
-//          printf("[%d]:%s\n", count, line);
-//          free (line);
-//      }
-//      close (fd);
-//      return (0);
-//  }

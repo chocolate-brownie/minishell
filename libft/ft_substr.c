@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:50:19 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 16:12:30 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:53:45 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	sub[j] = '\0';
 	return (sub);
 }
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	char	*s;
-// 	char	*sub;
-// 	s = "far from home";
-// 	sub = ft_substr(s, 4, 4);
-// 	printf("%s\n", sub);
-// 	return (0);
-// }

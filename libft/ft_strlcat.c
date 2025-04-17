@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 14:03:12 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/12 14:44:19 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:53:12 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,3 @@ size_t	ft_strlcat(char *dest, const char *src, size_t dsize)
 	dest[dlen + i] = '\0';
 	return (dlen + slen);
 }
-//#include <stdio.h>
-//int main()
-//{
-//	char s[] = "world";
-//	char d[] = "hello ";
-//	size_t res = ft_strlcat (d, s, 0);
-//	printf("%zu\n", res);
-//	printf("%s\n", d);
-//}

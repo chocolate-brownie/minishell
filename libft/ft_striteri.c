@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:02:11 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 15:49:26 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:53:05 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,3 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 		i++;
 	}
 }
-// avec l'adresse comme argument,
-// la fonction peut directement changer le caractere dans la chaine
-// void too_upper(unsigned int index, char *ch)
-// {
-//     if (*ch >= 'a' && *ch <= 'z')
-//         *ch -= 32;
-//     printf("Index %u: %c\n", index, *ch);
-// }
-// int main()
-// {
-//     char str[] = "hello world";
-//     ft_striteri(str, too_upper);
-//     printf("%s\n", str);
-//     return (0);
-// }

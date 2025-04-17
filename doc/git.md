@@ -1,147 +1,99 @@
-# Understanding the Integration Workflow for First-Time Team Projects
+# Minishell Project
 
-This guide explains how your code and your teammate's code come together using the branch structure for collaborative development.
+This document outlines a simple Git workflow designed for a two-person team to collaborate effectively on the Minishell project, minimizing merge conflicts and keeping the `main` branch stable.
 
-## The Big Picture
+## Core Philosophy
 
-Think of each branch as a separate workspace:
-- **parsing branch**: Your personal workspace where you develop the parser
-- **execution branch**: Your teammate's workspace for execution components
-- **dev branch**: The integration area where both parts come together
-- **main branch**: The final, stable version of your project
+1.  **`main` is the Stable Source of Truth:** The `main` branch should always contain code that compiles and is relatively stable. Do not push broken or incomplete work directly to `main`.
+2.  **Work on Feature Branches:** All new development happens on dedicated branches (`parsing`, `execution`). Never commit directly to `main`.
+3.  **Synchronize Frequently (Daily!):** Keep your feature branch updated with the latest changes from `main` to catch integration issues early and keep conflicts small.
+4.  **Communicate:** Talk to your teammate! Let each other know what you're working on, especially if your tasks might affect the same files.
 
-## How Code Integration Works Step-by-Step
+## Branches
 
-### 1. Independent Development
-Both you and your teammate work separately:
+*   `main`: The primary stable branch. Represents the latest "good" version of the project.
+*   `parsing`: Feature branch dedicated to parsing logic. (Managed by Person A)
+*   `execution`: Feature branch dedicated to command execution logic. (Managed by Person B)
+
+## Daily Workflow Routine
+
+Follow these steps *at the start of your workday* and *before starting significant new work* on your branch.
+
+**1. Update Your Local `main` Branch:**
+
+Ensure your local `main` branch has the absolute latest code from the remote repository.
 
 ```bash
-# You (on parsing branch)
+# Switch to the main branch
+git checkout main
+
+# Pull the latest changes from the remote main branch
+git pull origin main
+```
+
+**2. Update Your Feature Branch:**
+
+Integrate the latest stable changes from `main` into your working branch (`parsing` or `execution`).
+
+```bash
+# Switch to your feature branch (e.g., parsing)
 git checkout parsing
-# Make changes to parsing files
+# Or: git checkout execution
+
+# Pull the latest changes from main into your current branch
+git pull origin main
+```
+
+*   **Conflict Handling:** If `git pull origin main` results in merge conflicts:
+    *   Git will mark the conflicting files.
+    *   Open these files in your editor.
+    *   Look for the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
+    *   Edit the files to resolve the differences, keeping the code you need and removing the markers.
+    *   Save the resolved files.
+    *   Stage the resolved files: `git add <conflicted-file-1> <conflicted-file-2> ...`
+    *   Commit the merge: `git commit -m "Merge main into <your-branch>"` (Git often pre-fills this message).
+
+**3. Do Your Work:**
+
+Make your code changes on your feature branch.
+
+**4. Commit and Push Your Changes:**
+
+Regularly save your work and push it to the remote repository *on your feature branch*.
+
+```bash
+# Stage the files you've changed
 git add .
-git commit -m "feat: implement tokenizer"
+
+# Commit your changes with a clear message
+git commit -m "feat: Implement <specific feature> in parsing"
+# Or: git commit -m "fix: Correct execution logic for <command>"
+
+# Push your commits to your remote feature branch
 git push origin parsing
-
-# Meanwhile, your teammate (on execution branch)
-git checkout execution
-# Makes changes to execution files
-git add .
-git commit -m "feat: implement execve wrapper"
-git push origin execution
+# Or: git push origin execution
 ```
 
-### 2. Integration Point (When Features are Ready)
+## Merging Features into `main` (Using Pull Requests - Recommended)
 
-When either of you completes a feature that should be integrated:
+When a feature on `parsing` or `execution` is complete and ready to be integrated:
 
-```bash
-# You decide to integrate your parsing feature
-git checkout dev
-git pull origin dev  # Get latest dev version
-git merge parsing    # Bring your changes into dev
-# Test that everything still works
-git push origin dev  # Update the shared dev branch
-```
+1.  **Ensure Branch is Up-to-Date:** Repeat **Step 2** (Update Your Feature Branch) one last time to ensure you have the very latest `main` merged in. Resolve any conflicts. Push the merge commit if one was created.
+2.  **Create a Pull Request (PR) on GitHub:**
+    *   Go to your repository on GitHub.
+    *   Navigate to the "Pull requests" tab.
+    *   Click "New pull request".
+    *   Set the **base** branch to `main`.
+    *   Set the **compare** branch to your feature branch (`parsing` or `execution`).
+    *   Review the changes and click "Create pull request". Add a title and description.
+3.  **Review the PR:**
+    *   The **other** teammate should review the PR.
+    *   Check the code for correctness, style, and potential issues.
+    *   Discuss any necessary changes in the PR comments. The branch owner makes the requested changes, commits, and pushes them to their feature branch (this automatically updates the PR).
+4.  **Merge the PR:**
+    *   Once the PR is approved, the **reviewer** (or the owner if agreed upon) clicks the "Merge pull request" button on GitHub.
+    *   Use the default "Create a merge commit" option unless you have a specific reason not to.
+5.  **Delete the Feature Branch (Optional but Recommended):**
+    *   GitHub usually offers a button to delete the source branch after merging. This keeps the repository clean. The branch can always be restored if needed.
 
-Your teammate would follow the same process with their execution branch.
-
-### 3. Keeping In Sync
-
-After integration, both of you should update your feature branches:
-
-```bash
-# You
-git checkout parsing
-git pull origin dev  # Get the integrated code including your teammate's work
-
-# Your teammate
-git checkout execution
-git pull origin dev  # Get the integrated code including your work
-```
-
-## Practical Example Timeline
-
-Let's see how this might look over a few days:
-
-**Day 1:**
-- You both start with the same structure
-- You work on parsing, create files, push to parsing branch
-- Your teammate works on execution, creates files, pushes to execution branch
-
-**Day 3:**
-- You've completed the basic tokenizer
-- You merge parsing → dev to make it available
-- You notify your teammate: "I've integrated the tokenizer into dev"
-
-**Day 4:**
-- Your teammate completes command execution
-- They merge execution → dev
-- They message you: "I've integrated command execution into dev"
-- You both pull from dev to get each other's work
-
-**Day 5:**
-- You both continue working on your branches with knowledge of each other's code
-- The integration in dev lets you test how your parts work together
-
-## Key Things to Remember
-
-1. **Push to your own branch frequently**:
-   - This creates checkpoints of your work
-   - Makes your progress visible to your teammate
-
-2. **Merge to dev only when**:
-   - A feature is complete enough to be useful
-   - Your code compiles and runs without errors
-   - You're ready for your teammate to use your code
-
-3. **Pull from dev regularly**:
-   - This keeps you updated with your teammate's latest integrated work
-   - Prevents you from getting too far out of sync
-
-4. **Communicate about integration**:
-   - "I'm about to merge my parsing changes to dev"
-   - "I've updated dev with the command executor"
-
-## Common Git Commands Reference
-
-### Basic Commands
-```bash
-# Check status of files
-git status
-
-# View commit history
-git log --oneline
-
-# Create and switch to a new branch
-git checkout -b new-branch-name
-
-# Switch to existing branch
-git checkout branch-name
-```
-
-### Collaboration Commands
-```bash
-# Get latest changes from remote
-git pull origin branch-name
-
-# Upload your changes to remote
-git push origin branch-name
-
-# Merge another branch into current branch
-git merge other-branch-name
-
-# View differences
-git diff
-```
-
-### Conflict Resolution
-```bash
-# When merge conflicts occur:
-# 1. Edit files to resolve conflicts
-# 2. Add resolved files
-git add resolved-file.c
-
-# 3. Complete the merge
-git commit -m "merge: resolve conflicts in X functionality"
-```
+By following this workflow, you integrate changes frequently, keep `main` clean, and use Pull Requests for code review and controlled merging, significantly reducing the chances of painful merge conflicts.

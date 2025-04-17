@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/17 18:47:25 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/04/17 19:21:44 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = main.c \
        $(SRC_DIR)/execution/echo.c \
        $(SRC_DIR)/execution/exec.c \
-       $(SRC_DIR)/parsing/
+    #    $(SRC_DIR)/parsing/
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
@@ -59,9 +59,10 @@ $(NAME): $(LIBFT) $(OBJS)
 
 # Compile libft
 $(LIBFT):
-	@echo "$(BOLD)$(PURPLE)📚 Building libft...$(RESET)"
-	@make -C $(LIBFT_DIR)
-	@echo "$(BOLD)$(GREEN)✅ Libft compiled successfully!$(RESET)"
+	@echo -n "$(BOLD)$(PURPLE)📚 Building libft... $(RESET)"
+	@$(MAKE) -s -C $(LIBFT_DIR) > /dev/null 2>&1 || \
+		(echo "$(BOLD)$(RED)[FAIL]$(RESET)"; exit 1)
+	@echo "$(BOLD)$(GREEN)[OK]$(RESET)"
 
 # Compile source files
 $(OBJ_DIR)/%.o: %.c

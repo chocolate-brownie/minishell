@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
+#    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 17:27:48 by shasinan          #+#    #+#              #
-#    Updated: 2025/01/24 19:46:09 by shasinan         ###   ########.fr        #
+#    Updated: 2025/04/17 19:20:15 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,20 +31,20 @@ OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	ar rcs $@ $(OBJS)
+	@ar rcs $@ $(OBJS) || (echo -e "\\033[0;31mError: Archiving $@ failed!\\033[0m"; exit 1)
 
 %.o: %.c $(HEAD)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@ || (echo -e "\\033[0;31mError: Compilation of $< failed!\\033[0m"; exit 1)
 
 bonus: $(OBJS) $(OBJS_BONUS)
-	ar rcs $(NAME) $^
+	@ar rcs $(NAME) $^ || (echo -e "\\033[0;31mError: Archiving bonus $@ failed!\\033[0m"; exit 1)
 
 clean:
-	rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
-re: all fclean
+re: fclean all
 
 .PHONY: all clean fclean re bonus

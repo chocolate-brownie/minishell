@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:50:01 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/17 19:07:32 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:20:26 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdint.h>
 
 int	ft_printf(const char *str, ...);
-int	print_char(int c);
 int	print_str(char *str);
 int	print_ptr(void *ptr);
 int	print_dec(int num);

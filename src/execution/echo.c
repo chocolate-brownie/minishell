@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:03 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/17 19:10:52 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:14:59 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	echo(char **args)
 	if (!option)
 		write(1, "\n", 1);
 }
-
+/*
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
@@ -91,3 +91,4 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
+ */

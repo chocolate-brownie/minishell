@@ -18,5 +18,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	printf("Hello, World!\n");
+	printf("Hello, World!\n");
 	return (0);
 }

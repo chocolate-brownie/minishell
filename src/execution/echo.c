@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:03 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/17 19:14:59 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:52:47 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-int	valid_option(char **args, int i)
+static int	valid_option(char **args, int i)
 {
 	int	j;
 
@@ -64,31 +64,3 @@ void	echo(char **args)
 	if (!option)
 		write(1, "\n", 1);
 }
-/*
-int	main(int ac, char **av, char **env)
-{
-	char	*line;
-	char	**args;
-
-	(void)ac;
-	(void)av;
-	(void)env;
-	while (1)
-	{
-		line = readline("minishell>");
-		if (!line)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (*line)
-			add_history(line);
-		args = ft_split(line, ' ');
-		if (args && args[0] && (strcmp(args[0], "echo") == 0))
-			echo(args);
-		free(line);
-		free_tab(args);
-	}
-	return (0);
-}
- */

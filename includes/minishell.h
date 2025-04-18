@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/17 19:26:46 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/18 10:51:04 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "../libft/includes/libft.h"
 # include <dirent.h>
 # include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,5 +31,9 @@
 
 /* testing makefile */
 void	print_hello(void);
+
+/** Execution */
+void	free_tab(char **tab);
+void	echo(char **args);
 
 #endif

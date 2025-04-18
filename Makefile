@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
+#    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/17 19:27:43 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/04/18 10:47:46 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = main.c \
        $(SRC_DIR)/execution/echo.c \
        $(SRC_DIR)/execution/exec.c \
+	   $(SRC_DIR)/execution/test_main.c \
        $(SRC_DIR)/parsing/example.c \
 
 # Object files

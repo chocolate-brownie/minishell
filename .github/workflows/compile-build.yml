@@ -7,5 +7,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y libreadline-dev
     - name: Run Makefile
       run: make all

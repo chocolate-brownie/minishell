@@ -6,11 +6,11 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:03 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/17 19:14:59 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:16:23 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	free_tab(char **tab)
 {

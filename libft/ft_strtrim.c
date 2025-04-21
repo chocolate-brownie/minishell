@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:27:31 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 11:00:41 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:53:41 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	trim[i] = '\0';
 	return (trim);
 }
-// #include <stdio.h>
-// int main()
-// {
-//     char *s = "-##_-hello-world-**#+--";
-//     char *set = "-#+*_";
-//     char *ret = ft_strtrim(s, set);
-//     printf("%s\n", ret);
-// }

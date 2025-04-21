@@ -1,0 +1,38 @@
+# Object files
+*.o
+*.obj
+.objs/
+obj/
+
+# Libraries
+*.a
+*.lib
+
+# Executables
+minishell
+*.exe
+*.out
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*~
+
+# Dependencies
+.deps/
+
+# Compilation database
+compile_commands.json
+
+# Build directory
+build/
+
+# macOS specific
+.DS_Store

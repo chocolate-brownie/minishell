@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:48:01 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 10:51:27 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:52:17 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
-// #include <stdio.h>
-// int main()
-// {
-//     char s[] = "hello world";
-//     char *ret = ft_memchr(s,'x', 20);
-//     printf("%s\n", ret);
-//     return (0);
-// }

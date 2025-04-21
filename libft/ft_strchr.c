@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 14:55:29 by shasinan          #+#    #+#             */
-/*   Updated: 2024/11/15 10:03:12 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:53:00 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,3 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (NULL);
 }
-//#include <stdio.h>
-//int main()
-//{
-//	char *s = "hello world";
-//	char *ret = ft_strchr(s, 'w');
-//	printf("%s\n", ret);
-//	return 0;
-//}

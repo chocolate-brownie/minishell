@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 10:53:21 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/17 17:01:22 by shasinan         ###   ########.fr       */
+/*   Created: 2025/04/21 18:08:50 by shasinan          #+#    #+#             */
+/*   Updated: 2025/04/21 18:08:53 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,3 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-//#include <stdio.h>
-//int main()
-//{
-//	char s[] = "hello world";
-//	printf ("%zu\n", ft_strlen(s));
-//	return 0;
-//}

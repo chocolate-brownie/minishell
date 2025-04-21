@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 10:11:50 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/17 19:03:07 by mgodawat         ###   ########.fr       */
+/*   Created: 2025/04/21 18:37:56 by shasinan          #+#    #+#             */
+/*   Updated: 2025/04/21 18:38:05 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalpha(int c)
+void	cd(const char *path)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	else
-		return (0);
+	if (chdir(path) == -1)
+	{
+		printf("error changing directory");
+		return ;
+	}
 }

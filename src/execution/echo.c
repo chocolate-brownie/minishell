@@ -1,78 +1,117 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/17 19:10:03 by mgodawat          #+#    #+#             */
+/*   Updated: 2025/04/21 18:46:20 by shasinan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void free_tab(char **tab)
+void	free_tab(char **tab)
 {
-    int i = 0;
-    while (tab[i])
-        free(tab[i++]);
-    free(tab);
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }
 
-int valid_option(char **args, int i)
+int	valid_option(char **args, int i)
 {
-    int j;
+	int	j;
 
-    if (args[i][0] != '-')
-        return (0);
-    j = 1;
-    while (args[i][j])
-    {
-        if (args[i][j] == 'n')
-            j++;
-        else
-            break;    
-    }
-    if (args[i][j] == '\0')
-        return (1);
-    else
-        return (0);
+	if (args[i][0] != '-')
+		return (0);
+	j = 1;
+	while (args[i][j])
+	{
+		if (args[i][j] == 'n')
+			j++;
+		else
+			break ;
+	}
+	if (args[i][j] == '\0')
+		return (1);
+	else
+		return (0);
 }
 
-void    echo(char **args)
+void	echo(char **args)
 {
-    int i;
-    int option;
+	int	i;
+	int	option;
 
-    i = 1;
-    option = 0;
-    while (args[i] && valid_option(args, i) == 1)
-    {
-        option = 1;
-        i++;
-    }
-    while (args[i])
-    {
-        ft_putstr_fd(args[i], 1);
-        if (args[i + 1])
-            ft_putstr_fd(" ", 1);
-        i++;
-    }
-    if (!option)
-        write(1, "\n", 1);  
+	i = 1;
+	option = 0;
+	while (args[i] && valid_option(args, i) == 1)
+	{
+		option = 1;
+		i++;
+	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1])
+			ft_putstr_fd(" ", 1);
+		i++;
+	}
+	if (!option)
+		write(1, "\n", 1);
 }
 
-int main(int ac, char **av, char **env)
+void	cd(const char *path)
 {
-    char *line;
+	if (chdir(path) == -1)
+	{
+		perror(path);
+		return ;
+	}
+}
 
-    (void)ac;
-    (void)av;
-    (void)env;
-    while (1)
-    {
-        line = readline("minishell>");
-        if (!line)
-        {
-            printf("exit\n");
-            break;
-        }
-        if (*line)
-            add_history(line);
-        char **args = ft_split(line, ' ');
-        if (args && args[0] && (strcmp(args[0], "echo") == 0))
-            echo(args);
-        free(line);
-        free_tab(args);
-    }
-    return (0);
+int	main(int ac, char **av, char **env)
+{
+	char	*line;
+	char	**args;
+
+	(void)ac;
+	(void)av;
+	(void)env;
+	while (1)
+	{
+		line = readline("minishell>");
+		if (!line)
+		{
+			printf("exit\n");
+			break ;
+		}
+		if (*line)
+			add_history(line);
+		args = ft_split(line, ' ');
+		if (args && args[0] && (strcmp(args[0], "echo") == 0))
+			echo(args);
+		if ((strcmp(args[0], "cd") == 0))
+			cd(args[1]);
+		if (strcmp (line, "ls -l") == 0)
+		{
+			int pid;
+
+			pid = fork();
+			if (pid == 0)
+			{
+				char *args[] = {"ls", "-l", NULL};
+				execve("/usr/bin/ls", args, env);
+			}
+			else
+				wait(NULL);
+		}
+		free(line);
+		free_tab(args);
+	}
+	return (0);
 }

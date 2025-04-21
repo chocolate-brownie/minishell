@@ -6,20 +6,20 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:03 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/20 19:16:23 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:05:06 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_tab(char **tab)
+void	free_tab(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	while (array[i])
+		free(array[i++]);
+	free(array);
 }
 
 int	valid_option(char **args, int i)
@@ -42,7 +42,7 @@ int	valid_option(char **args, int i)
 		return (0);
 }
 
-void	echo(char **args)
+void	ft_echo(char **args)
 {
 	int	i;
 	int	option;
@@ -64,6 +64,7 @@ void	echo(char **args)
 	if (!option)
 		write(1, "\n", 1);
 }
+
 /*
 int	main(int ac, char **av, char **env)
 {

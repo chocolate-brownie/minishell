@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/20 19:17:30 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:53:01 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
-#include "exec.h"
-#include "colors.h"
-
+# include "colors.h"
+# include "exec.h"
+# include <curses.h>
 # include <dirent.h>
 # include <fcntl.h>
 # include <signal.h>
@@ -27,11 +27,9 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <term.h>
 # include <termios.h>
 # include <unistd.h>
-#include <curses.h>
-#include <term.h>
-
 
 /**
 This is the main system where we store all the importnat
@@ -128,6 +126,6 @@ typedef struct s_context
 
 }					t_context;
 
-int	clear_term(void);
+int					clear_term(void);
 
 #endif

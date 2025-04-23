@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/20 19:15:04 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/04/23 22:03:53 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,12 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
-SRCS = main.c \
+SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/echo.c \
        $(SRC_DIR)/execution/exec.c \
-       $(SRC_DIR)/execution/clear.c \
+       $(SRC_DIR)/parsing/read.c \
+       $(SRC_DIR)/utils/err.c \
+       $(SRC_DIR)/utils/clear.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

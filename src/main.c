@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/23 21:58:27 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/25 12:20:33 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)envp;
 	if (argc > 1 || !argv[0])
 		return (perr("The program accepts no arguments\n"), 1);
 	if (clear_term() != 0)

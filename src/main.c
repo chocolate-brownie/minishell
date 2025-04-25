@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 12:20:33 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:30:25 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,20 @@
 *   Handling I/O (allowed functions include `pipe`, `dup`, `dup2`).
 */
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char *argv[], char **envp)
 {
+	char	*cmd;
+
+	(void)envp;
 	if (argc > 1 || !argv[0])
 		return (perr("The program accepts no arguments\n"), 1);
 	if (clear_term() != 0)
 		return (1);
-	read_comm();
+	while (1)
+	{
+		cmd = read_cmd();
+		if (cmd == NULL)
+			break ;
+	}
 	return (0);
 }

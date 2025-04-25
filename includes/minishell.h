@@ -6,13 +6,10 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/24 09:52:40 by shasinan         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/23 21:56:40 by mgodawat         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/04/25 11:43:12 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H

@@ -6,20 +6,20 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:03 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/21 18:46:20 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:49:18 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tab(char **tab)
+void	free_tab(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	while (array[i])
+		free(array[i++]);
+	free(array);
 }
 
 int	valid_option(char **args, int i)
@@ -42,7 +42,7 @@ int	valid_option(char **args, int i)
 		return (0);
 }
 
-void	echo(char **args)
+void	ft_echo(char **args)
 {
 	int	i;
 	int	option;
@@ -65,7 +65,7 @@ void	echo(char **args)
 		write(1, "\n", 1);
 }
 
-void	cd(const char *path)
+void	ft_cd(const char *path)
 {
 	if (chdir(path) == -1)
 	{
@@ -74,44 +74,48 @@ void	cd(const char *path)
 	}
 }
 
-int	main(int ac, char **av, char **env)
-{
-	char	*line;
-	char	**args;
+// int	main(int ac, char **av, char **env)
+// {
+// 	char	*line;
+// 	char	**args;
+// 				int pid;
+// 					char *args[] = {"ls", "-l", NULL};
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	while (1)
-	{
-		line = readline("minishell>");
-		if (!line)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (*line)
-			add_history(line);
-		args = ft_split(line, ' ');
-		if (args && args[0] && (strcmp(args[0], "echo") == 0))
-			echo(args);
-		if ((strcmp(args[0], "cd") == 0))
-			cd(args[1]);
-		if (strcmp (line, "ls -l") == 0)
-		{
-			int pid;
-
-			pid = fork();
-			if (pid == 0)
-			{
-				char *args[] = {"ls", "-l", NULL};
-				execve("/usr/bin/ls", args, env);
-			}
-			else
-				wait(NULL);
-		}
-		free(line);
-		free_tab(args);
-	}
-	return (0);
-}
+// 	(void)ac;
+// 	(void)av;
+// 	(void)env;
+// 	while (1)
+// 	{
+// 		line = readline("minishell>");
+// 		if (!line)
+// 		{
+// 			printf("exit\n");
+// 			break ;
+// 		}
+// 		if (*line)
+// 			add_history(line);
+// 		args = ft_split(line, ' ');
+// 		if (args && args[0])
+// 		{
+// 			if (args && args[0] && (strcmp(args[0], "echo") == 0))
+// 				ft_echo(args);
+// 			else if ((strcmp(args[0], "cd") == 0))
+// 				ft_cd(args[1]);
+// 			else if (strcmp(args[0], "clear") == 0)
+// 				clear_term();
+// 			else if (strcmp(line, "ls -l") == 0)
+// 			{
+// 				pid = fork();
+// 				if (pid == 0)
+// 				{
+// 					execve("/usr/bin/ls", args, env);
+// 				}
+// 				else
+// 					wait(NULL);
+// 			}
+// 		}
+// 		free(line);
+// 		free_tab(args);
+// 	}
+// 	return (0);
+// }

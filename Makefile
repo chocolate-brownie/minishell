@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
+#    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/17 19:27:43 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/04/24 10:06:15 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,10 @@ BOLD = \033[1m
 #                               VARIABLES                                      #
 # **************************************************************************** #
 NAME = minishell
+MAKE = /usr/bin/make
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iincludes
-LDFLAGS = -lreadline
+LDFLAGS = -lreadline -lncurses
 
 # Directories
 SRC_DIR = src
@@ -39,9 +40,12 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
 SRCS = main.c \
-       $(SRC_DIR)/execution/echo.c \
+       $(SRC_DIR)/execution/builtin/echo.c \
+       $(SRC_DIR)/execution/builtin/cd.c \
+       $(SRC_DIR)/execution/redir/handle_redir.c \
+       $(SRC_DIR)/execution/utils/get_command.c \
+       $(SRC_DIR)/execution/clear.c \
        $(SRC_DIR)/execution/exec.c \
-       $(SRC_DIR)/parsing/example.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
@@ -60,7 +64,7 @@ $(NAME): $(LIBFT) $(OBJS)
 # Compile libft
 $(LIBFT):
 	@echo -n "$(BOLD)$(PURPLE)📚 Building libft... $(RESET)"
-	@$(MAKE) -s -C $(LIBFT_DIR) > /dev/null 2>&1 || \
+	@$(MAKE) -s -C $(LIBFT_DIR) || \
 		(echo "$(BOLD)$(RED)[FAIL]$(RESET)"; exit 1)
 	@echo "$(BOLD)$(GREEN)[OK]$(RESET)"
 

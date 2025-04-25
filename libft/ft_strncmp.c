@@ -6,11 +6,11 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:32:32 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/17 18:53:30 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:17:10 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

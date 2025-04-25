@@ -6,7 +6,11 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/24 09:52:40 by shasinan         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/23 21:56:40 by mgodawat         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +28,6 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -32,6 +35,8 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+
+# define PROMPT "minishell> "
 
 /**
 This is the main system where we store all the importnat
@@ -128,8 +133,11 @@ typedef struct s_context
 
 }					t_context;
 
+/* Other functions */
+void				perr(char *err_msg);
 int					clear_term(void);
 void				handle_redir(t_exec *cmd);
 char				*get_cmd_path(char **envp, char *cmd);
+void				read_comm(void);
 
 #endif

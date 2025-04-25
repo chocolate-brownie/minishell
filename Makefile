@@ -6,9 +6,10 @@
 #    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/24 10:06:15 by shasinan         ###   ########.fr        #
+#    Updated: 2025/04/25 11:41:05 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 # **************************************************************************** #
 #                                COLORS                                    #
@@ -39,13 +40,16 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
-SRCS = main.c \
+SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/builtin/echo.c \
        $(SRC_DIR)/execution/builtin/cd.c \
+		$(SRC_DIR)/execution/exec/exec.c \
+       $(SRC_DIR)/execution/exec/exec_utils.c \
        $(SRC_DIR)/execution/redir/handle_redir.c \
        $(SRC_DIR)/execution/utils/get_command.c \
-       $(SRC_DIR)/execution/clear.c \
-       $(SRC_DIR)/execution/exec.c \
+       $(SRC_DIR)/parsing/read.c \
+       $(SRC_DIR)/utils/err.c \
+       $(SRC_DIR)/utils/clear.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

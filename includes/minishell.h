@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/23 21:56:40 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:28:40 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/includes/libft.h"
 # include "colors.h"
 # include "exec.h"
+# include "lexer.h"
 # include <curses.h>
 # include <dirent.h>
 # include <fcntl.h>
@@ -129,9 +130,11 @@ typedef struct s_context
 
 }					t_context;
 
-/* Other functions */
+/* other utilities */
 void				perr(char *err_msg);
 int					clear_term(void);
-void				read_comm(void);
+
+/** Reading */
+char				*read_cmd(void);
 
 #endif

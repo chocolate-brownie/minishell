@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 11:43:56 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:55:47 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,9 @@ int					clear_term(void);
 void				handle_redir(t_exec *cmd);
 char				*get_cmd_path(char **envp, char *cmd);
 void				read_comm(void);
+void				setup_pipe_and_redir(t_exec *cmd, int pipefd[2],
+						int prev_pipe_end);
+char				**args_to_array(t_exec *cmd);
+void				exit_with_error(char *msg, char **args, char *path);
 
 #endif

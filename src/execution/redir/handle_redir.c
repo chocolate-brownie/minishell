@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:55 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/23 12:03:23 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:58:45 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	append_redir(t_redirs *redir)
 void	handle_redir(t_exec *cmd)
 {
 	t_redirs	*redir;
-	int			fd;
 
 	redir = cmd->redirs;
 	while (redir)

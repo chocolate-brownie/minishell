@@ -6,13 +6,13 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 17:52:26 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/24 09:49:56 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/25 12:00:23 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**free_tab(char **tabl)
+char	**free_tabl(char **tabl)
 {
 	int	i;
 
@@ -51,18 +51,18 @@ char	*paths_loop(char **paths, char *cmd)
 		free(tmp);
 		if (!full_path)
 		{
-			free_tab(paths);
+			free_tabl(paths);
 			return (NULL);
 		}
 		if (access(full_path, X_OK) == 0)
 		{
-			free_tab(paths);
+			free_tabl(paths);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
-	free_tab(paths);
+	free_tabl(paths);
 	return (NULL);
 }
 

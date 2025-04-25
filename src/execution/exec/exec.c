@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:27 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 11:29:37 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:58:11 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	execute_pipeline(t_exec *cmd, char **envp)
 	int		pipefd[2];
 	int		prev_pipe_end;
 	pid_t	pid;
-	int		exit_code;
 
 	prev_pipe_end = -1;
 	while (cmd)
@@ -100,7 +99,8 @@ void	execute_pipeline(t_exec *cmd, char **envp)
 		close_unused_fd(cmd, pipefd, &prev_pipe_end);
 		cmd = cmd->next;
 	}
-	exit_code = wait_for_childrens(pid);
+	wait_for_childrens(pid);
 }
 
-/*the exit code will be given to the global variable*/
+/*the wait_for_childrens function will return the exit code
+	for the global variable*/

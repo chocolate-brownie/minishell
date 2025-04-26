@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:55:23 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 17:18:19 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:36:13 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*read_cmd(void)
 
 	while (1)
 	{
-		command = readline(PROMPT);
+		command = readline(YELLOW PROMPT RESET);
 		if (check_exit_condition(command) == 1)
 		{
 			if (command != NULL)

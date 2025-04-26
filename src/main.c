@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 17:19:17 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:34:58 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 	`ncurses`/`termcap` library).
 *   Handling I/O (allowed functions include `pipe`, `dup`, `dup2`).
 */
+
 int	main(int argc, char *argv[])
 {
 	char	*cmd;
 	t_token	*list_head;
-	t_token	*current;
 
 	if (check_state(argc, argv) == 1)
 		return (1);
@@ -38,22 +38,11 @@ int	main(int argc, char *argv[])
 		list_head = lexer(cmd);
 		if (list_head == NULL)
 		{
-			printf(RED "Lexer returned NULL (Error or empty input?)\n" RESET);
+			write(2, "Lexer returned NULL (Error or empty input?)\n", 44);
 			free(cmd);
 			continue ;
 		}
-		printf("Tokens generated:\n");
-		current = list_head;
-		while (current != NULL)
-		{
-			printf("  Token: Value=\"%s\", Type=%s\n", current->value,
-					token_type_to_string(current->type));
-			current = current->next;
-		}
-		free_token_list(list_head);
-		printf("Token list freed.\n");
-		free(cmd);
-		printf("----------------------------\n");
+		print_tokens(cmd, list_head);
 	}
 	cmd = NULL;
 	list_head = NULL;

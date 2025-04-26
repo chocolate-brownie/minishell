@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 17:36:49 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:30:11 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include <termios.h>
 # include <unistd.h>
 
-# define PROMPT GREEN "minishell → " RESET
+# define PROMPT "minishell → "
 
 /**
 typedef enum e_token_type
@@ -178,4 +178,6 @@ void				perr(char *err_msg);
 
 /** debugging functions */
 const char			*token_type_to_string(t_token_type type);
+void				print_tokens(char *cmd, t_token *list_head);
+
 #endif

@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/23 22:03:53 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/04/26 17:25:28 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,12 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/echo.c \
        $(SRC_DIR)/execution/exec.c \
        $(SRC_DIR)/parsing/read.c \
+       $(SRC_DIR)/parsing/lexer/get_next_tkn.c \
+       $(SRC_DIR)/parsing/lexer/lexer.c \
+       $(SRC_DIR)/parsing/lexer/tkn_utils.c \
        $(SRC_DIR)/utils/err.c \
        $(SRC_DIR)/utils/clear.c \
+       $(SRC_DIR)/utils/debug.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

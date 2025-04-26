@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   err.c                                              :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 18:28:55 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 20:00:46 by mgodawat         ###   ########.fr       */
+/*   Created: 2025/04/25 17:34:16 by mgodawat          #+#    #+#             */
+/*   Updated: 2025/04/25 17:41:26 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-
-int	check_state(int argc, char *argv[])
+int	ft_isspace(char c)
 {
-	if (argc > 1 || !argv[0])
-	{
-		perror("The program accepts no arguments\n");
-		return (1);
-	}
-	if (clear_term() != 0)
-		return (1);
-	return (0);
+	return (c == ' ' || (c >= 9 && c <= 13));
 }

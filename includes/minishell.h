@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 18:30:11 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/30 23:17:52 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,11 +164,19 @@ typedef struct s_context
 t_token				*lexer(const char *cmd);
 
 /** Tokenization functions & tools */
+int					is_quote(char c);
+int					is_delimiter(char c);
 t_token				*get_next_token(const char *cmd, int *i);
 t_token				*create_token(char *value, t_token_type type);
 void				free_token_list(t_token *token_list);
 void				append_token(t_token **head, t_token **tail,
 						t_token *token);
+/** Tokenization of words functions & tools */
+int					find_closing_quote(const char *cmd, int start_pos);
+char				*append_extracted_value(char *accumulated_value,
+						char *value);
+char				*handle_quotes(const char *cmd, int *index);
+t_token				*handle_word(const char *cmd, int *i);
 
 /** other functions */
 int					check_state(int argc, char *argv[]);

@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:29:42 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 17:04:17 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/30 23:32:43 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Takes a raw command line string and converts it into a linked list
  *        of tokens. Handles basic quoting and operator recognition.
- * @return t_token* A pointer to the head of the linked list of tokens,
+ * @return t_token a pointer to the head of the linked list of tokens,
  *         or NULL if an error occurs (e.g., allocation failure,
 		unclosed quote).
  */

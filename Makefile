@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/26 17:25:28 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/04/30 23:34:21 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,8 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/parsing/lexer/get_next_tkn.c \
        $(SRC_DIR)/parsing/lexer/lexer.c \
        $(SRC_DIR)/parsing/lexer/tkn_utils.c \
+       $(SRC_DIR)/parsing/lexer/handle_quotes.c \
+       $(SRC_DIR)/parsing/lexer/handle_word.c \
        $(SRC_DIR)/utils/err.c \
        $(SRC_DIR)/utils/clear.c \
        $(SRC_DIR)/utils/debug.c \

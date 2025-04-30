@@ -6,8 +6,10 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/30 09:51:53 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/30 09:57:25 by shasinan         ###   ########.fr       */
 /*                                                                            */
+/* ************************************************************************** */
+
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -32,7 +34,38 @@
 # include <termios.h>
 # include <unistd.h>
 
-# define PROMPT "minishell> "
+# define PROMPT "minishell → "
+
+/**
+typedef enum e_token_type
+{
+	TOKEN_WORD, - A sequence of characters (command, argument, filename, etc.)
+	TOKEN_PIPE, - |
+	TOKEN_REDIR_IN, - <
+	TOKEN_REDIR_OUT, - >
+	TOKEN_REDIR_APPEND,	- >>
+	TOKEN_REDIR_HEREDOC,- <<
+	TOKEN_EOF			- End of input marker
+}					t_token_type;
+*/
+typedef enum e_token_type
+{
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APPEND,
+	TOKEN_REDIR_HEREDOC,
+	TOKEN_EOF
+}					t_token_type;
+
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+	struct s_token	*next;
+
+}					t_token;
 
 /**
 This is the main system where we store all the importnat
@@ -129,10 +162,25 @@ typedef struct s_context
 
 }					t_context;
 
-/* Other functions */
-void				perr(char *err_msg);
+/** Main lexical analysis function */
+t_token				*lexer(const char *cmd);
+
+/** Tokenization functions & tools */
+t_token				*get_next_token(const char *cmd, int *i);
+t_token				*create_token(char *value, t_token_type type);
+void				free_token_list(t_token *token_list);
+void				append_token(t_token **head, t_token **tail,
+						t_token *token);
+
+/** other functions */
+int					check_state(int argc, char *argv[]);
+char				*read_cmd(void);
 int					clear_term(void);
-void				read_comm(void);
+void				perr(char *err_msg);
+
+/** debugging functions */
+const char			*token_type_to_string(t_token_type type);
+void				print_tokens(char *cmd, t_token *list_head);
 
 /*env*/
 t_env				*init_env(char **envp);

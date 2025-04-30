@@ -6,9 +6,10 @@
 #    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/30 09:05:01 by shasinan         ###   ########.fr        #
+#    Updated: 2025/04/30 09:57:01 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 
 # **************************************************************************** #
@@ -51,8 +52,12 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/utils/get_command.c \
        $(SRC_DIR)/execution/utils/init_env.c \
        $(SRC_DIR)/parsing/read.c \
+       $(SRC_DIR)/parsing/lexer/get_next_tkn.c \
+       $(SRC_DIR)/parsing/lexer/lexer.c \
+       $(SRC_DIR)/parsing/lexer/tkn_utils.c \
        $(SRC_DIR)/utils/err.c \
        $(SRC_DIR)/utils/clear.c \
+       $(SRC_DIR)/utils/debug.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

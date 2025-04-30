@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:55:23 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/23 21:55:58 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:36:13 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ static int	check_exit_condition(char *command)
 	return (0);
 }
 
-void	read_comm(void)
+char	*read_cmd(void)
 {
 	char	*command;
 
 	while (1)
 	{
-		command = readline(PROMPT);
+		command = readline(YELLOW PROMPT RESET);
 		if (check_exit_condition(command) == 1)
 		{
 			if (command != NULL)
 				free(command);
-			break ;
+			return (NULL);
 		}
 		if (command[0] == '\0')
 		{
@@ -43,9 +43,6 @@ void	read_comm(void)
 			continue ;
 		}
 		add_history(command);
-		printf("You've entered: %s\n", command);
-		free(command);
-		command = NULL;
+		return (command);
 	}
-	return ;
 }

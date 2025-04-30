@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:52:13 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/30 08:55:39 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:01:41 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 char				*get_next_line(int fd);
 char				*ft_strndup(const char *s, size_t n);
+int					ft_isspace(char c);
 
 #endif

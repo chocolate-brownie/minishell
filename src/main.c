@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/29 14:52:41 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:01:49 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 /*
 *   Reading user input (using `readline`).
-*   Parsing commands (you mentioned starting "lexical analysis",
-	have a `src/parsing` directory).
+*   Parsing commands ("lexical analysis", have a `src/parsing` directory).
 *   Executing commands (external like `clear`, built-ins like `echo`).
 *   Managing processes (`fork`, `execve`, `wait` are allowed).
 *   Interacting with the terminal (`tgetent`, `tputs`,
@@ -23,13 +22,29 @@
 *   Handling I/O (allowed functions include `pipe`, `dup`, `dup2`).
 */
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	(void)envp;
-// 	if (argc > 1 || !argv[0])
-// 		return (perr("The program accepts no arguments\n"), 1);
-// 	if (clear_term() != 0)
-// 		return (1);
-// 	read_comm();
-// 	return (0);
-// }
+int	main(int argc, char *argv[])
+{
+	char	*cmd;
+	t_token	*list_head;
+
+	if (check_state(argc, argv) == 1)
+		return (1);
+	while (1)
+	{
+		cmd = read_cmd();
+		if (cmd == NULL)
+			break ;
+		printf("--- Input: \"%s\" ---\n", cmd);
+		list_head = lexer(cmd);
+		if (list_head == NULL)
+		{
+			write(2, "Lexer returned NULL (Error or empty input?)\n", 44);
+			free(cmd);
+			continue ;
+		}
+		print_tokens(cmd, list_head);
+	}
+	cmd = NULL;
+	list_head = NULL;
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:04:26 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/30 23:45:16 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/01 00:15:01 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*accumulate_word_value(const char *cmd, int start_pos,
 		if (!segment_value)
 			return (free(accumulated_value), NULL);
 		temp_accumulated = append_extracted_value(accumulated_value,
-													segment_value);
+				segment_value);
 		if (!temp_accumulated)
 			return (NULL);
 		accumulated_value = temp_accumulated;

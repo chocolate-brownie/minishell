@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:03 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/24 11:49:18 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/30 09:44:17 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,15 @@ void	ft_echo(char **args)
 		write(1, "\n", 1);
 }
 
-void	ft_cd(const char *path)
-{
-	if (chdir(path) == -1)
-	{
-		perror(path);
-		return ;
-	}
-}
-
-// int	main(int ac, char **av, char **env)
+// int	main(int ac, char **av, char **envp)
 // {
 // 	char	*line;
 // 	char	**args;
-// 				int pid;
-// 					char *args[] = {"ls", "-l", NULL};
+// 	int pid;
+// 	t_env *env;
 
 // 	(void)ac;
 // 	(void)av;
-// 	(void)env;
 // 	while (1)
 // 	{
 // 		line = readline("minishell>");
@@ -101,6 +91,13 @@ void	ft_cd(const char *path)
 // 				ft_echo(args);
 // 			else if ((strcmp(args[0], "cd") == 0))
 // 				ft_cd(args[1]);
+// 			else if ((strcmp(args[0], "pwd") == 0))
+// 				ft_pwd();
+// 			else if ((strcmp(args[0], "env") == 0))
+// 			{
+// 				env = init_env(envp);
+// 				ft_env(env);
+// 			}
 // 			else if (strcmp(args[0], "clear") == 0)
 // 				clear_term();
 // 			else if (strcmp(line, "ls -l") == 0)
@@ -108,7 +105,7 @@ void	ft_cd(const char *path)
 // 				pid = fork();
 // 				if (pid == 0)
 // 				{
-// 					execve("/usr/bin/ls", args, env);
+// 					execve("/usr/bin/ls", args, envp);
 // 				}
 // 				else
 // 					wait(NULL);

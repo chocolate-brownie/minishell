@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/21 18:37:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/30 09:09:50 by shasinan         ###   ########.fr       */
+/*   Created: 2025/04/30 09:03:01 by shasinan          #+#    #+#             */
+/*   Updated: 2025/04/30 09:40:55 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(const char *path)
+void	ft_env(t_env *env)
 {
-	const char	*final_path;
+	t_env	*iter;
 
-	final_path = path;
-	if (!final_path || final_path[0] == '\0')
-		final_path = getenv("HOME");
-	if (chdir(final_path) == -1)
+	if (!env)
 	{
-		perror(final_path);
 		return ;
+	}
+	iter = env;
+	while (iter)
+	{
+		printf("%s\n", iter->raw);
+		iter = iter->next;
 	}
 }

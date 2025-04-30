@@ -6,7 +6,7 @@
 #    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/25 11:41:05 by shasinan         ###   ########.fr        #
+#    Updated: 2025/04/30 09:05:01 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,10 +43,13 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/builtin/echo.c \
        $(SRC_DIR)/execution/builtin/cd.c \
+       $(SRC_DIR)/execution/builtin/pwd.c \
+       $(SRC_DIR)/execution/builtin/env.c \
 		$(SRC_DIR)/execution/exec/exec.c \
        $(SRC_DIR)/execution/exec/exec_utils.c \
        $(SRC_DIR)/execution/redir/handle_redir.c \
        $(SRC_DIR)/execution/utils/get_command.c \
+       $(SRC_DIR)/execution/utils/init_env.c \
        $(SRC_DIR)/parsing/read.c \
        $(SRC_DIR)/utils/err.c \
        $(SRC_DIR)/utils/clear.c \

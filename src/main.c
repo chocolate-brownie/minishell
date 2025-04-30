@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 11:44:04 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:52:41 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 *   Handling I/O (allowed functions include `pipe`, `dup`, `dup2`).
 */
 
-int	main(int argc, char **argv, char **envp)
-{
-	(void)envp;
-	if (argc > 1 || !argv[0])
-		return (perr("The program accepts no arguments\n"), 1);
-	if (clear_term() != 0)
-		return (1);
-	read_comm();
-	return (0);
-}
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	(void)envp;
+// 	if (argc > 1 || !argv[0])
+// 		return (perr("The program accepts no arguments\n"), 1);
+// 	if (clear_term() != 0)
+// 		return (1);
+// 	read_comm();
+// 	return (0);
+// }

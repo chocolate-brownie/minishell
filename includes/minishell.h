@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:09:34 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 11:55:47 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/04/30 09:51:53 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,24 @@ typedef struct s_context
 /* Other functions */
 void				perr(char *err_msg);
 int					clear_term(void);
-void				handle_redir(t_exec *cmd);
-char				*get_cmd_path(char **envp, char *cmd);
 void				read_comm(void);
+
+/*env*/
+t_env				*init_env(char **envp);
+void				free_env(t_env *env);
+
+/*exec utils*/
 void				setup_pipe_and_redir(t_exec *cmd, int pipefd[2],
 						int prev_pipe_end);
+void				handle_redir(t_exec *cmd);
 char				**args_to_array(t_exec *cmd);
 void				exit_with_error(char *msg, char **args, char *path);
+char				*get_cmd_path(char **envp, char *cmd);
+
+/*builtins*/
+void				ft_echo(char **args);
+void				ft_cd(const char *path);
+void				ft_pwd(void);
+void				ft_env(t_env *env);
 
 #endif

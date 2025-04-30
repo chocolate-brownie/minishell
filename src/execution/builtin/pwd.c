@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/21 18:37:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/30 09:09:50 by shasinan         ###   ########.fr       */
+/*   Created: 2025/04/29 12:05:33 by shasinan          #+#    #+#             */
+/*   Updated: 2025/04/30 09:47:18 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(const char *path)
+void	ft_pwd(void)
 {
-	const char	*final_path;
+	char	*path;
+	char	buffer[4096];
 
-	final_path = path;
-	if (!final_path || final_path[0] == '\0')
-		final_path = getenv("HOME");
-	if (chdir(final_path) == -1)
-	{
-		perror(final_path);
-		return ;
-	}
+	path = getcwd(buffer, sizeof(buffer));
+	if (path)
+		printf("%s\n", path);
+	else
+		perror("cwd");
 }

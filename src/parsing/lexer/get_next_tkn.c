@@ -6,16 +6,11 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:17:14 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 17:26:03 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/30 23:33:40 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static int	is_delimiter(char c)
-{
-	return (ft_isspace(c) || c == '|' || c == '<' || c == '>' || c == '\0');
-}
 
 static t_token	*handle_less_than(const char *cmd, int *i)
 {
@@ -44,38 +39,6 @@ static t_token	*handle_greater_than(const char *cmd, int *i)
 		return (create_token(">", TOKEN_REDIR_OUT));
 	}
 }
-
-/**
-TODO: handle the '' / "" handling logic inside the while loop
-* @param handle_word function */
-static t_token	*handle_word(const char *cmd, int *i)
-{
-	int		start;
-	int		len;
-	char	*word;
-	t_token	*token;
-
-	start = *i;
-	while (cmd[*i] && !is_delimiter(cmd[*i]))
-	{
-		(*i)++;
-	}
-	len = *i - start;
-	if (len == 0)
-		return (NULL);
-	word = ft_substr(cmd, start, len);
-	if (!word)
-	{
-		perror("malloc failed for word value");
-		return (NULL);
-	}
-	token = create_token(word, TOKEN_WORD);
-	free(word);
-	return (token);
-}
-
-/* TODO: in this function we need to implement an else if condition to check
-for the single quote and double quote situation */
 
 t_token	*get_next_token(const char *cmd, int *i)
 {

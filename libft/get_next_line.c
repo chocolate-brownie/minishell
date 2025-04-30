@@ -6,11 +6,11 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:16:51 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/17 18:53:55 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:40:42 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/libft.h"
 
 char	*read_from_file(int fd)
 {

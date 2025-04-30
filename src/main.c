@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 18:34:58 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/30 23:51:13 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char *argv[])
 		cmd = read_cmd();
 		if (cmd == NULL)
 			break ;
-		printf("--- Input: \"%s\" ---\n", cmd);
+		printf("\n--- Input: \"%s\" ---\n\n", cmd);
 		list_head = lexer(cmd);
 		if (list_head == NULL)
 		{

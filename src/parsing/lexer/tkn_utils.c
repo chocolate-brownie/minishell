@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 20:04:31 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 17:03:02 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/04/30 23:32:26 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ t_token	*create_token(char *value, t_token_type type)
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
 	{
-		perror("malloc failed for token");
+		perror("malloc failed at create_token");
 		return (NULL);
 	}
 	new_token->value = ft_strdup(value);
 	if (!new_token->value)
 	{
-		perror("malloc failed for token values");
+		perror("malloc failed at create_token");
 		free(new_token);
 		return (NULL);
 	}
@@ -64,4 +64,14 @@ void	append_token(t_token **head, t_token **tail, t_token *token)
 	}
 	token->next = NULL;
 	return ;
+}
+
+int	is_delimiter(char c)
+{
+	return (ft_isspace(c) || c == '|' || c == '<' || c == '>' || c == '\0');
+}
+
+int	is_quote(char c)
+{
+	return (c == '\'' || c == '\"');
 }

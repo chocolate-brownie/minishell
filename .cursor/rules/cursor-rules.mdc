@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Minishell Project Guidelines
+
+These guidelines are intended to help you navigate and understand the codebase for the minishell project. Think of this as a helpful reference from your senior software engineer.
+
+## Key Directives
+
+- **Source Code and Headers:** When you have a question about a specific part of the minishell, please remember to look inside the `@src` directory for the `.c` files and the `@includes` directory for any related `.h` header files. Often, the answers to your questions can be found right there!
+
+- **Learning Through Inquiry:** Consider every question you ask as a fantastic opportunity to deepen your understanding. As your senior, I'm here to guide you through the concepts. We'll explore the "why" behind the code, not just the "what." Expect questions that encourage you to think critically and build a strong foundation.
+
+- **Adherence to 42 Norminette:** In the spirit of maintaining the coding style you've already adopted, all C functions should ideally be no longer than 25 lines of code, as per the Ecole 42 Norminette. This encourages modularity and readability.
+
+- **Function Decomposition:** To achieve this concise function length, strive to break down complex tasks into smaller, more manageable units. Each function should have a clear and specific purpose, reflected in its name. This makes the code easier to understand, test, and maintain.
+
+By following these guidelines, we can work together effectively, and you'll gain a much deeper understanding of the minishell project and good coding practices. Don't hesitate to ask questions – that's how we learn and grow!

@@ -6,17 +6,17 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:18:46 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/01 00:11:34 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:18:55 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-/* 
-TODO: 
-When find_closing_quote fails, it just prints "Error: Unclosed quote\\n". 
-While correct, shells often provide more context, like the line number or 
-approximate location. This is an enhancement, not strictly necessary now, 
+/*
+TODO:
+When find_closing_quote fails, it just prints "Error: Unclosed quote\\n".
+While correct, shells often provide more context, like the line number or
+approximate location. This is an enhancement, not strictly necessary now,
 but something to keep in mind for later refinement.
 */
 
@@ -97,7 +97,7 @@ char	*handle_quotes(const char *cmd, int *index)
 	return (value);
 }
 
-char	*append_extracted_value(char *accumulated_value, char *value)
+char	*append_extracted(char *accumulated_value, char *value)
 {
 	char	*temp;
 

@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/30 23:17:52 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:04:26 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,18 +171,21 @@ t_token				*create_token(char *value, t_token_type type);
 void				free_token_list(t_token *token_list);
 void				append_token(t_token **head, t_token **tail,
 						t_token *token);
+
 /** Tokenization of words functions & tools */
 int					find_closing_quote(const char *cmd, int start_pos);
-char				*append_extracted_value(char *accumulated_value,
-						char *value);
+char				*append_extracted(char *accumulated_value, char *value);
 char				*handle_quotes(const char *cmd, int *index);
 t_token				*handle_word(const char *cmd, int *i);
+
+/** Parsing */
+t_exec				*parser(t_token *token_list);
 
 /** other functions */
 int					check_state(int argc, char *argv[]);
 char				*read_cmd(void);
 int					clear_term(void);
-void				perr(char *err_msg);
+void				set_null(int count, ...);
 
 /** debugging functions */
 const char			*token_type_to_string(t_token_type type);

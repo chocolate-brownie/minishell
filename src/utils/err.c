@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:28:55 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/25 20:00:46 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:01:00 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,20 @@ int	check_state(int argc, char *argv[])
 	if (clear_term() != 0)
 		return (1);
 	return (0);
+}
+
+void	set_null(int count, ...)
+{
+	va_list	args;
+	int		i;
+	void	**ptr;
+
+	va_start(args, count);
+	i = 0;
+	while (i < count)
+	{
+		ptr = va_arg(args, void **);
+		*ptr = NULL;
+	}
+	va_end(args);
 }

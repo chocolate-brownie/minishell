@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/30 23:51:13 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:21:26 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 int	main(int argc, char *argv[])
 {
 	char	*cmd;
-	t_token	*list_head;
+	t_token	*token_list;
 
 	if (check_state(argc, argv) == 1)
 		return (1);
@@ -35,16 +35,17 @@ int	main(int argc, char *argv[])
 		if (cmd == NULL)
 			break ;
 		printf("\n--- Input: \"%s\" ---\n\n", cmd);
-		list_head = lexer(cmd);
-		if (list_head == NULL)
+		token_list = lexer(cmd);
+		if (token_list == NULL)
 		{
 			write(2, "Lexer returned NULL (Error or empty input?)\n", 44);
 			free(cmd);
 			continue ;
 		}
-		print_tokens(cmd, list_head);
+		parser(token_list);
+		print_tokens(cmd, token_list);
 	}
 	cmd = NULL;
-	list_head = NULL;
+	token_list = NULL;
 	return (0);
 }

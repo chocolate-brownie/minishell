@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/04 19:04:26 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:12:09 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ Many different functions need the same data:
 * Your parser needs the environment variables to expand $VAR and the last exit
 	code to expand $?.
 * Your executor needs the environment variables to pass to execve, the list
-	of parsed commands (t_exec*) to execute, and it needs to set the exit code
+	of parsed commands (t_exec*e to execute, and it needs to set the exit code
 	when commands finish
 * Built-in commands like cd, export, unset need to read and modify the
 	environment variables. exit needs to set the exit code.
 * The main loop needs to know the exit code to potentially terminate and needs
 	to manage the overall state.
-* Passing individual pointers (like envp, exit_code, parsed_commands, etc.)
+* Passing individual pointers (like envp, exit_code, parsed_commands, etc.e
 	to every single function that might need them would be incredibly messy and
 	unmanageable.
 
@@ -181,11 +181,23 @@ t_token				*handle_word(const char *cmd, int *i);
 /** Parsing */
 t_exec				*parser(t_token *token_list);
 
+/** Parsing utils */
+t_exec				*init_exec_node(void);
+void				free_exec_list(t_exec *head);
+t_redir_type		get_redir_type(t_token_type type);
+t_exec				*create_exec_node(t_token **token);
+void				free_single_exec_node_content(t_exec *node);
+void				token_failure(t_exec *new_node);
+void				unexpected_token(t_exec *new_node, t_token *curr_tok);
+int					process_word_token(t_exec *exec_node,
+						t_token **curr_token_ref);
+int					process_redir_token(t_exec *exec_node,
+						t_token **curr_token_ref, t_redir_type redir_type);
+
 /** other functions */
 int					check_state(int argc, char *argv[]);
 char				*read_cmd(void);
 int					clear_term(void);
-void				set_null(int count, ...);
 
 /** debugging functions */
 const char			*token_type_to_string(t_token_type type);

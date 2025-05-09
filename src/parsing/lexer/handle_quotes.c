@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:18:46 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/01 18:18:55 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/09 03:18:27 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,24 @@
 
 /*
 TODO:
-When find_closing_quote fails, it just prints "Error: Unclosed quote\\n".
-While correct, shells often provide more context, like the line number or
-approximate location. This is an enhancement, not strictly necessary now,
-but something to keep in mind for later refinement.
+Lexer - handle_quotes and Unclosed Quotes:
+In src/parsing/lexer/handle_quotes.c, the function find_closing_quote iterates
+to find a matching quote. If no closing quote is found (i.e., cmd[j] == '\\0'),
+it currently returns j (the position of the null terminator).
+
+The handle_quotes function then calls ft_substr using this potentially
+out-of-bounds index or an index that doesn't truly represent a closed string.
+
+Issue: This doesn't explicitly handle unclosed quotes as a syntax error at the
+lexer stage. The lexer should ideally signal an error (e.g., return a special
+error token or set an error flag) if an unclosed quote is detected. Relying on
+readline for multi-line input for unclosed quotes is standard, but the lexer
+itself should validate this once readline returns.
+
+Suggestion: Modify find_closing_quote to return an error indicator (e.g., -1)
+if no closing quote is found. handle_quotes should check for this and propagate
+the error, preventing the creation of an invalid token. The parser would then
+handle this error.
 */
 
 int	find_closing_quote(const char *cmd, int start_pos)

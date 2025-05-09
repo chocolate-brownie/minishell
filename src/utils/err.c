@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:28:55 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/04 19:01:00 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:54:25 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,17 @@ int	check_state(int argc, char *argv[])
 	return (0);
 }
 
-void	set_null(int count, ...)
+void	free_structs(char *errmsg, t_token *ptr_tkn, t_exec *ptr_exec)
 {
-	va_list	args;
-	int		i;
-	void	**ptr;
-
-	va_start(args, count);
-	i = 0;
-	while (i < count)
+	ft_putstr_fd(errmsg, 2);
+	if (ptr_tkn != NULL)
 	{
-		ptr = va_arg(args, void **);
-		*ptr = NULL;
+		free_token_list(ptr_tkn);
+		ft_putstr_fd("t_token freed\n", 2);
 	}
-	va_end(args);
+	if (ptr_exec != NULL)
+	{
+		free_exec_list(ptr_exec);
+		ft_putstr_fd("t_exec freed\n", 2);
+	}
 }

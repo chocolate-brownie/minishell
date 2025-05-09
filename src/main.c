@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/01 18:21:26 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/09 03:14:53 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 	`ncurses`/`termcap` library).
 *   Handling I/O (allowed functions include `pipe`, `dup`, `dup2`).
 */
+
+/* TODO: clear_term() in src/utils/clear.c: This uses termcap
+(tgetent, tgetstr, tputs). While functional, termcap is an older library.
+For simple screen clearing, a direct write(1, "\033[H\033[J", 7);
+(ANSI escape codes for cursor home and clear screen) is often simpler and
+more portable for modern terminals, avoiding termcap dependencies and potential
+issues if TERM is not set or the termcap database is missing/minimal. However,
+your current implementation is robust in its use of termcap.*/
 
 int	main(int argc, char *argv[])
 {

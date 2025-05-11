@@ -6,29 +6,31 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:07:06 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/09 03:12:23 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/11 22:29:23 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	token_failure(t_exec *new_node)
+void	token_failure(t_exec *new_node, t_context *ctx)
 {
+	if (!new_node)
+		return ;
 	free_single_exec_node_content(new_node);
 	free(new_node);
+	if (ctx)
+		set_exit_code(ctx, ERR_SYNTAX, NULL);
 }
 
-void	unexpected_token(t_exec *new_node, t_token *curr_tok)
+void	unexpected_token(t_exec *new_node, t_token *curr_tok, t_context *ctx)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	if (curr_tok && curr_tok->value)
-		write(2, curr_tok->value, ft_strlen(curr_tok->value));
-	else if (curr_tok)
-		ft_putstr_fd("(null token value)", 2);
+	if (!ctx)
+		return ;
+	if (curr_tok)
+		set_exit_code(ctx, ERR_SYNTAX, curr_tok->value);
 	else
-		ft_putstr_fd("(unknown)", 2);
-	ft_putstr_fd("\n", 2);
-	token_failure(new_node);
+		set_exit_code(ctx, ERR_SYNTAX, "|");
+	token_failure(new_node, ctx);
 }
 
 t_redir_type	get_redir_type(t_token_type type)

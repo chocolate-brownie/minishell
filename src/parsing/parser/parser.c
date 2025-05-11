@@ -6,29 +6,24 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:50:18 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/09 00:36:38 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/11 22:28:12 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	free_structs(char *errmsg, t_token *ptr_tkn, t_exec *ptr_exec)
+static int	validate_initial_tokens_and_handle_error(t_token *token_list,
+													t_context *ctx)
 {
-	if (errmsg)
-		ft_putstr_fd(errmsg, 2);
-	if (ptr_tkn)
-		free_token_list(ptr_tkn);
-	if (ptr_exec)
-		free_exec_list(ptr_exec);
-	return ;
-}
-
-static int	validate_initial_tokens_and_handle_error(t_token *token_list)
-{
+	if (!ctx)
+		return (-1);
 	if (token_list == NULL || token_list->type == TOKEN_EOF)
 		return (1);
 	if (token_list->type == TOKEN_PIPE)
-		return (free_structs(ERR_UNXP_TKN, token_list, NULL), -1);
+	{
+		set_exit_code(ctx, ERR_SYNTAX, "|");
+		return (-1);
+	}
 	return (0);
 }
 
@@ -42,6 +37,8 @@ static int	validate_initial_tokens_and_handle_error(t_token *token_list)
  * modfying the value but rather copying it */
 static void	link_nodes(t_exec **head, t_exec **tail, t_exec *new_node)
 {
+	if (!head || !tail || !new_node)
+		return ;
 	if (*head == NULL)
 	{
 		*head = new_node;
@@ -60,14 +57,22 @@ static void	link_nodes(t_exec **head, t_exec **tail, t_exec *new_node)
  * while loop again )
  * if curr_tok == EOF, another PIPE or NULL its syntax error then free used
  * memory and return NULL */
-static int	check_next_tok(t_token **curr_tok)
+static int	check_next_tok(t_token **curr_tok, t_context *ctx)
 {
+	if (!curr_tok || !*curr_tok || !ctx)
+		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), -1);
 	if ((*curr_tok)->type == TOKEN_PIPE)
 	{
 		*curr_tok = (*curr_tok)->next;
 		if (*curr_tok == NULL || (*curr_tok)->type == TOKEN_PIPE
 			|| (*curr_tok)->type == TOKEN_EOF)
+		{
+			if (*curr_tok)
+				set_exit_code(ctx, ERR_SYNTAX, (*curr_tok)->value);
+			else
+				set_exit_code(ctx, ERR_SYNTAX, "|");
 			return (-1);
+		}
 	}
 	return (0);
 }
@@ -79,26 +84,28 @@ static int	check_next_tok(t_token **curr_tok)
  * reagarding to the corresponding token value after the process it should
  * return the pointer to the current token so I can check whether its pointing
  * to a PIPE at this point I have created a full t_execv */
-t_exec	*parser(t_token *token_list)
+t_exec	*parser(t_token *token_list, t_context *ctx)
 {
 	t_token	*curr_tok;
 	t_exec	*head_exec;
 	t_exec	*tail_exec;
 	t_exec	*new_exec;
 
-	if (validate_initial_tokens_and_handle_error(token_list) != 0)
+	if (!ctx)
+		return (NULL);
+	if (validate_initial_tokens_and_handle_error(token_list, ctx) != 0)
 		return (NULL);
 	curr_tok = token_list;
 	head_exec = NULL;
 	tail_exec = NULL;
 	while (curr_tok && curr_tok->type != TOKEN_EOF)
 	{
-		new_exec = create_exec_node(&curr_tok);
+		new_exec = create_exec_node(&curr_tok, ctx);
 		if (new_exec == NULL)
-			return (free_structs(ERR_CMD_SEG, token_list, head_exec), NULL);
+			return (free_exec_list(head_exec), NULL);
 		link_nodes(&head_exec, &tail_exec, new_exec);
-		if (check_next_tok(&curr_tok) != 0)
-			return (free_structs(ERR_UNXP_TKN, token_list, head_exec), NULL);
+		if (check_next_tok(&curr_tok, ctx) != 0)
+			return (free_exec_list(head_exec), NULL);
 	}
 	if (token_list != NULL)
 		free_token_list(token_list);

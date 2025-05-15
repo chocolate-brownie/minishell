@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/04/30 23:34:21 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/05/15 21:12:33 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,26 +31,33 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iincludes
 LDFLAGS = -lreadline -lncurses
 
-# Directories
 SRC_DIR = src
 OBJ_DIR = objs
 INCLUDES = includes
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-# Source files
+
 SRCS = $(SRC_DIR)/main.c \
-       $(SRC_DIR)/execution/echo.c \
-       $(SRC_DIR)/execution/exec.c \
-       $(SRC_DIR)/parsing/read.c \
        $(SRC_DIR)/parsing/lexer/get_next_tkn.c \
        $(SRC_DIR)/parsing/lexer/lexer.c \
        $(SRC_DIR)/parsing/lexer/tkn_utils.c \
        $(SRC_DIR)/parsing/lexer/handle_quotes.c \
        $(SRC_DIR)/parsing/lexer/handle_word.c \
+       $(SRC_DIR)/parsing/parser/exec_err.c \
+       $(SRC_DIR)/parsing/parser/exec_node.c \
+       $(SRC_DIR)/parsing/parser/exec_utils.c \
+       $(SRC_DIR)/parsing/parser/free_exec.c \
+       $(SRC_DIR)/parsing/parser/parser.c \
+       $(SRC_DIR)/parsing/parser/parser_utils.c \
+       $(SRC_DIR)/parsing/parser/append_redir.c \
        $(SRC_DIR)/utils/err.c \
-       $(SRC_DIR)/utils/clear.c \
-       $(SRC_DIR)/utils/debug.c \
+       $(SRC_DIR)/utils/exit_code.c \
+       $(SRC_DIR)/utils/read.c \
+       $(SRC_DIR)/utils/run_minishell.c \
+       $(SRC_DIR)/utils/cleanup.c \
+       $(SRC_DIR)/debug/print_exec.c \
+       $(SRC_DIR)/debug/print_tokens.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
@@ -94,7 +101,6 @@ fclean: clean
 re: fclean all
 	@echo "$(BOLD)$(GREEN)♻️  Successfully rebuilt everything!$(RESET)"
 
-# Show help information
 help:
 	@echo "$(BOLD)$(BLUE)Available commands:$(RESET)"
 	@echo "$(BOLD)$(GREEN)make$(RESET)        - Build minishell"

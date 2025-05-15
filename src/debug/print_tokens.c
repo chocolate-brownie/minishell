@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   print_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:13:13 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/26 18:33:53 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:53:11 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,47 @@
 const char	*tkn_str(t_token_type type)
 {
 	if (type == TOKEN_WORD)
-		return (GREEN "WORD" RESET);
+		return ("WORD");
 	else if (type == TOKEN_PIPE)
-		return (MAGENTA "PIPE" RESET);
+		return ("PIPE");
 	else if (type == TOKEN_REDIR_IN)
-		return (BLUE "REDIR_IN" RESET);
+		return ("REDIR_IN");
 	else if (type == TOKEN_REDIR_OUT)
-		return (BLUE "REDIR_OUT" RESET);
+		return ("REDIR_OUT");
 	else if (type == TOKEN_REDIR_APPEND)
-		return (YELLOW "APPEND" RESET);
+		return ("APPEND");
 	else if (type == TOKEN_REDIR_HEREDOC)
-		return (WHITE "HEREDOC" RESET);
+		return ("HEREDOC");
 	else if (type == TOKEN_EOF)
-		return (BOLDRED "EOF" RESET);
+		return ("EOF");
 	else
-		return ("UNKOWN TYPE");
+		return ("UNKNOWN TYPE");
 }
 
 void	print_tokens(char *cmd, t_token *list_head)
 {
 	t_token		*curr;
-	const char	*tknstr;
+	const char	*token_repr;
+	int			i;
+	char		*value;
 
-	printf("----------------------------\n");
+	if (!list_head)
+	{
+		printf("🤷 No tokens to display.\n");
+		return ;
+	}
+	printf("\n🔍======= Token List =======🔍\n");
+	if (cmd)
+		printf("📜 Original Command: \"%s\"\n", cmd);
 	curr = list_head;
-	printf("Tokens generated:\n");
-	curr = list_head;
+	i = 0;
 	while (curr != NULL)
 	{
-		tknstr = tkn_str(curr->type);
-		printf("  Token: Value=\"%s\", Type=%s\n", curr->value, tknstr);
+		value = curr->value;
+		token_repr = tkn_str(curr->type);
+		printf("\t[%d]: Value = \"%s\", Type = %s\n", i, value, token_repr);
 		curr = curr->next;
+		i++;
 	}
-	free_token_list(list_head);
-	printf("Token list freed.\n");
-	free(cmd);
-	printf("----------------------------\n");
+	printf("🔍========= End of Tokens =========🔍\n\n");
 }

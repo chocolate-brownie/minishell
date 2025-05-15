@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/30 23:17:52 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:51:43 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/includes/libft.h"
 # include "colors.h"
+# include "error.h"
 # include "exec.h"
 # include <curses.h>
 # include <dirent.h>
@@ -33,6 +34,19 @@
 # include <unistd.h>
 
 # define PROMPT "minishell → "
+# define DEBUG 1
+
+# define ERR_SUCCESS 0
+# define ERR_MALLOC 1
+# define ERR_SYNTAX 2
+# define ERR_INVALID_INPUT 3
+# define ERR_CMD_NOT_FOUND 127
+# define ERR_PERMISSION_DENIED 126
+# define ERR_PIPE 1
+# define ERR_UNCLOSED_QUOTE 2
+
+# define QUOTE_ERROR -1
+# define QUOTE_UNCLOSED -2
 
 /**
 typedef enum e_token_type
@@ -76,13 +90,13 @@ Many different functions need the same data:
 * Your parser needs the environment variables to expand $VAR and the last exit
 	code to expand $?.
 * Your executor needs the environment variables to pass to execve, the list
-	of parsed commands (t_exec*) to execute, and it needs to set the exit code
+	of parsed commands (t_exec*e to execute, and it needs to set the exit code
 	when commands finish
 * Built-in commands like cd, export, unset need to read and modify the
 	environment variables. exit needs to set the exit code.
 * The main loop needs to know the exit code to potentially terminate and needs
 	to manage the overall state.
-* Passing individual pointers (like envp, exit_code, parsed_commands, etc.)
+* Passing individual pointers (like envp, exit_code, parsed_commands, etc.e
 	to every single function that might need them would be incredibly messy and
 	unmanageable.
 
@@ -161,31 +175,62 @@ typedef struct s_context
 }					t_context;
 
 /** Main lexical analysis function */
-t_token				*lexer(const char *cmd);
+t_token				*lexer(const char *cmd, t_context *ctx);
 
 /** Tokenization functions & tools */
 int					is_quote(char c);
 int					is_delimiter(char c);
-t_token				*get_next_token(const char *cmd, int *i);
+t_token				*get_next_token(const char *cmd, int *i, t_context *ctx);
 t_token				*create_token(char *value, t_token_type type);
 void				free_token_list(t_token *token_list);
 void				append_token(t_token **head, t_token **tail,
 						t_token *token);
+
 /** Tokenization of words functions & tools */
 int					find_closing_quote(const char *cmd, int start_pos);
-char				*append_extracted_value(char *accumulated_value,
-						char *value);
-char				*handle_quotes(const char *cmd, int *index);
-t_token				*handle_word(const char *cmd, int *i);
+char				*append_extracted(char *accumulated_value, char *value,
+						t_context *ctx);
+char				*handle_quotes(const char *cmd, int *index, t_context *ctx);
+t_token				*handle_word(const char *cmd, int *i, t_context *ctx);
 
-/** other functions */
+/** Parsing */
+t_exec				*parser(t_token *token_list, t_context *ctx);
+
+/** Parsing utils */
+int					validate_init_tokens(t_token *token_list, t_context *ctx);
+void				link_nodes(t_exec **head, t_exec **tail, t_exec *new_node);
+int					check_next_tok(t_token **curr_tok, t_context *ctx);
+void				invalseg_after_pipe(t_exec **headptr, t_exec **newptr,
+						t_token **startptr, t_context *ctxptr);
+void				free_exec_list(t_exec *head);
+t_redir_type		get_redir_type(t_token_type type);
+t_exec				*create_exec_node(t_token **token_ptr, t_context *ctx);
+void				free_single_exec_node_content(t_exec *node);
+void				token_failure(t_exec *new_node, t_context *ctx);
+void				unexpected_token(t_exec *new_node, t_token *curr_tok,
+						t_context *ctx);
+
+t_redirs			*append_redir(t_redirs **redir_list_head, t_redir_type type,
+						char *path, t_context *ctx);
+int					process_word_token(t_exec *exec_node, t_token **curr,
+						t_context *ctx);
+int					process_redir_token(t_exec *exec_node, t_token **curr,
+						t_redir_type redir_type, t_context *ctx);
+void				free_structs(char *errmsg, t_token *ptr_tkn,
+						t_exec *ptr_exec);
+
+/** Other functions */
+int					run_minishell(t_context *ctx);
 int					check_state(int argc, char *argv[]);
 char				*read_cmd(void);
-int					clear_term(void);
-void				perr(char *err_msg);
+int					clear_term(t_context *ctx);
+void				set_exit_code(t_context *ctx, int exit_code, char *errmsg);
+void				cleanup_tcontext(t_context *ctx);
+void				cleanup_resources(char *cmd, t_token *token_list,
+						t_context *ctx);
 
-/** debugging functions */
-const char			*token_type_to_string(t_token_type type);
+/** Debugging functions */
 void				print_tokens(char *cmd, t_token *list_head);
+void				print_exec_list(t_exec *exec_list_head);
 
 #endif

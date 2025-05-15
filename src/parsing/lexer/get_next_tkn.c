@@ -6,42 +6,60 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:17:14 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/30 23:33:40 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/10 23:51:54 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static t_token	*handle_less_than(const char *cmd, int *i)
+static t_token	*handle_less_than(const char *cmd, int *i, t_context *ctx)
 {
+	t_token	*token;
+
+	if (!cmd || !i || !ctx)
+		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), NULL);
 	if (cmd[*i + 1] == '<')
 	{
 		*i += 2;
-		return (create_token("<<", TOKEN_REDIR_HEREDOC));
+		token = create_token("<<", TOKEN_REDIR_HEREDOC);
 	}
 	else
 	{
 		(*i)++;
-		return (create_token("<", TOKEN_REDIR_IN));
+		token = create_token("<", TOKEN_REDIR_IN);
 	}
+	if (!token)
+		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
+	return (token);
 }
 
-static t_token	*handle_greater_than(const char *cmd, int *i)
+static t_token	*handle_greater_than(const char *cmd, int *i, t_context *ctx)
 {
+	t_token	*token;
+
+	if (!cmd || !i || !ctx)
+		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), NULL);
 	if (cmd[*i + 1] == '>')
 	{
 		*i += 2;
-		return (create_token(">>", TOKEN_REDIR_APPEND));
+		token = create_token(">>", TOKEN_REDIR_APPEND);
 	}
 	else
 	{
 		(*i)++;
-		return (create_token(">", TOKEN_REDIR_OUT));
+		token = create_token(">", TOKEN_REDIR_OUT);
 	}
+	if (!token)
+		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
+	return (token);
 }
 
-t_token	*get_next_token(const char *cmd, int *i)
+t_token	*get_next_token(const char *cmd, int *i, t_context *ctx)
 {
+	t_token	*token;
+
+	if (!cmd || !i || !ctx)
+		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), NULL);
 	while (cmd[*i] != '\0' && ft_isspace(cmd[*i]))
 		(*i)++;
 	if (cmd[*i] == '\0')
@@ -49,12 +67,15 @@ t_token	*get_next_token(const char *cmd, int *i)
 	if (cmd[*i] == '|')
 	{
 		(*i)++;
-		return (create_token("|", TOKEN_PIPE));
+		token = create_token("|", TOKEN_PIPE);
 	}
 	else if (cmd[*i] == '<')
-		return (handle_less_than(cmd, i));
+		token = handle_less_than(cmd, i, ctx);
 	else if (cmd[*i] == '>')
-		return (handle_greater_than(cmd, i));
+		token = handle_greater_than(cmd, i, ctx);
 	else
-		return (handle_word(cmd, i));
+		token = handle_word(cmd, i, ctx);
+	if (!token)
+		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
+	return (token);
 }

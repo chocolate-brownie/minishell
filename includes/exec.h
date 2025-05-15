@@ -6,12 +6,25 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 23:18:01 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/04/19 01:03:38 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:06:06 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
+
+# define ERR_CMD_SEG "minishell: error creating command segment\n"
+# define ERR_UNXP_TKN "minishell: syntax error near unexpected token `|'\n"
+
+# define SEGMENT_PROCESSED_CONTINUE 0
+# define SEGMENT_ERROR_CLEANUP_MAIN 1
+# define SEGMENT_ERROR_CLEANUP_DONE 2
+
+# define CYCLE_CONTINUE 0
+# define CYCLE_BREAK_SHELL 1
+# define CYCLE_FATAL_ERROR 2
+
+# include <stdlib.h>
 
 typedef struct s_exec	t_exec;
 typedef struct s_args	t_args;

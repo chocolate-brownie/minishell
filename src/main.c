@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/11 22:30:58 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:19:38 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,16 @@ static t_context	*init_tcontext(void)
 */
 int	main(int argc, char *argv[])
 {
-	char		*cmd;
-	t_token		*token_list;
 	t_context	*ctx;
 	int			exit_code;
 
-	cmd = NULL;
-	token_list = NULL;
 	ctx = NULL;
 	if (check_state(argc, argv) == 1)
 		return (set_exit_code(NULL, ERR_INVALID_INPUT, ERMSG_INVALIDARG), 1);
 	ctx = init_tcontext();
 	if (!ctx)
 		return (1);
-	exit_code = run_minishell(cmd, token_list, ctx);
-	cmd = NULL;
-	token_list = NULL;
+	exit_code = run_minishell(ctx);
+	ctx = NULL;
 	return (exit_code);
 }

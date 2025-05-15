@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/11 22:31:16 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:51:43 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <unistd.h>
 
 # define PROMPT "minishell → "
+# define DEBUG 1
 
 # define ERR_SUCCESS 0
 # define ERR_MALLOC 1
@@ -46,6 +47,7 @@
 
 # define QUOTE_ERROR -1
 # define QUOTE_UNCLOSED -2
+
 /**
 typedef enum e_token_type
 {
@@ -195,6 +197,11 @@ t_token				*handle_word(const char *cmd, int *i, t_context *ctx);
 t_exec				*parser(t_token *token_list, t_context *ctx);
 
 /** Parsing utils */
+int					validate_init_tokens(t_token *token_list, t_context *ctx);
+void				link_nodes(t_exec **head, t_exec **tail, t_exec *new_node);
+int					check_next_tok(t_token **curr_tok, t_context *ctx);
+void				invalseg_after_pipe(t_exec **headptr, t_exec **newptr,
+						t_token **startptr, t_context *ctxptr);
 void				free_exec_list(t_exec *head);
 t_redir_type		get_redir_type(t_token_type type);
 t_exec				*create_exec_node(t_token **token_ptr, t_context *ctx);
@@ -212,16 +219,18 @@ int					process_redir_token(t_exec *exec_node, t_token **curr,
 void				free_structs(char *errmsg, t_token *ptr_tkn,
 						t_exec *ptr_exec);
 
-/** other functions */
-int					run_minishell(char *cmd, t_token *token_list,
-						t_context *ctx);
+/** Other functions */
+int					run_minishell(t_context *ctx);
 int					check_state(int argc, char *argv[]);
-char				*read_cmd(t_context *ctx);
+char				*read_cmd(void);
 int					clear_term(t_context *ctx);
 void				set_exit_code(t_context *ctx, int exit_code, char *errmsg);
+void				cleanup_tcontext(t_context *ctx);
+void				cleanup_resources(char *cmd, t_token *token_list,
+						t_context *ctx);
 
-/** debugging functions */
-const char			*token_type_to_string(t_token_type type);
-void				print_tokens(char *cmd, t_token *list_head, t_context *ctx);
+/** Debugging functions */
+void				print_tokens(char *cmd, t_token *list_head);
+void				print_exec_list(t_exec *exec_list_head);
 
 #endif

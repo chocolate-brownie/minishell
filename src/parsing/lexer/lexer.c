@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:29:42 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/11 22:18:58 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:51:56 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,12 @@ static t_token	*tokenize_input(const char *cmd, t_context *ctx)
 
 t_token	*lexer(const char *cmd, t_context *ctx)
 {
+	t_token	*lexer;
+
 	if (!validate_input(cmd, ctx))
 		return (NULL);
-	return (tokenize_input(cmd, ctx));
+	lexer = tokenize_input(cmd, ctx);
+	if (DEBUG == 1)
+		print_tokens((char *)cmd, lexer);
+	return (lexer);
 }

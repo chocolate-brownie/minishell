@@ -6,28 +6,13 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/11 21:49:24 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:19:17 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
- TODO: free_env_list(ctx->envp); Free environment variables
- TODO: free_exec_list(ctx->command_list); free command list
- TODO: free(ctx->pids); free pids array
-*/
-static void	cleanup_tcontext(t_context *ctx)
-{
-	if (!ctx)
-		return ;
-	if (ctx->stdin_backup != -1)
-		close(ctx->stdin_backup);
-	if (ctx->stdout_backup != -1)
-		close(ctx->stdout_backup);
-	free(ctx);
-}
-
+/* Main process function that handles the lexer and the parser */
 static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 {
 	t_exec	*exec_list;
@@ -44,37 +29,80 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 		*token_list = NULL;
 		return (free(cmd), 0);
 	}
+	if (DEBUG == 1)
+		print_exec_list(exec_list);
 	free_exec_list(exec_list);
 	return (1);
 }
 
-static void	cleanup_resources(char *cmd, t_token *token_list, t_context *ctx)
+static int	manage_command_processing_outcome(int process_status,
+												char *cmd_line,
+												t_token *tokens)
 {
-	if (cmd)
-		free(cmd);
-	if (token_list)
-		free_token_list(token_list);
-	if (ctx)
-		cleanup_tcontext(ctx);
+	if (process_status == 1)
+	{
+		if (tokens != NULL)
+			free_token_list(tokens);
+		free(cmd_line);
+		return (CYCLE_CONTINUE);
+	}
+	else if (process_status == 0)
+		return (CYCLE_CONTINUE);
+	else
+	{
+		if (cmd_line != NULL)
+			free(cmd_line);
+		if (tokens != NULL)
+			free_token_list(tokens);
+		return (CYCLE_FATAL_ERROR);
+	}
 }
 
-int	run_minishell(char *cmd, t_token *token_list, t_context *ctx)
+static int	handle_command_input_cycle(t_context *ctx)
 {
-	int	result;
+	char	*cmd_line;
+	t_token	*tokens;
+	int		process_status_code;
+
+	tokens = NULL;
+	cmd_line = read_cmd();
+	if (cmd_line == NULL)
+	{
+		write(STDOUT_FILENO, "exit\n", 5);
+		return (CYCLE_BREAK_SHELL);
+	}
+	if ((ft_strncmp(cmd_line, "exit", 4) == 0) && (cmd_line[4] == '\0'
+			|| ft_isspace(cmd_line[4])))
+	{
+		free(cmd_line);
+		return (CYCLE_BREAK_SHELL);
+	}
+	process_status_code = process_command(cmd_line, &tokens, ctx);
+	return (manage_command_processing_outcome(process_status_code, cmd_line,
+			tokens));
+}
+
+int	run_minishell(t_context *ctx)
+{
+	int	cycle_status_result;
+	int	final_shell_exit_code;
 
 	if (!ctx)
 		return (1);
 	while (1)
 	{
-		cmd = read_cmd(ctx);
-		result = process_command(cmd, &token_list, ctx);
-		if (result == -1)
-			break ;
-		if (result == 0)
-			continue ;
-		if (ctx->should_exit != 0)
+		cycle_status_result = handle_command_input_cycle(ctx);
+		if (cycle_status_result == CYCLE_BREAK_SHELL
+			|| cycle_status_result == CYCLE_FATAL_ERROR)
 			break ;
 	}
-	cleanup_resources(cmd, token_list, ctx);
-	return (ctx->last_exit_code);
+	final_shell_exit_code = 0;
+	if (ctx)
+	{
+		final_shell_exit_code = ctx->last_exit_code;
+		cleanup_tcontext(ctx);
+	}
+	else
+		final_shell_exit_code = 1;
+	return (final_shell_exit_code);
 }

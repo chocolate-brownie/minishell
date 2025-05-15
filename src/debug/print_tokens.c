@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   print_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:13:13 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/10 23:50:46 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:53:11 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,30 @@ const char	*tkn_str(t_token_type type)
 		return ("UNKNOWN TYPE");
 }
 
-void	print_tokens(char *cmd, t_token *list_head, t_context *ctx)
+void	print_tokens(char *cmd, t_token *list_head)
 {
 	t_token		*curr;
-	const char	*tknstr;
+	const char	*token_repr;
+	int			i;
+	char		*value;
 
-	if (!cmd || !list_head || !ctx)
+	if (!list_head)
+	{
+		printf("🤷 No tokens to display.\n");
 		return ;
-	write(1, "----------------------------\n", 29);
+	}
+	printf("\n🔍======= Token List =======🔍\n");
+	if (cmd)
+		printf("📜 Original Command: \"%s\"\n", cmd);
 	curr = list_head;
-	write(1, "Tokens generated:\n", 18);
+	i = 0;
 	while (curr != NULL)
 	{
-		tknstr = tkn_str(curr->type);
-		write(1, "  Token: Value=\"", 16);
-		write(1, curr->value, ft_strlen(curr->value));
-		write(1, "\", Type=", 8);
-		write(1, tknstr, ft_strlen(tknstr));
-		write(1, "\n", 1);
+		value = curr->value;
+		token_repr = tkn_str(curr->type);
+		printf("\t[%d]: Value = \"%s\", Type = %s\n", i, value, token_repr);
 		curr = curr->next;
+		i++;
 	}
-	write(1, "----------------------------\n", 29);
+	printf("🔍========= End of Tokens =========🔍\n\n");
 }

@@ -1,0 +1,1339 @@
+==55870== Memcheck, a memory error detector
+==55870== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==55870== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
+==55870== Command: ./minishell
+==55870== Parent PID: 55600
+==55870== 
+--55870-- 
+--55870-- Valgrind options:
+--55870--    --leak-check=full
+--55870--    --show-leak-kinds=all
+--55870--    --track-origins=yes
+--55870--    --verbose
+--55870--    --log-file=valgrind-out.txt
+--55870-- Contents of /proc/version:
+--55870--   Linux version 5.15.0-139-generic (buildd@lcy02-amd64-029) (gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #149-Ubuntu SMP Fri Apr 11 22:06:13 UTC 2025
+--55870-- 
+--55870-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--55870-- Page sizes: currently 4096, max supported 4096
+--55870-- Valgrind library directory: /usr/libexec/valgrind
+--55870-- Reading syms from /home/mgodawat/Documents/minishell/minishell
+--55870-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+--55870--   Considering /usr/lib/debug/.build-id/e4/de036b19e4768e7591b596c4be9f9015f2d28a.debug ..
+--55870--   .. build-id is valid
+--55870-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--55870--    object doesn't have a symbol table
+--55870--    object doesn't have a dynamic symbol table
+--55870-- Scheduler: using generic scheduler lock implementation.
+--55870-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==55870== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-55870-by-mgodawat-on-???
+==55870== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-55870-by-mgodawat-on-???
+==55870== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-55870-by-mgodawat-on-???
+==55870== 
+==55870== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==55870== don't want to do, unless you know exactly what you're doing,
+==55870== or are doing some strange experiment):
+==55870==   /usr/bin/vgdb --pid=55870 ...command...
+==55870== 
+==55870== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==55870==   /path/to/gdb ./minishell
+==55870== and then give GDB the following command
+==55870==   target remote | /usr/bin/vgdb --pid=55870
+==55870== --pid is optional if only one valgrind process is running
+==55870== 
+--55870-- REDIR: 0x402aa40 (ld-linux-x86-64.so.2:strlen) redirected to 0x580bcec2 (???)
+--55870-- REDIR: 0x402a810 (ld-linux-x86-64.so.2:index) redirected to 0x580bcedc (???)
+--55870-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--55870--    object doesn't have a symbol table
+--55870-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+--55870--    object doesn't have a symbol table
+==55870== WARNING: new redirection conflicts with existing -- ignoring it
+--55870--     old: 0x0402aa40 (strlen              ) R-> (0000.0) 0x580bcec2 ???
+--55870--     new: 0x0402aa40 (strlen              ) R-> (2007.0) 0x0484ee30 strlen
+--55870-- REDIR: 0x4027220 (ld-linux-x86-64.so.2:strcmp) redirected to 0x484fcd0 (strcmp)
+--55870-- REDIR: 0x402afa0 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4853840 (mempcpy)
+--55870-- Reading syms from /usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+--55870--    object doesn't have a symbol table
+--55870-- Reading syms from /usr/lib/x86_64-linux-gnu/libncurses.so.6.3
+--55870--    object doesn't have a symbol table
+--55870-- Reading syms from /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+--55870--    object doesn't have a symbol table
+--55870-- Reading syms from /usr/lib/x86_64-linux-gnu/libc.so.6
+--55870--   Considering /usr/lib/debug/.build-id/cd/410b710f0f094c6832edd95931006d883af48e.debug ..
+--55870--   .. build-id is valid
+==55870== WARNING: new redirection conflicts with existing -- ignoring it
+--55870--     old: 0x049c7c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--55870--     new: 0x049c7c60 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==55870== WARNING: new redirection conflicts with existing -- ignoring it
+--55870--     old: 0x049c7c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--55870--     new: 0x049c7c60 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+==55870== WARNING: new redirection conflicts with existing -- ignoring it
+--55870--     old: 0x049c7c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--55870--     new: 0x049c7c60 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==55870== WARNING: new redirection conflicts with existing -- ignoring it
+--55870--     old: 0x049c7c60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--55870--     new: 0x049c7c60 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+--55870-- REDIR: 0x49ca720 (libc.so.6:strnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca9e0 (libc.so.6:strpbrk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca2e0 (libc.so.6:strcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49e8cd0 (libc.so.6:wcsnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb6d0 (libc.so.6:memset) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49e7540 (libc.so.6:wcslen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cbc10 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49e7370 (libc.so.6:wcschr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca260 (libc.so.6:index) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca960 (libc.so.6:rindex) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb5a0 (libc.so.6:memmove) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+==55870== Preferring higher priority redirection:
+--55870--     old: 0x04ac27c0 (__memcpy_avx_unalign) R-> (2018.0) 0x04850f90 __memcpy_avx_unaligned_erms
+--55870--     new: 0x04ac27c0 (__memcpy_avx_unalign) R-> (2018.1) 0x04852880 memmove
+--55870-- REDIR: 0x49e73f0 (libc.so.6:wcscmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb9e0 (libc.so.6:stpncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49e79b0 (libc.so.6:wmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca830 (libc.so.6:strncmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cba70 (libc.so.6:strcasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca420 (libc.so.6:strcspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49e7470 (libc.so.6:wcscpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca1d0 (libc.so.6:strcat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cbb60 (libc.so.6:strncasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb480 (libc.so.6:bcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49d3570 (libc.so.6:memrchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cd010 (libc.so.6:strchrnul) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca390 (libc.so.6:strcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cbb10 (libc.so.6:strcasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca6a0 (libc.so.6:strlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca8d0 (libc.so.6:strncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb950 (libc.so.6:stpcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb3f0 (libc.so.6:memchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cab00 (libc.so.6:strspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb7d0 (libc.so.6:mempcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cbac0 (libc.so.6:strncasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ccf80 (libc.so.6:rawmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49ca7a0 (libc.so.6:strncat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x4a56280 (libc.so.6:__memcpy_chk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x49cb310 (libc.so.6:strstr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--55870-- REDIR: 0x4abf610 (libc.so.6:__strrchr_avx2) redirected to 0x484e810 (rindex)
+--55870-- REDIR: 0x49c70a0 (libc.so.6:malloc) redirected to 0x4848820 (malloc)
+--55870-- REDIR: 0x4abf7e0 (libc.so.6:__strlen_avx2) redirected to 0x484ed10 (strlen)
+--55870-- REDIR: 0x4ac27c0 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4852880 (memmove)
+--55870-- REDIR: 0x4abf400 (libc.so.6:__strchrnul_avx2) redirected to 0x4853330 (strchrnul)
+--55870-- REDIR: 0x4967150 (libc.so.6:setenv) redirected to 0x48542d0 (setenv)
+--55870-- REDIR: 0x4abf180 (libc.so.6:__strchr_avx2) redirected to 0x484e9f0 (index)
+--55870-- REDIR: 0x4abad80 (libc.so.6:__strncmp_avx2) redirected to 0x484f3e0 (strncmp)
+--55870-- REDIR: 0x49c7740 (libc.so.6:realloc) redirected to 0x484dc50 (realloc)
+--55870-- REDIR: 0x4ac2780 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4853440 (mempcpy)
+--55870-- REDIR: 0x4aba940 (libc.so.6:__strcmp_avx2) redirected to 0x484fbd0 (strcmp)
+--55870-- REDIR: 0x49c8520 (libc.so.6:calloc) redirected to 0x484d9d0 (calloc)
+--55870-- REDIR: 0x4abf960 (libc.so.6:__strnlen_avx2) redirected to 0x484ecb0 (strnlen)
+--55870-- REDIR: 0x49c73e0 (libc.so.6:free) redirected to 0x484b210 (free)
+--55870-- REDIR: 0x4ac0cb0 (libc.so.6:__strcpy_avx2) redirected to 0x484ee60 (strcpy)
+--55870-- REDIR: 0x49cafc0 (libc.so.6:__GI_strstr) redirected to 0x4853ae0 (__strstr_sse2)
+--55870-- REDIR: 0x4ac2790 (libc.so.6:__memcpy_chk_avx_unaligned_erms) redirected to 0x4853940 (__memcpy_chk)
+--55870-- REDIR: 0x4ac2f80 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x4852770 (memset)
+--55870-- REDIR: 0x4ac1040 (libc.so.6:__strncpy_avx2) redirected to 0x484efe0 (strncpy)
+--55870-- REDIR: 0x4abb2c0 (libc.so.6:__memchr_avx2) redirected to 0x484fd50 (memchr)
+--55870-- REDIR: 0x4ac19a0 (libc.so.6:__stpcpy_avx2) redirected to 0x4852130 (stpcpy)
+--55870-- REDIR: 0x4abc130 (libc.so.6:__strcasecmp_avx) redirected to 0x484f560 (strcasecmp)
+--55870-- REDIR: 0x4abd7b0 (libc.so.6:__strncasecmp_avx) redirected to 0x484f640 (strncasecmp)
+--55870-- REDIR: 0x4abba80 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x4852010 (bcmp)
+==55870== 
+==55870== Process terminating with default action of signal 2 (SIGINT)
+==55870==    at 0x496475B: kill (syscall-template.S:120)
+==55870==    by 0x48A7F39: _rl_signal_handler (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8BEC: rl_getc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8460: rl_read_key (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488CC86: readline_internal_char (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895D14: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== HEAP SUMMARY:
+==55870==     in use at exit: 218,598 bytes in 261 blocks
+==55870==   total heap usage: 520 allocs, 259 frees, 233,923 bytes allocated
+==55870== 
+==55870== Searching for pointers to 261 not-freed blocks
+==55870== Checked 269,712 bytes
+==55870== 
+==55870== 6 bytes in 1 blocks are still reachable in loss record 1 of 89
+==55870==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49006CC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4907272: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC7D: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DD09: _nc_trim_sgr0 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C6A8: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 6 bytes in 1 blocks are still reachable in loss record 2 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49CA58E: strdup (strdup.c:42)
+==55870==    by 0x490DD17: _nc_trim_sgr0 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C6A8: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 7 bytes in 1 blocks are still reachable in loss record 3 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49CA58E: strdup (strdup.c:42)
+==55870==    by 0x490B8AE: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8 bytes in 1 blocks are still reachable in loss record 4 of 89
+==55870==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AE491: xrealloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489A626: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AE0D: rl_expand_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1BF: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 9 bytes in 1 blocks are still reachable in loss record 5 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x496703F: __add_to_environ (setenv.c:217)
+==55870==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AD005: sh_set_lines_and_columns (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7AF7: _rl_get_screen_size (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AAB8: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AE0D: rl_expand_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1BF: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 9 bytes in 1 blocks are still reachable in loss record 6 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x496703F: __add_to_environ (setenv.c:217)
+==55870==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AD005: sh_set_lines_and_columns (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7AF7: _rl_get_screen_size (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7DD2: rl_resize_terminal (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7F77: _rl_signal_handler (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8BEC: rl_getc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8460: rl_read_key (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488CC86: readline_internal_char (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895D14: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 12 bytes in 1 blocks are still reachable in loss record 7 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x496703F: __add_to_environ (setenv.c:217)
+==55870==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48A7AF7: _rl_get_screen_size (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AAB8: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AE0D: rl_expand_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1BF: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 12 bytes in 1 blocks are still reachable in loss record 8 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49CA58E: strdup (strdup.c:42)
+==55870==    by 0x495A31A: _nl_load_locale_from_archive (loadarchive.c:464)
+==55870==    by 0x49590DF: _nl_find_locale (findlocale.c:152)
+==55870==    by 0x4958A90: setlocale (setlocale.c:414)
+==55870==    by 0x4958A90: setlocale (setlocale.c:217)
+==55870==    by 0x48A7C45: _rl_init_locale (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7D2C: _rl_init_eightbit (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A31: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 12 bytes in 1 blocks are still reachable in loss record 9 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49CA58E: strdup (strdup.c:42)
+==55870==    by 0x4958ACA: setlocale (setlocale.c:431)
+==55870==    by 0x4958ACA: setlocale (setlocale.c:217)
+==55870==    by 0x48A7C45: _rl_init_locale (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7D2C: _rl_init_eightbit (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A31: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 13 bytes in 1 blocks are still reachable in loss record 10 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489BBF5: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A38: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 15 bytes in 1 blocks are still reachable in loss record 11 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49CA58E: strdup (strdup.c:42)
+==55870==    by 0x48FF377: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4901BF8: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B696: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 16 bytes in 1 blocks are still reachable in loss record 12 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4895B26: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 20 bytes in 1 blocks are still reachable in loss record 13 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4898D8B: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489B6C9: rl_parse_and_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489BB6C: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A38: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 24 bytes in 1 blocks are still reachable in loss record 14 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4A41F34: tsearch (tsearch.c:337)
+==55870==    by 0x496706A: __add_to_environ (setenv.c:233)
+==55870==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AD005: sh_set_lines_and_columns (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7AF7: _rl_get_screen_size (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AAB8: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AE0D: rl_expand_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1BF: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 24 bytes in 1 blocks are still reachable in loss record 15 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4A41F9E: tsearch (tsearch.c:337)
+==55870==    by 0x496706A: __add_to_environ (setenv.c:233)
+==55870==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48A7AF7: _rl_get_screen_size (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AAB8: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AE0D: rl_expand_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1BF: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 24 bytes in 1 blocks are still reachable in loss record 16 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4A41F34: tsearch (tsearch.c:337)
+==55870==    by 0x4903D6E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4907098: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC7D: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DD09: _nc_trim_sgr0 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C6A8: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 24 bytes in 1 blocks are still reachable in loss record 17 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4A41F9E: tsearch (tsearch.c:337)
+==55870==    by 0x496706A: __add_to_environ (setenv.c:233)
+==55870==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AD005: sh_set_lines_and_columns (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7AF7: _rl_get_screen_size (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7DD2: rl_resize_terminal (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7F77: _rl_signal_handler (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8BEC: rl_getc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8460: rl_read_key (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488CC86: readline_internal_char (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895D14: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870== 
+==55870== 26 bytes in 1 blocks are still reachable in loss record 18 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1E3: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 26 bytes in 1 blocks are still reachable in loss record 19 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489A5F2: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AE0D: rl_expand_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1BF: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 27 bytes in 1 blocks are still reachable in loss record 20 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4901624: _nc_home_terminfo (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4901BE2: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B696: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 27 bytes in 1 blocks are still reachable in loss record 21 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x490B287: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B52A: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC40: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B6BB: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 31 bytes in 3 blocks are still reachable in loss record 22 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A4B39: alloc_history_entry (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A6F65: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403981: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 32 bytes in 1 blocks are still reachable in loss record 23 of 89
+==55870==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49F4C1F: __wcsmbs_load_conv (wcsmbsload.c:167)
+==55870==    by 0x49E816E: get_gconv_fcts (wcsmbsload.h:73)
+==55870==    by 0x49E816E: mbrtowc (mbrtowc.c:69)
+==55870==    by 0x489D2D7: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489FCE1: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 36 bytes in 3 blocks are still reachable in loss record 24 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A6F28: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403981: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 40 bytes in 1 blocks are still reachable in loss record 25 of 89
+==55870==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x490B37E: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B52A: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC40: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B6BB: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 40 bytes in 1 blocks are still reachable in loss record 26 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4900119: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B87D: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 46 bytes in 1 blocks are still reachable in loss record 27 of 89
+==55870==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49006CC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B16F: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B52A: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC40: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B6BB: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870== 
+==55870== 46 bytes in 1 blocks are still reachable in loss record 28 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48FFFDE: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B87D: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 48 bytes in 1 blocks are still reachable in loss record 29 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x401261: init_tcontext (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40120B: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 48 bytes in 1 blocks are still reachable in loss record 30 of 89
+==55870==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4901833: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B696: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 72 bytes in 3 blocks are still reachable in loss record 31 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A4B1D: alloc_history_entry (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A6F65: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403981: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 80 bytes in 1 blocks are still reachable in loss record 32 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x490004B: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B87D: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 84 bytes in 1 blocks are still reachable in loss record 33 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49CA58E: strdup (strdup.c:42)
+==55870==    by 0x4903D54: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4907098: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC7D: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DD09: _nc_trim_sgr0 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C6A8: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 85 bytes in 1 blocks are still reachable in loss record 34 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x490395B: _nc_tparm_analyze (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4903C62: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4907098: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC7D: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DD09: _nc_trim_sgr0 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C6A8: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 96 bytes in 1 blocks are still reachable in loss record 35 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x490179A: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B696: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 120 bytes in 1 blocks are still reachable in loss record 36 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x495A2FF: _nl_load_locale_from_archive (loadarchive.c:460)
+==55870==    by 0x49590DF: _nl_find_locale (findlocale.c:152)
+==55870==    by 0x4958A90: setlocale (setlocale.c:414)
+==55870==    by 0x4958A90: setlocale (setlocale.c:217)
+==55870==    by 0x48A7C45: _rl_init_locale (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7D2C: _rl_init_eightbit (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A31: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 160 bytes in 1 blocks are still reachable in loss record 37 of 89
+==55870==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49006CC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B197: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B52A: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC40: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B6BB: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870== 
+==55870== 168 bytes in 1 blocks are still reachable in loss record 38 of 89
+==55870==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4903CCD: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4907098: _nc_tiparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC7D: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DD09: _nc_trim_sgr0 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C6A8: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 171 bytes in 1 blocks are still reachable in loss record 39 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4958607: new_composite_name (setlocale.c:170)
+==55870==    by 0x4958AEA: setlocale (setlocale.c:437)
+==55870==    by 0x4958AEA: setlocale (setlocale.c:217)
+==55870==    by 0x48A7C45: _rl_init_locale (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7D2C: _rl_init_eightbit (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A31: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 208 bytes in 1 blocks are still reachable in loss record 40 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49579D6: __gconv_lookup_cache (gconv_cache.c:365)
+==55870==    by 0x494DB6E: __gconv_find_transform (gconv_db.c:732)
+==55870==    by 0x49F4D4A: __wcsmbs_getfct (wcsmbsload.c:91)
+==55870==    by 0x49F4D4A: __wcsmbs_load_conv (wcsmbsload.c:185)
+==55870==    by 0x49E816E: get_gconv_fcts (wcsmbsload.h:73)
+==55870==    by 0x49E816E: mbrtowc (mbrtowc.c:69)
+==55870==    by 0x489D2D7: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489FCE1: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 208 bytes in 1 blocks are still reachable in loss record 41 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4957AC0: __gconv_lookup_cache (gconv_cache.c:365)
+==55870==    by 0x494DB6E: __gconv_find_transform (gconv_db.c:732)
+==55870==    by 0x49F4D8B: __wcsmbs_getfct (wcsmbsload.c:91)
+==55870==    by 0x49F4D8B: __wcsmbs_load_conv (wcsmbsload.c:188)
+==55870==    by 0x49E816E: get_gconv_fcts (wcsmbsload.h:73)
+==55870==    by 0x49E816E: mbrtowc (mbrtowc.c:69)
+==55870==    by 0x489D2D7: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489FCE1: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 256 bytes in 1 blocks are still reachable in loss record 42 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895C86: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 520 bytes in 1 blocks are still reachable in loss record 43 of 89
+==55870==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x4966E7B: __add_to_environ (setenv.c:156)
+==55870==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48A7AF7: _rl_get_screen_size (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AAB8: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489AE0D: rl_expand_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A1BF: rl_set_prompt (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CCF: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 736 bytes in 1 blocks are still reachable in loss record 44 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x490AACD: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B52A: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC40: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B6BB: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 760 bytes in 1 blocks are still reachable in loss record 45 of 89
+==55870==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x490B819: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 46 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49A0BA3: _IO_file_doallocate (filedoalloc.c:101)
+==55870==    by 0x49AFCDF: _IO_doallocbuf (genops.c:347)
+==55870==    by 0x49AEF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+==55870==    by 0x49AD6D4: _IO_new_file_xsputn (fileops.c:1243)
+==55870==    by 0x49AD6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+==55870==    by 0x49A1FD6: fwrite (iofwrite.c:39)
+==55870==    by 0x489277C: rl_prep_terminal (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CEE: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 47 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AE4A7: xrealloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897C7B: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897D67: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 48 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AE4A7: xrealloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897C8B: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897D67: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 49 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AE4A7: xrealloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897CA2: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897D67: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 50 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AE4A7: xrealloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897CBB: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897D67: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 51 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897DC5: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 52 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897DDA: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 53 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897DE8: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,024 bytes in 1 blocks are still reachable in loss record 54 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4897DF6: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A0C7E: rl_redisplay (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B458: readline_internal_setup (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CF8: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 1,536 bytes in 1 blocks are still reachable in loss record 55 of 89
+==55870==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48AE491: xrealloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B877: rl_add_funmap_entry (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B8C8: rl_initialize_funmap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A2C: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 2,032 bytes in 1 blocks are still reachable in loss record 56 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A9419: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 2,240 bytes in 140 blocks are still reachable in loss record 57 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B822: rl_add_funmap_entry (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488B8C8: rl_initialize_funmap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A2C: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 3,328 bytes in 1 blocks are still reachable in loss record 58 of 89
+==55870==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x49006CC: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B1B5: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B52A: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490DC40: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B6BB: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B711: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B866: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870== 
+==55870== 3,328 bytes in 1 blocks are still reachable in loss record 59 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48FFFFF: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490B87D: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x490C4C9: tgetent_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A91CD: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 3,728 bytes in 12 blocks are still reachable in loss record 60 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x495996E: _nl_intern_locale_data (loadlocale.c:97)
+==55870==    by 0x495A370: _nl_load_locale_from_archive (loadarchive.c:477)
+==55870==    by 0x49590DF: _nl_find_locale (findlocale.c:152)
+==55870==    by 0x4958A90: setlocale (setlocale.c:414)
+==55870==    by 0x4958A90: setlocale (setlocale.c:217)
+==55870==    by 0x48A7C45: _rl_init_locale (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A7D2C: _rl_init_eightbit (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A31: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,016 bytes in 1 blocks are still reachable in loss record 61 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A6FD6: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403981: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,080 bytes in 1 blocks are still reachable in loss record 62 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A93F9: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 63 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8DD5: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A931F: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 64 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E34: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A931F: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 65 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E47: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A931F: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 66 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E5A: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A931F: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 67 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E34: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A932B: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 68 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E47: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A932B: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 69 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E5A: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A932B: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 70 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E34: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A9337: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 71 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E47: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A9337: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 72 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E5A: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A9337: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 73 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489594C: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A84: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 74 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489594C: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A93: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 4,112 bytes in 1 blocks are still reachable in loss record 75 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489594C: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895AB8: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 7,952 bytes in 1 blocks are still reachable in loss record 76 of 89
+==55870==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48FEC97: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x49003AF: _nc_find_type_entry (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x4902E4C: tgetstr_sp (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3)
+==55870==    by 0x48A921A: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 77 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E21: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A931F: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 78 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8DD5: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A932B: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 79 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E21: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A932B: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 80 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8DD5: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A9337: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 81 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A8E21: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x48A9337: _rl_init_terminal_io (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A0F: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 82 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489593D: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A84: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 83 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895914: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A93: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 84 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489593D: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A93: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 85 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895914: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895AB8: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 86 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489593D: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895AB8: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 87 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895AD2: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 8,224 bytes in 2 blocks are still reachable in loss record 88 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489575D: rl_bind_keyseq_if_unbound_in_map (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895AE1: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== 20,560 bytes in 5 blocks are still reachable in loss record 89 of 89
+==55870==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55870==    by 0x48ADBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488A251: rl_make_bare_keymap (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x488AB6A: rl_generic_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489B99E: rl_parse_and_bind (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x489BB6C: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895A38: rl_initialize (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x4895CD4: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==55870==    by 0x403956: read_cmd (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x403A48: handle_command_input_cycle (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x4039C0: run_minishell (in /home/mgodawat/Documents/minishell/minishell)
+==55870==    by 0x40122F: main (in /home/mgodawat/Documents/minishell/minishell)
+==55870== 
+==55870== LEAK SUMMARY:
+==55870==    definitely lost: 0 bytes in 0 blocks
+==55870==    indirectly lost: 0 bytes in 0 blocks
+==55870==      possibly lost: 0 bytes in 0 blocks
+==55870==    still reachable: 218,598 bytes in 261 blocks
+==55870==         suppressed: 0 bytes in 0 blocks
+==55870== 
+==55870== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

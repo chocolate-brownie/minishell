@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 21:19:17 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:31:20 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int	manage_command_processing_outcome(int process_status,
 	}
 }
 
+/* WARNING: The exit mechanism here is temporary make sure you delete this because the 
+ * real "exit" will be handled by the execution */
 static int	handle_command_input_cycle(t_context *ctx)
 {
 	char	*cmd_line;

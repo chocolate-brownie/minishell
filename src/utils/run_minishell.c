@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_minishell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 21:19:17 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:38:34 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 	}
 	if (DEBUG == 1)
 		print_exec_list(exec_list);
+	ctx->command_list = exec_list;
+	execute_pipeline(ctx);
 	free_exec_list(exec_list);
+	ctx->command_list = NULL;
 	return (1);
 }
 
 static int	manage_command_processing_outcome(int process_status,
-												char *cmd_line,
-												t_token *tokens)
+		char *cmd_line, t_token *tokens)
 {
 	if (process_status == 1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 21:51:43 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:39:56 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,5 +232,39 @@ void				cleanup_resources(char *cmd, t_token *token_list,
 /** Debugging functions */
 void				print_tokens(char *cmd, t_token *list_head);
 void				print_exec_list(t_exec *exec_list_head);
+
+/*-------------------execution functions--------------------------*/
+
+/*env*/
+t_env				*init_env(char **envp);
+void				free_env(t_env *env);
+t_env				*env_new_node(char *id, char *value, char *raw);
+int					update_env_var(t_env *env, char *id, char *new_value);
+char				*get_env_value(t_env *env, char *id);
+
+/*exec utils*/
+int					handle_redir(t_exec *cmd);
+void				restore_stdio(t_context *ctx);
+char				**args_to_array(t_exec *cmd, int include_cmd_name);
+char				*get_cmd_path(char **envp, char *cmd);
+pid_t				fork_and_execute(t_context *ctx, t_exec *cmd, int pipefd[2],
+						int prev_read_end);
+int					is_builtin(t_exec *cmd);
+int					execute_builtin(t_exec *cmd, t_context *ctx, t_env *env);
+char				**env_to_envp(t_env *env);
+void				execute_pipeline(t_context *ctx);
+int					create_pipe_if_needed(t_exec *cmd, int pipefd[2]);
+
+/*utils*/
+void				free_tab(char **array);
+
+/*builtins*/
+int					ft_cd(t_exec *cmd, t_env *env);
+int					ft_echo(t_exec *cmd);
+int					ft_pwd(void);
+int					ft_env(t_env *env);
+int					ft_export(t_env *env, t_exec *cmd);
+int					ft_unset(t_env **env, t_exec *cmd);
+void				ft_exit(t_exec *cmd, t_context *ctx, t_env *env);
 
 #endif

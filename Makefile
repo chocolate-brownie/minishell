@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
+#    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/05/15 21:12:33 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/05/17 10:42:59 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,21 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/utils/cleanup.c \
        $(SRC_DIR)/debug/print_exec.c \
        $(SRC_DIR)/debug/print_tokens.c \
+	          $(SRC_DIR)/execution/builtin/echo.c \
+       $(SRC_DIR)/execution/builtin/cd.c \
+       $(SRC_DIR)/execution/builtin/pwd.c \
+       $(SRC_DIR)/execution/builtin/env.c \
+       $(SRC_DIR)/execution/builtin/export.c \
+       $(SRC_DIR)/execution/builtin/unset.c \
+       $(SRC_DIR)/execution/builtin/exit.c \
+       $(SRC_DIR)/execution/env/init_env.c \
+       $(SRC_DIR)/execution/env/update_env_var.c \
+		$(SRC_DIR)/execution/exec/exec.c \
+       $(SRC_DIR)/execution/exec/exec_utils.c \
+       $(SRC_DIR)/execution/exec/args_to_array.c \
+       $(SRC_DIR)/execution/exec/fork_and_execute.c \
+       $(SRC_DIR)/execution/redir/handle_redir.c \
+       $(SRC_DIR)/execution/utils/get_command.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

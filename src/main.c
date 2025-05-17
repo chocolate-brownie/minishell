@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 21:19:38 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:11:09 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ more portable for modern terminals, avoiding termcap dependencies and potential
 issues if TERM is not set or the termcap database is missing/minimal. However,
 your current implementation is robust in its use of termcap.*/
 
-static t_context	*init_tcontext(void)
+static t_context	*init_tcontext(char **envp)
 {
 	t_context	*ctx;
 
 	ctx = malloc(sizeof(t_context));
 	if (!ctx)
 		return (set_exit_code(NULL, ERR_MALLOC, NULL), NULL);
-	ctx->envp = NULL;
+	ctx->envp = init_env(envp);
 	ctx->last_exit_code = 0;
 	ctx->should_exit = 0;
 	ctx->command_list = NULL;
@@ -59,7 +59,7 @@ static t_context	*init_tcontext(void)
         break ;
     }
 */
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char **envp)
 {
 	t_context	*ctx;
 	int			exit_code;
@@ -67,7 +67,7 @@ int	main(int argc, char *argv[])
 	ctx = NULL;
 	if (check_state(argc, argv) == 1)
 		return (set_exit_code(NULL, ERR_INVALID_INPUT, ERMSG_INVALIDARG), 1);
-	ctx = init_tcontext();
+	ctx = init_tcontext(envp);
 	if (!ctx)
 		return (1);
 	exit_code = run_minishell(ctx);

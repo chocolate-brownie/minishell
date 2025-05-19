@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/17 10:39:56 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:00:04 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ int					update_env_var(t_env *env, char *id, char *new_value);
 char				*get_env_value(t_env *env, char *id);
 
 /*exec utils*/
-int					handle_redir(t_exec *cmd);
+int					handle_redir(t_exec *cmd, t_context *ctx);
 void				restore_stdio(t_context *ctx);
 char				**args_to_array(t_exec *cmd, int include_cmd_name);
 char				*get_cmd_path(char **envp, char *cmd);
@@ -255,8 +255,9 @@ char				**env_to_envp(t_env *env);
 void				execute_pipeline(t_context *ctx);
 int					create_pipe_if_needed(t_exec *cmd, int pipefd[2]);
 
-/*utils*/
+/*free*/
 void				free_tab(char **array);
+void				free_all(t_context *ctx, t_env *env);
 
 /*builtins*/
 int					ft_cd(t_exec *cmd, t_env *env);

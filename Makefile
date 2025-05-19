@@ -6,7 +6,7 @@
 #    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/05/17 10:42:59 by shasinan         ###   ########.fr        #
+#    Updated: 2025/05/19 11:29:21 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/exec/fork_and_execute.c \
        $(SRC_DIR)/execution/redir/handle_redir.c \
        $(SRC_DIR)/execution/utils/get_command.c \
+       $(SRC_DIR)/execution/utils/free_all.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
@@ -123,6 +124,10 @@ help:
 	@echo "$(BOLD)$(GREEN)make fclean$(RESET) - Remove object files and executable"
 	@echo "$(BOLD)$(GREEN)make re$(RESET)     - Rebuild everything"
 	@echo "$(BOLD)$(GREEN)make help$(RESET)   - Show this help message"
+
+debug: CFLAGS += -g
+debug: fclean $(NAME)
+	@echo "Compilation en mode debug terminée."
 
 # Add .PHONY to prevent conflicts with files of the same name
 .PHONY: all clean fclean re help

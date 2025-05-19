@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:27 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/17 15:30:04 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:03:59 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	execute_single_builtin(t_exec *cmd, t_context *ctx)
 
 	if (is_builtin(cmd) && !cmd->next)
 	{
-		if (!handle_redir(cmd))
+		if (!handle_redir(cmd, ctx))
 			return (1);
 		exit_code = execute_builtin(cmd, ctx, ctx->envp);
 		restore_stdio(ctx);

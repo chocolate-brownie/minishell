@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:55 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/16 18:35:18 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:10:53 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,17 @@ static int	redir_append(t_redirs *redir)
 	return (1);
 }
 
-int	handle_redir(t_exec *cmd)
+int	handle_redir(t_exec *cmd, t_context *ctx)
 {
 	t_redirs	*redir;
 
 	redir = cmd->redirs;
 	if (!redir)
 		return (1);
+	ctx->stdin_backup = dup(STDIN_FILENO);
+	ctx->stdout_backup = dup(STDOUT_FILENO);
+	if (ctx->stdin_backup == -1 || ctx->stdout_backup == -1)
+		return (0);
 	while (redir)
 	{
 		if (redir->type == REDIR_INPUT && !redir_input(redir))

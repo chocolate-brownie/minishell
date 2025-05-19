@@ -6,14 +6,15 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:13:36 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/17 16:28:59 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/19 12:50:20 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
 
-/*TODO : free all for this builtin*/
+/*TODO : free all for this builtin
+	-> a function to free all resources before*/
 
 int	is_numeric(char *s)
 {
@@ -89,15 +90,13 @@ void	set_error_message_and_exit_code(t_context *ctx, t_env *env, char **args,
 		ft_putstr_fd(args[0], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		free_tab(args);
-		free_env(env);
-		ctx->last_exit_code = 2;
+		free_all(ctx, env);
+		exit(2);
 	}
 	if (type == 2)
 	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		free_tab(args);
-		free_env(env);
-		ctx->last_exit_code = 1;
 	}
 }
 
@@ -109,22 +108,48 @@ void	ft_exit(t_exec *cmd, t_context *ctx, t_env *env)
 
 	printf("exit\n");
 	if (!cmd->args)
+	{
+		free_all(ctx, env);
 		exit(ctx->last_exit_code);
+	}
 	args = args_to_array(cmd, 0);
 	if (!args)
 		return ;
 	exit_code = ft_atol_with_error(args[0], &error);
 	if (!error)
-	{
 		set_error_message_and_exit_code(ctx, env, args, 1);
-		exit(2);
-	}
 	if (args[1])
 	{
 		set_error_message_and_exit_code(ctx, env, args, 2);
-		exit(1);
+		return ;
 	}
 	free_tab(args);
-	ctx->last_exit_code = (unsigned char)exit_code;
+	free_all(ctx, env);
 	exit((unsigned char)exit_code);
 }
+
+// int main(int ac, char **av, char **envp)
+// {
+// 	t_exec *cmd = malloc(sizeof(t_exec));
+// 	t_args *args = malloc(sizeof(t_args));
+// 	t_args *args2 = malloc(sizeof(t_args));
+// 	t_context ctx;
+
+// 	(void)ac;
+// 	(void)av;
+
+// 	args2->next = NULL;
+// 	args2->value = ft_strdup("d");
+// 	args->next = args2;
+// 	args->value = ft_strdup("2");
+// 	cmd->cmd = ft_strdup("exit");
+// 	cmd->args = args;
+// 	cmd->next = NULL;
+// 	cmd->redirs = NULL;
+// 	ctx.command_list = cmd;
+// 	ctx.envp = init_env(envp);
+// 	ctx.last_exit_code = 0;
+
+// 	ft_exit(cmd, &ctx, ctx.envp);
+// 	return (0);
+// }

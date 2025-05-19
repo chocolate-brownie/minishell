@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
+/*   fork_and_execute.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:13:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/17 10:37:54 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:13:26 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void	exit_with_error(char **args, char *path, char **envp, int type)
 	}
 }
 
-static void	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end)
+static void	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
+		t_context *ctx)
 {
 	if (prev_pipe_end != -1)
 	{
@@ -62,7 +63,7 @@ static void	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end)
 		close(pipefd[0]);
 	}
 	if (cmd->redirs)
-		handle_redir(cmd);
+		handle_redir(cmd, ctx);
 }
 
 static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
@@ -72,7 +73,7 @@ static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 	char	*path;
 	char	**envp;
 
-	setup_pipe_and_redir(cmd, pipefd, prev_pipe_end);
+	setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx);
 	if (is_builtin(cmd))
 	{
 		ctx->last_exit_code = execute_builtin(cmd, ctx, ctx->envp);

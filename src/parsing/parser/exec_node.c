@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:55:15 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/14 22:49:26 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:55:12 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	handle_redirection(t_exec *node, t_token **token_ptr,
 	redir_type = get_redir_type((*token_ptr)->type);
 	if (redir_type != invalid_redir)
 	{
-		if (process_redir_token(node, token_ptr, redir_type, ctx) != 0)
+		if (process_redir_token(node, token_ptr, ctx) != 0)
 			return (-1);
 	}
 	else

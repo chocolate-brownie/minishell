@@ -21,8 +21,12 @@ minishell
 
 # Editor files
 .vscode/
-.cursor/
 .idea/
+.claude/
+.cursor/
+doc/
+CALUDE.md
+CURSOR.md
 *.swp
 *~
 

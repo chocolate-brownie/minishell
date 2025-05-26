@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:55:23 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 16:04:33 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:36:56 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@ char	*read_cmd(void)
 {
 	char	*command;
 
-	while (1)
+	rl_catch_signals = 0;
+	command = readline(YELLOW PROMPT RESET);
+	if (command == NULL)
+		return (NULL);
+	if (command[0] == '\0')
 	{
-		command = readline(YELLOW PROMPT RESET);
-		if (command[0] == '\0')
-		{
-			free(command);
-			continue ;
-		}
-		add_history(command);
-		return (command);
+		free(command);
+		return (ft_strdup(""));
 	}
+	return (command);
 }

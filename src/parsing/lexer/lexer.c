@@ -6,11 +6,13 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:29:42 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 21:51:56 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:02:09 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../../includes/error.h"
 #include "../../../includes/minishell.h"
+#include <string.h>
 
 static int	validate_input(const char *cmd, t_context *ctx)
 {
@@ -42,7 +44,7 @@ static int	process_token(const char *cmd, int *i, t_token **head_tail_ptrs[2],
 	if (new_token == NULL)
 	{
 		if (ctx->last_exit_code == ERR_UNCLOSED_QUOTE)
-			set_exit_code(ctx, ERR_UNCLOSED_QUOTE, NULL);
+			set_exit_code(ctx, ERR_MALLOC, "token creation in lexer");
 		return (-1);
 	}
 	append_token(head_tail_ptrs[0], head_tail_ptrs[1], new_token);
@@ -69,6 +71,8 @@ static t_token	*tokenize_input(const char *cmd, t_context *ctx)
 		if (result == 0)
 			break ;
 	}
+	if (append_eof_token(&list_head, &list_tail, ctx) == -1)
+		return (free_token_list(list_head), NULL);
 	return (list_head);
 }
 

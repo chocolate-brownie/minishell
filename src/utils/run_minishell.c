@@ -6,13 +6,15 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/17 15:38:34 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:15:38 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /* Main process function that handles the lexer and the parser */
+/*changes added :
+	-execute pipeline with the exec_list*/
 static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 {
 	t_exec	*exec_list;
@@ -32,7 +34,10 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 	if (DEBUG == 1)
 		print_exec_list(exec_list);
 	ctx->command_list = exec_list;
-	execute_pipeline(ctx);
+	if (!execute_pipeline(ctx))
+		return (free(cmd), free_exec_list(exec_list), ctx->command_list = NULL,
+			0);
+	printf("last exit code : %d\n", ctx->last_exit_code);
 	free_exec_list(exec_list);
 	ctx->command_list = NULL;
 	return (1);
@@ -60,6 +65,8 @@ static int	manage_command_processing_outcome(int process_status,
 	}
 }
 
+/*-don't forget: supp the exit condition
+  -add free_env after ctrl+D*/
 static int	handle_command_input_cycle(t_context *ctx)
 {
 	char	*cmd_line;
@@ -67,10 +74,11 @@ static int	handle_command_input_cycle(t_context *ctx)
 	int		process_status_code;
 
 	tokens = NULL;
-	cmd_line = read_cmd();
+	cmd_line = read_cmd(ctx);
 	if (cmd_line == NULL)
 	{
 		write(STDOUT_FILENO, "exit\n", 5);
+		free_env(ctx->envp);
 		return (CYCLE_BREAK_SHELL);
 	}
 	if ((ft_strncmp(cmd_line, "exit", 4) == 0) && (cmd_line[4] == '\0'

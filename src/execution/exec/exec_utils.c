@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 10:16:59 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/17 16:14:49 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:25:45 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	execute_builtin(t_exec *cmd, t_context *ctx, t_env *env)
 	else if (ft_strcmp(cmd->cmd, "env") == 0)
 		return (ft_env(env));
 	else if (ft_strcmp(cmd->cmd, "exit") == 0)
-		ft_exit(cmd, ctx, env);
+		ft_exit(cmd, ctx);
 	return (0);
 }
 

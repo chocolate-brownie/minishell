@@ -6,36 +6,43 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:13:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/19 13:13:26 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:19:59 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exit_with_error(char **args, char *path, char **envp, int type)
+void	print_signal_msg(int status)
+{
+	int	sig;
+
+	sig = WTERMSIG(status);
+	if (sig == SIGQUIT)
+		write(STDERR_FILENO, "Quit (core dumped)\n", 20);
+	else if (sig == SIGINT)
+		write(STDERR_FILENO, "\n", 1);
+}
+
+static void	free_and_exit(t_resources *res, int type, t_context *ctx)
 {
 	if (type == 1)
 		exit(1);
 	if (type == 2)
 	{
-		free_tab(args);
+		free_child(res, ctx);
 		exit(1);
 	}
 	if (type == 3)
 	{
-		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd(res->args[0], 2);
 		ft_putstr_fd(" : command not found\n", 2);
-		free_tab(args);
-		free_tab(envp);
-		free(path);
+		free_child(res, ctx);
 		exit(127);
 	}
 	if (type == 4)
 	{
 		perror("execve");
-		free_tab(args);
-		free(path);
-		free_tab(envp);
+		free_child(res, ctx);
 		exit(126);
 	}
 }
@@ -69,9 +76,7 @@ static void	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
 static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 		int prev_pipe_end)
 {
-	char	**args;
-	char	*path;
-	char	**envp;
+	t_resources	res;
 
 	setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx);
 	if (is_builtin(cmd))
@@ -80,20 +85,20 @@ static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 		free_env(ctx->envp);
 		exit(ctx->last_exit_code);
 	}
-	args = args_to_array(cmd, 1);
-	if (!args)
-		exit_with_error(args, NULL, NULL, 1);
-	envp = env_to_envp(ctx->envp);
-	if (!envp)
-		exit_with_error(args, NULL, envp, 2);
+	res.args = args_to_array(cmd, 1);
+	if (!res.args)
+		free_and_exit(&res, 1, ctx);
+	res.envp = env_to_envp(ctx->envp);
+	if (!res.envp)
+		free_and_exit(&res, 2, ctx);
 	if (ft_strchr(cmd->cmd, '/'))
-		path = ft_strdup(cmd->cmd);
+		res.path = ft_strdup(cmd->cmd);
 	else
-		path = get_cmd_path(envp, cmd->cmd);
-	if (!path || access(path, X_OK) != 0)
-		exit_with_error(args, path, envp, 3);
-	execve(path, args, envp);
-	exit_with_error(args, path, envp, 4);
+		res.path = get_cmd_path(res.envp, cmd->cmd);
+	if (!res.path || access(res.path, X_OK) != 0)
+		free_and_exit(&res, 3, ctx);
+	execve(res.path, res.args, res.envp);
+	free_and_exit(&res, 4, ctx);
 }
 
 pid_t	fork_and_execute(t_context *ctx, t_exec *cmd, int pipefd[2],
@@ -108,6 +113,14 @@ pid_t	fork_and_execute(t_context *ctx, t_exec *cmd, int pipefd[2],
 		return (-1);
 	}
 	if (pid == 0)
+	{
+		setup_signal_child();
 		child_process(ctx, cmd, pipefd, prev_read_end);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
 	return (pid);
 }

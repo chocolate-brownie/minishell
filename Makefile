@@ -6,7 +6,7 @@
 #    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/05/19 11:29:21 by shasinan         ###   ########.fr        #
+#    Updated: 2025/05/26 11:41:20 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,13 +58,13 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/utils/cleanup.c \
        $(SRC_DIR)/debug/print_exec.c \
        $(SRC_DIR)/debug/print_tokens.c \
-	          $(SRC_DIR)/execution/builtin/echo.c \
-       $(SRC_DIR)/execution/builtin/cd.c \
-       $(SRC_DIR)/execution/builtin/pwd.c \
-       $(SRC_DIR)/execution/builtin/env.c \
-       $(SRC_DIR)/execution/builtin/export.c \
-       $(SRC_DIR)/execution/builtin/unset.c \
-       $(SRC_DIR)/execution/builtin/exit.c \
+	          $(SRC_DIR)/execution/builtins/echo.c \
+       $(SRC_DIR)/execution/builtins/cd.c \
+       $(SRC_DIR)/execution/builtins/pwd.c \
+       $(SRC_DIR)/execution/builtins/env.c \
+       $(SRC_DIR)/execution/builtins/export.c \
+       $(SRC_DIR)/execution/builtins/unset.c \
+       $(SRC_DIR)/execution/builtins/exit.c \
        $(SRC_DIR)/execution/env/init_env.c \
        $(SRC_DIR)/execution/env/update_env_var.c \
 		$(SRC_DIR)/execution/exec/exec.c \
@@ -74,6 +74,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/redir/handle_redir.c \
        $(SRC_DIR)/execution/utils/get_command.c \
        $(SRC_DIR)/execution/utils/free_all.c \
+       $(SRC_DIR)/execution/utils/signals.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))

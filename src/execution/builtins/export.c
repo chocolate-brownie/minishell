@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:05:54 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/15 10:36:48 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:05:50 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int	handle_export_arg(t_env *env, char *arg)
 	value = ft_strdup(arg + j + 1);
 	if (!value)
 		return (free(id), 0);
-	update_env_var(env, id, value);
+	if (!update_env_var(env, id, value))
+		return (free(id), free(value), 0);
 	free(id);
 	free(value);
 	return (1);

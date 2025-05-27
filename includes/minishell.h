@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/19 13:00:04 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:54:16 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@
 # define QUOTE_ERROR -1
 # define QUOTE_UNCLOSED -2
 
+extern volatile sig_atomic_t	g_signal_received;
+
 /**
 typedef enum e_token_type
 {
@@ -58,7 +60,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_APPEND,	- >>
 	TOKEN_REDIR_HEREDOC,- <<
 	TOKEN_EOF			- End of input marker
-}					t_token_type;
+}								t_token_type;
 */
 typedef enum e_token_type
 {
@@ -69,15 +71,15 @@ typedef enum e_token_type
 	TOKEN_REDIR_APPEND,
 	TOKEN_REDIR_HEREDOC,
 	TOKEN_EOF
-}					t_token_type;
+}								t_token_type;
 
 typedef struct s_token
 {
-	char			*value;
-	t_token_type	type;
-	struct s_token	*next;
+	char						*value;
+	t_token_type				type;
+	struct s_token				*next;
 
-}					t_token;
+}								t_token;
 
 /**
 This is the main system where we store all the importnat
@@ -148,124 +150,146 @@ typedef struct s_context {
 	int   stdout_backup;
 	-- Backup of original standard output FD (usually 1)
 
-}					t_context;
+}								t_context;
 */
 
 typedef struct s_env
 {
-	char			*id;
-	char			*value;
-	char			*raw;
-	struct s_env	*next;
-}					t_env;
+	char						*id;
+	char						*value;
+	char						*raw;
+	struct s_env				*next;
+}								t_env;
 
 typedef struct s_context
 {
-	t_env			*envp;
-	int				last_exit_code;
-	int				should_exit;
+	t_env						*envp;
+	int							last_exit_code;
+	int							should_exit;
 
-	t_exec			*command_list;
+	t_exec						*command_list;
 
-	pid_t			*pids;
-	int				pid_count;
-	int				stdin_backup;
-	int				stdout_backup;
+	pid_t						*pids;
+	int							pid_count;
+	int							stdin_backup;
+	int							stdout_backup;
 
-}					t_context;
+}								t_context;
 
 /** Main lexical analysis function */
-t_token				*lexer(const char *cmd, t_context *ctx);
+t_token							*lexer(const char *cmd, t_context *ctx);
 
 /** Tokenization functions & tools */
-int					is_quote(char c);
-int					is_delimiter(char c);
-t_token				*get_next_token(const char *cmd, int *i, t_context *ctx);
-t_token				*create_token(char *value, t_token_type type);
-void				free_token_list(t_token *token_list);
-void				append_token(t_token **head, t_token **tail,
-						t_token *token);
+int								is_quote(char c);
+int								is_delimiter(char c);
+t_token							*get_next_token(const char *cmd, int *i,
+									t_context *ctx);
+t_token							*create_token(char *value, t_token_type type);
+void							free_token_list(t_token *token_list);
+void							append_token(t_token **head, t_token **tail,
+									t_token *token);
 
 /** Tokenization of words functions & tools */
-int					find_closing_quote(const char *cmd, int start_pos);
-char				*append_extracted(char *accumulated_value, char *value,
-						t_context *ctx);
-char				*handle_quotes(const char *cmd, int *index, t_context *ctx);
-t_token				*handle_word(const char *cmd, int *i, t_context *ctx);
+int								find_closing_quote(const char *cmd,
+									int start_pos);
+char							*append_extracted(char *accumulated_value,
+									char *value, t_context *ctx);
+char							*handle_quotes(const char *cmd, int *index,
+									t_context *ctx);
+t_token							*handle_word(const char *cmd, int *i,
+									t_context *ctx);
 
 /** Parsing */
-t_exec				*parser(t_token *token_list, t_context *ctx);
+t_exec							*parser(t_token *token_list, t_context *ctx);
 
 /** Parsing utils */
-int					validate_init_tokens(t_token *token_list, t_context *ctx);
-void				link_nodes(t_exec **head, t_exec **tail, t_exec *new_node);
-int					check_next_tok(t_token **curr_tok, t_context *ctx);
-void				invalseg_after_pipe(t_exec **headptr, t_exec **newptr,
-						t_token **startptr, t_context *ctxptr);
-void				free_exec_list(t_exec *head);
-t_redir_type		get_redir_type(t_token_type type);
-t_exec				*create_exec_node(t_token **token_ptr, t_context *ctx);
-void				free_single_exec_node_content(t_exec *node);
-void				token_failure(t_exec *new_node, t_context *ctx);
-void				unexpected_token(t_exec *new_node, t_token *curr_tok,
-						t_context *ctx);
+int								validate_init_tokens(t_token *token_list,
+									t_context *ctx);
+void							link_nodes(t_exec **head, t_exec **tail,
+									t_exec *new_node);
+int								check_next_tok(t_token **curr_tok,
+									t_context *ctx);
+void							invalseg_after_pipe(t_exec **headptr,
+									t_exec **newptr, t_token **startptr,
+									t_context *ctxptr);
+void							free_exec_list(t_exec *head);
+t_redir_type					get_redir_type(t_token_type type);
+t_exec							*create_exec_node(t_token **token_ptr,
+									t_context *ctx);
+void							free_single_exec_node_content(t_exec *node);
+void							token_failure(t_exec *new_node, t_context *ctx);
+void							unexpected_token(t_exec *new_node,
+									t_token *curr_tok, t_context *ctx);
 
-t_redirs			*append_redir(t_redirs **redir_list_head, t_redir_type type,
-						char *path, t_context *ctx);
-int					process_word_token(t_exec *exec_node, t_token **curr,
-						t_context *ctx);
-int					process_redir_token(t_exec *exec_node, t_token **curr,
-						t_redir_type redir_type, t_context *ctx);
-void				free_structs(char *errmsg, t_token *ptr_tkn,
-						t_exec *ptr_exec);
+t_redirs						*append_redir(t_redirs **redir_list_head,
+									t_redir_type type, char *path,
+									t_context *ctx);
+int								process_word_token(t_exec *exec_node,
+									t_token **curr, t_context *ctx);
+int								process_redir_token(t_exec *exec_node,
+									t_token **curr, t_redir_type redir_type,
+									t_context *ctx);
+void							free_structs(char *errmsg, t_token *ptr_tkn,
+									t_exec *ptr_exec);
 
 /** Other functions */
-int					run_minishell(t_context *ctx);
-int					check_state(int argc, char *argv[]);
-char				*read_cmd(void);
-int					clear_term(t_context *ctx);
-void				set_exit_code(t_context *ctx, int exit_code, char *errmsg);
-void				cleanup_tcontext(t_context *ctx);
-void				cleanup_resources(char *cmd, t_token *token_list,
-						t_context *ctx);
+int								run_minishell(t_context *ctx);
+int								check_state(int argc, char *argv[]);
+char							*read_cmd(t_context *ctx);
+int								clear_term(t_context *ctx);
+void							set_exit_code(t_context *ctx, int exit_code,
+									char *errmsg);
+void							cleanup_tcontext(t_context *ctx);
+void							cleanup_resources(char *cmd,
+									t_token *token_list, t_context *ctx);
 
 /** Debugging functions */
-void				print_tokens(char *cmd, t_token *list_head);
-void				print_exec_list(t_exec *exec_list_head);
+void							print_tokens(char *cmd, t_token *list_head);
+void							print_exec_list(t_exec *exec_list_head);
 
 /*-------------------execution functions--------------------------*/
 
 /*env*/
-t_env				*init_env(char **envp);
-void				free_env(t_env *env);
-t_env				*env_new_node(char *id, char *value, char *raw);
-int					update_env_var(t_env *env, char *id, char *new_value);
-char				*get_env_value(t_env *env, char *id);
+t_env							*init_env(char **envp);
+void							free_env(t_env *env);
+t_env							*env_new_node(char *id, char *value, char *raw);
+int								update_env_var(t_env *env, char *id,
+									char *new_value);
+char							*get_env_value(t_env *env, char *id);
 
 /*exec utils*/
-int					handle_redir(t_exec *cmd, t_context *ctx);
-void				restore_stdio(t_context *ctx);
-char				**args_to_array(t_exec *cmd, int include_cmd_name);
-char				*get_cmd_path(char **envp, char *cmd);
-pid_t				fork_and_execute(t_context *ctx, t_exec *cmd, int pipefd[2],
-						int prev_read_end);
-int					is_builtin(t_exec *cmd);
-int					execute_builtin(t_exec *cmd, t_context *ctx, t_env *env);
-char				**env_to_envp(t_env *env);
-void				execute_pipeline(t_context *ctx);
-int					create_pipe_if_needed(t_exec *cmd, int pipefd[2]);
+int								handle_redir(t_exec *cmd, t_context *ctx);
+int								restore_stdio(t_context *ctx);
+char							**args_to_array(t_exec *cmd,
+									int include_cmd_name);
+char							*get_cmd_path(char **envp, char *cmd);
+pid_t							fork_and_execute(t_context *ctx, t_exec *cmd,
+									int pipefd[2], int prev_read_end);
+int								is_builtin(t_exec *cmd);
+int								execute_builtin(t_exec *cmd, t_context *ctx,
+									t_env *env);
+char							**env_to_envp(t_env *env);
+int								execute_pipeline(t_context *ctx);
+int								create_pipe_if_needed(t_exec *cmd,
+									int pipefd[2]);
 
 /*free*/
-void				free_tab(char **array);
-void				free_all(t_context *ctx, t_env *env);
+void							free_tab(char **array);
+void							free_all(t_context *ctx);
+void							free_child(t_resources *res, t_context *ctx);
 
 /*builtins*/
-int					ft_cd(t_exec *cmd, t_env *env);
-int					ft_echo(t_exec *cmd);
-int					ft_pwd(void);
-int					ft_env(t_env *env);
-int					ft_export(t_env *env, t_exec *cmd);
-int					ft_unset(t_env **env, t_exec *cmd);
-void				ft_exit(t_exec *cmd, t_context *ctx, t_env *env);
+int								ft_cd(t_exec *cmd, t_env *env);
+int								ft_echo(t_exec *cmd);
+int								ft_pwd(void);
+int								ft_env(t_env *env);
+int								ft_export(t_env *env, t_exec *cmd);
+int								ft_unset(t_env **env, t_exec *cmd);
+void							ft_exit(t_exec *cmd, t_context *ctx);
+
+/*signals*/
+void							print_signal_msg(int status);
+void							setup_signal_parent(void);
+void							setup_signal_child(void);
 
 #endif

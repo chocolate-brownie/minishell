@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:28:03 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/11 00:28:55 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:51:26 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,19 @@ static t_redirs	*create_redir_node(t_redir_type type, char *path,
 	t_redirs	*new_redir_node;
 
 	if (!path || !ctx)
+	{
+		if (ctx && !path)
+			set_exit_code(ctx, ERR_INVALID_INPUT, ERMSG_REDIR_NULLPATH);
 		return (NULL);
+	}
 	new_redir_node = (t_redirs *)malloc(sizeof(t_redirs));
 	if (!new_redir_node)
-		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
+		return (set_exit_code(ctx, ERR_MALLOC, ERMSG_REDIR_MALLOC), NULL);
 	new_redir_node->path = ft_strdup(path);
 	if (!new_redir_node->path)
 	{
 		free(new_redir_node);
-		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
+		return (set_exit_code(ctx, ERR_MALLOC, ERMSG_REDIR_STRDUP), NULL);
 	}
 	new_redir_node->type = type;
 	new_redir_node->next = NULL;
@@ -51,8 +55,10 @@ t_redirs	*append_redir(t_redirs **redir_list_head, t_redir_type type,
 	t_redirs	*new_redir_node;
 	t_redirs	*last_redir;
 
-	if (!path || !ctx)
-		return (*redir_list_head);
+	if (!ctx)
+		return (NULL);
+	if (!path)
+		set_exit_code(ctx, ERR_INVALID_INPUT, ERMSG_REDIR_NULLPATH);
 	new_redir_node = create_redir_node(type, path, ctx);
 	if (!new_redir_node)
 		return (NULL);

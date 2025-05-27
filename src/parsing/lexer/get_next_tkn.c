@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 13:17:14 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/10 23:51:54 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:01:19 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,20 @@ static t_token	*handle_greater_than(const char *cmd, int *i, t_context *ctx)
 	if (!token)
 		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
 	return (token);
+}
+
+int	append_eof_token(t_token **list_head, t_token **list_tail, t_context *ctx)
+{
+	t_token	*eof_token;
+
+	eof_token = create_token(NULL, TOKEN_EOF);
+	if (!eof_token)
+	{
+		set_exit_code(ctx, ERR_MALLOC, "EOF token creation");
+		return (-1);
+	}
+	append_token(list_head, list_tail, eof_token);
+	return (0);
 }
 
 t_token	*get_next_token(const char *cmd, int *i, t_context *ctx)

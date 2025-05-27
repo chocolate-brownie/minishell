@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:35:59 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/11 22:04:38 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/27 01:15:00 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ static char	*get_error_message(int exit_code, char *cmd)
 		message = ft_strdup("minishell: invalid input\n");
 	else if (exit_code == ERR_PIPE)
 		message = ft_strdup("minishell: pipe creation failed\n");
+	else if (exit_code == ERR_SIGINT)
+		message = NULL;
 	else
-		message = ft_strdup("minishell: error\n");
+		message = ft_strdup("minishell: error");
 	return (message);
 }
 

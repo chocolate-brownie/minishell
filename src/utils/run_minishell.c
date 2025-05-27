@@ -6,15 +6,13 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/26 16:15:38 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:06:28 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../includes/minishell.h"
 
-/* Main process function that handles the lexer and the parser */
-/*changes added :
-	-execute pipeline with the exec_list*/
 static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 {
 	t_exec	*exec_list;
@@ -22,39 +20,40 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 	if (!cmd || !token_list || !ctx)
 		return (-1);
 	*token_list = lexer(cmd, ctx);
+	if (g_signal == SIGINT)
+		return (cleanup_after_sigint(cmd, token_list));
 	if (*token_list == NULL)
 		return (free(cmd), 0);
 	exec_list = parser(*token_list, ctx);
+	if (g_signal == SIGINT)
+		return (cleanup_after_sigint(cmd, token_list));
 	if (!exec_list)
-	{
-		free_token_list(*token_list);
-		*token_list = NULL;
-		return (free(cmd), 0);
-	}
+		return (cleanup_failed_exec(cmd, token_list));
 	if (DEBUG == 1)
 		print_exec_list(exec_list);
-	ctx->command_list = exec_list;
-	if (!execute_pipeline(ctx))
-		return (free(cmd), free_exec_list(exec_list), ctx->command_list = NULL,
-			0);
-	printf("last exit code : %d\n", ctx->last_exit_code);
-	free_exec_list(exec_list);
-	ctx->command_list = NULL;
-	return (1);
+	return (free_exec_list(exec_list), ctx->command_list = NULL, 1);
 }
 
 static int	manage_command_processing_outcome(int process_status,
-		char *cmd_line, t_token *tokens)
+												char *cmd_line,
+												t_token *tokens,
+												t_context *ctx)
 {
 	if (process_status == 1)
 	{
 		if (tokens != NULL)
 			free_token_list(tokens);
-		free(cmd_line);
+		if (cmd_line != NULL)
+			free(cmd_line);
 		return (CYCLE_CONTINUE);
 	}
 	else if (process_status == 0)
 		return (CYCLE_CONTINUE);
+	else if (process_status == -2)
+	{
+		ctx->last_exit_code = ERR_SIGINT;
+		return (CYCLE_CONTINUE);
+	}
 	else
 	{
 		if (cmd_line != NULL)
@@ -65,31 +64,40 @@ static int	manage_command_processing_outcome(int process_status,
 	}
 }
 
-/*-don't forget: supp the exit condition
-  -add free_env after ctrl+D*/
+static int	handle_input_cases(char *cmd_line, t_context *ctx)
+{
+	if (g_signal == SIGINT)
+	{
+		if (cmd_line)
+			free(cmd_line);
+		ctx->last_exit_code = ERR_SIGINT;
+		return (CYCLE_CONTINUE);
+	}
+	if (cmd_line == NULL)
+		return (CYCLE_BREAK_SHELL);
+	if (cmd_line[0] == '\0')
+		return (free(cmd_line), CYCLE_CONTINUE);
+	return (0);
+}
+
 static int	handle_command_input_cycle(t_context *ctx)
 {
 	char	*cmd_line;
 	t_token	*tokens;
 	int		process_status_code;
+	int		input_result;
 
 	tokens = NULL;
-	cmd_line = read_cmd(ctx);
-	if (cmd_line == NULL)
-	{
-		write(STDOUT_FILENO, "exit\n", 5);
-		free_env(ctx->envp);
-		return (CYCLE_BREAK_SHELL);
-	}
-	if ((ft_strncmp(cmd_line, "exit", 4) == 0) && (cmd_line[4] == '\0'
-			|| ft_isspace(cmd_line[4])))
-	{
-		free(cmd_line);
-		return (CYCLE_BREAK_SHELL);
-	}
+	if (isatty(STDIN_FILENO))
+		g_signal = 0;
+	cmd_line = read_cmd();
+	input_result = handle_input_cases(cmd_line, ctx);
+	if (input_result != 0)
+		return (input_result);
+	add_history(cmd_line);
 	process_status_code = process_command(cmd_line, &tokens, ctx);
 	return (manage_command_processing_outcome(process_status_code, cmd_line,
-			tokens));
+			tokens, ctx));
 }
 
 int	run_minishell(t_context *ctx)
@@ -99,6 +107,8 @@ int	run_minishell(t_context *ctx)
 
 	if (!ctx)
 		return (1);
+	if (isatty(STDIN_FILENO))
+		g_signal = 0;
 	while (1)
 	{
 		cycle_status_result = handle_command_input_cycle(ctx);
@@ -106,13 +116,7 @@ int	run_minishell(t_context *ctx)
 			|| cycle_status_result == CYCLE_FATAL_ERROR)
 			break ;
 	}
-	final_shell_exit_code = 0;
-	if (ctx)
-	{
-		final_shell_exit_code = ctx->last_exit_code;
-		cleanup_tcontext(ctx);
-	}
-	else
-		final_shell_exit_code = 1;
+	final_shell_exit_code = ctx->last_exit_code;
+	cleanup_tcontext(ctx);
 	return (final_shell_exit_code);
 }

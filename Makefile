@@ -6,9 +6,10 @@
 #    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/05/26 11:41:20 by shasinan         ###   ########.fr        #
+#    Updated: 2025/05/27 09:34:13 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 # **************************************************************************** #
 #                                COLORS                                    #
@@ -51,11 +52,18 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/parsing/parser/parser.c \
        $(SRC_DIR)/parsing/parser/parser_utils.c \
        $(SRC_DIR)/parsing/parser/append_redir.c \
+       $(SRC_DIR)/parsing/parser/redirs.c \
+       $(SRC_DIR)/heredoc/hd_manager.c\
+       $(SRC_DIR)/heredoc/hd_read_input.c\
+       $(SRC_DIR)/heredoc/hd_utils.c\
+       $(SRC_DIR)/heredoc/hd_active_list_utils.c\
        $(SRC_DIR)/utils/err.c \
        $(SRC_DIR)/utils/exit_code.c \
        $(SRC_DIR)/utils/read.c \
        $(SRC_DIR)/utils/run_minishell.c \
        $(SRC_DIR)/utils/cleanup.c \
+       $(SRC_DIR)/utils/signals.c \
+       $(SRC_DIR)/utils/env_utils.c \
        $(SRC_DIR)/debug/print_exec.c \
        $(SRC_DIR)/debug/print_tokens.c \
 	          $(SRC_DIR)/execution/builtins/echo.c \

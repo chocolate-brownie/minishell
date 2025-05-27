@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:07:06 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/11 22:29:23 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:32:54 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	token_failure(t_exec *new_node, t_context *ctx)
 		return ;
 	free_single_exec_node_content(new_node);
 	free(new_node);
-	if (ctx)
+	if (ctx && g_signal == SIGINT)
+		return ;
+	if (ctx && ctx->last_exit_code == 0)
 		set_exit_code(ctx, ERR_SYNTAX, NULL);
 }
 
@@ -26,10 +28,13 @@ void	unexpected_token(t_exec *new_node, t_token *curr_tok, t_context *ctx)
 {
 	if (!ctx)
 		return ;
-	if (curr_tok)
-		set_exit_code(ctx, ERR_SYNTAX, curr_tok->value);
-	else
-		set_exit_code(ctx, ERR_SYNTAX, "|");
+	if (ctx->last_exit_code == 0)
+	{
+		if (curr_tok)
+			set_exit_code(ctx, ERR_SYNTAX, curr_tok->value);
+		else
+			set_exit_code(ctx, ERR_SYNTAX, "|");
+	}
 	token_failure(new_node, ctx);
 }
 

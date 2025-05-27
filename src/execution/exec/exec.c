@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:27 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/26 19:08:39 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:28:43 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,9 @@ int	execute_pipeline(t_context *ctx)
 }
 
 /*-if something wrong, maybe free all the resources
-if redir or system functions fail, how to handle?*/
-
-// pids
-// heredoc take a look
-
-//$?
-
-/*
--supp parser log
--supp parser exit
+-if redir or system functions fail, how to handle?
+-$?
 -solve parser leak
+-solve heredoc problem, signal
+-which signal?
 */

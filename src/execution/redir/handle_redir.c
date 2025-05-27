@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:55 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/26 15:49:16 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:36:19 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,22 @@ int	handle_redir(t_exec *cmd, t_context *ctx)
 
 int	restore_stdio(t_context *ctx)
 {
-	if (dup2(ctx->stdin_backup, STDIN_FILENO) == -1)
+	if (ctx->stdin_backup != -1 && dup2(ctx->stdin_backup, STDIN_FILENO) == -1)
 	{
 		perror("dup stdin_backup");
 		return (0);
 	}
-	if (dup2(ctx->stdout_backup, STDOUT_FILENO) == -1)
+	if (ctx->stdout_backup != -1 && dup2(ctx->stdout_backup,
+			STDOUT_FILENO) == -1)
 	{
 		perror("dup stdout_backup");
 		return (0);
 	}
-	close (ctx->stdout_backup);
-	close (ctx->stdin_backup);
+	if (ctx->stdin_backup != -1)
+		close(ctx->stdin_backup);
+	if (ctx->stdout_backup != -1)
+		close(ctx->stdout_backup);
+	ctx->stdin_backup = -1;
+	ctx->stdout_backup = -1;
 	return (1);
 }

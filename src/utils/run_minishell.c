@@ -6,10 +6,9 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 10:06:28 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:35:33 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -29,15 +28,13 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 		return (cleanup_after_sigint(cmd, token_list));
 	if (!exec_list)
 		return (cleanup_failed_exec(cmd, token_list));
-	if (DEBUG == 1)
-		print_exec_list(exec_list);
+	ctx->command_list = exec_list;
+	execute_pipeline(ctx);
 	return (free_exec_list(exec_list), ctx->command_list = NULL, 1);
 }
 
 static int	manage_command_processing_outcome(int process_status,
-												char *cmd_line,
-												t_token *tokens,
-												t_context *ctx)
+		char *cmd_line, t_token *tokens, t_context *ctx)
 {
 	if (process_status == 1)
 	{
@@ -90,7 +87,7 @@ static int	handle_command_input_cycle(t_context *ctx)
 	tokens = NULL;
 	if (isatty(STDIN_FILENO))
 		g_signal = 0;
-	cmd_line = read_cmd();
+	cmd_line = read_cmd(ctx);
 	input_result = handle_input_cases(cmd_line, ctx);
 	if (input_result != 0)
 		return (input_result);

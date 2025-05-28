@@ -6,13 +6,13 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:13:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:59 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:23:14 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_signal_msg(int status)
+void	print_signal_msg(int status, int *message_printed)
 {
 	int	sig;
 
@@ -21,6 +21,7 @@ void	print_signal_msg(int status)
 		write(STDERR_FILENO, "Quit (core dumped)\n", 20);
 	else if (sig == SIGINT)
 		write(STDERR_FILENO, "\n", 1);
+	*message_printed = 1;
 }
 
 static void	free_and_exit(t_resources *res, int type, t_context *ctx)

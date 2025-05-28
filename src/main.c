@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:24 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 16:36:53 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:33:33 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static t_context	*init_tcontext(char **envp)
 	ctx = malloc(sizeof(t_context));
 	if (!ctx)
 		return (NULL);
+	ctx->token_list = NULL;
 	ctx->last_exit_code = 0;
 	ctx->should_exit = 0;
 	ctx->command_list = NULL;
@@ -85,13 +86,6 @@ int	main(int argc, char **argv, char **envp)
 	ctx = init_tcontext(envp);
 	if (!ctx)
 		return (ft_putstr_fd("minishell: initialization failed\n", 2), 1);
-	if (setup_signal_handlers(ctx) == -1)
-	{
-		exit_code = ctx->last_exit_code;
-		cleanup_tcontext(ctx);
-		free(ctx);
-		return (exit_code);
-	}
 	exit_code = run_minishell(ctx);
 	if (ctx)
 		free(ctx);

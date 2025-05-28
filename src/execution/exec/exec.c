@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:27 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 16:28:43 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:21:05 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static int	wait_for_childrens(pid_t last_pid)
 	pid_t	pid;
 	int		status;
 	int		last_status;
+	int		message_printed;
 
+	message_printed = 0;
 	last_status = 0;
 	pid = wait(&status);
 	while (pid > 0)
@@ -43,9 +45,11 @@ static int	wait_for_childrens(pid_t last_pid)
 		if (pid == last_pid)
 			last_status = status;
 		pid = wait(&status);
-		if (WIFSIGNALED(status))
-			print_signal_msg(status);
+		if (pid == last_pid && WIFSIGNALED(status) && !message_printed)
+			print_signal_msg(status, &message_printed);
 	}
+	if (!message_printed && WIFSIGNALED(last_status))
+		print_signal_msg(last_status, &message_printed);
 	if (WIFEXITED(last_status))
 		return (WEXITSTATUS(last_status));
 	if (WIFSIGNALED(last_status))

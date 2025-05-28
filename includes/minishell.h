@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 10:08:53 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:29:11 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_context
 	int							heredoc_counter;
 	t_hd_temp_file				*active_heredocs;
 
+	t_token						*token_list;
 }								t_context;
 
 /** Main lexical analysis function */
@@ -224,7 +225,8 @@ int								ft_unset(t_env **env, t_exec *cmd);
 void							ft_exit(t_exec *cmd, t_context *ctx);
 
 /*signals*/
-void							print_signal_msg(int status);
+void							print_signal_msg(int status,
+									int *message_printed);
 void							setup_signal_parent(void);
 void							setup_signal_child(void);
 

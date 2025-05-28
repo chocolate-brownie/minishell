@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:11:08 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/27 09:30:11 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:24:07 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	free_all(t_context *ctx)
 {
+	if (ctx->token_list)
+	{
+		free_token_list(ctx->token_list);
+		ctx->token_list = NULL;
+	}
 	if (ctx->envp)
 		free_env(ctx->envp);
 	if (ctx->command_list)

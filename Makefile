@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
+#    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/05/26 17:14:25 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/05/27 09:34:13 by shasinan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 # **************************************************************************** #
 #                                COLORS                                    #
@@ -65,6 +66,23 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/utils/env_utils.c \
        $(SRC_DIR)/debug/print_exec.c \
        $(SRC_DIR)/debug/print_tokens.c \
+	          $(SRC_DIR)/execution/builtins/echo.c \
+       $(SRC_DIR)/execution/builtins/cd.c \
+       $(SRC_DIR)/execution/builtins/pwd.c \
+       $(SRC_DIR)/execution/builtins/env.c \
+       $(SRC_DIR)/execution/builtins/export.c \
+       $(SRC_DIR)/execution/builtins/unset.c \
+       $(SRC_DIR)/execution/builtins/exit.c \
+       $(SRC_DIR)/execution/env/init_env.c \
+       $(SRC_DIR)/execution/env/update_env_var.c \
+		$(SRC_DIR)/execution/exec/exec.c \
+       $(SRC_DIR)/execution/exec/exec_utils.c \
+       $(SRC_DIR)/execution/exec/args_to_array.c \
+       $(SRC_DIR)/execution/exec/fork_and_execute.c \
+       $(SRC_DIR)/execution/redir/handle_redir.c \
+       $(SRC_DIR)/execution/utils/get_command.c \
+       $(SRC_DIR)/execution/utils/free_all.c \
+       $(SRC_DIR)/execution/utils/signals.c \
 
 # Object files
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
@@ -115,6 +133,10 @@ help:
 	@echo "$(BOLD)$(GREEN)make fclean$(RESET) - Remove object files and executable"
 	@echo "$(BOLD)$(GREEN)make re$(RESET)     - Rebuild everything"
 	@echo "$(BOLD)$(GREEN)make help$(RESET)   - Show this help message"
+
+debug: CFLAGS += -g
+debug: fclean $(NAME)
+	@echo "Compilation en mode debug terminée."
 
 # Add .PHONY to prevent conflicts with files of the same name
 .PHONY: all clean fclean re help

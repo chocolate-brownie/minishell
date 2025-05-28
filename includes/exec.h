@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 23:18:01 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 21:06:06 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:14:08 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,14 @@ Node 2: grep "hello" > output.txt
 			path: "output.txt"
 			type: OUTFILE (Corresponds to >)
 			next: NULL */
+
+/*for the child_process*/
+typedef struct s_resources
+{
+	char				**args;
+	char				*path;
+	char				**envp;
+}						t_resources;
 
 typedef struct s_exec
 {

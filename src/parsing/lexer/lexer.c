@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:29:42 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/24 16:02:09 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:31:13 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,5 @@ t_token	*lexer(const char *cmd, t_context *ctx)
 	if (!validate_input(cmd, ctx))
 		return (NULL);
 	lexer = tokenize_input(cmd, ctx);
-	if (DEBUG == 1)
-		print_tokens((char *)cmd, lexer);
 	return (lexer);
 }

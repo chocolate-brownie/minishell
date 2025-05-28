@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 10:52:13 by shasinan          #+#    #+#             */
-/*   Updated: 2025/04/25 17:39:29 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/16 10:25:47 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 char				*get_next_line(int fd);
 int					ft_isspace(char c);
+int					ft_strcmp(const char *s1, const char *s2);
+char				*ft_strndup(const char *s, size_t n);
 
 #endif

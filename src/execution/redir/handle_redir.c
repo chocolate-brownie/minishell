@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:55 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/27 16:36:19 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:02:47 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,11 @@ int	handle_redir(t_exec *cmd, t_context *ctx)
 		return (0);
 	while (redir)
 	{
-		if (redir->type == REDIR_INPUT && !redir_input(redir))
-			return (0);
+		if (redir->type == REDIR_INPUT)
+		{
+			if (!redir_input(redir))
+				return (0);
+		}
 		else if (redir->type == REDIR_OUTPUT && !redir_output(redir))
 			return (0);
 		else if (redir->type == REDIR_APPEND && !redir_append(redir))

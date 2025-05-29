@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/28 19:33:09 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:28:20 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 		return (cleanup_failed_exec(cmd, token_list));
 	ctx->command_list = exec_list;
 	ctx->token_list = *token_list;
-	execute_pipeline(ctx);
+	if (!execute_pipeline(ctx))
+		return (free_exec_list(exec_list), ctx->command_list = NULL, 2);
 	return (free_exec_list(exec_list), ctx->command_list = NULL, 1);
 }
 

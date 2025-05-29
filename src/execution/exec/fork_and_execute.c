@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:13:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/28 19:23:14 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:48:50 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void	print_signal_msg(int status, int *message_printed)
 
 static void	free_and_exit(t_resources *res, int type, t_context *ctx)
 {
+	if (type == 0)
+	{
+		free_all(ctx);
+		exit (1);
+	}
 	if (type == 1)
 		exit(1);
 	if (type == 2)
@@ -48,7 +53,7 @@ static void	free_and_exit(t_resources *res, int type, t_context *ctx)
 	}
 }
 
-static void	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
+static int	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
 		t_context *ctx)
 {
 	if (prev_pipe_end != -1)
@@ -56,7 +61,7 @@ static void	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
 		if (dup2(prev_pipe_end, STDIN_FILENO) == -1)
 		{
 			perror("dup (pipe_prev_end)");
-			exit(1);
+			return (0);
 		}
 		close(prev_pipe_end);
 	}
@@ -65,13 +70,14 @@ static void	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 		{
 			perror("dup (pipefd[1])");
-			exit(1);
+			return (0);
 		}
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
-	if (cmd->redirs)
-		handle_redir(cmd, ctx);
+	if (!handle_redir(cmd, ctx))
+		return (0);
+	return (1);
 }
 
 static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
@@ -79,7 +85,8 @@ static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 {
 	t_resources	res;
 
-	setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx);
+	if (!setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx))
+		free_and_exit(NULL, 0, ctx);
 	if (is_builtin(cmd))
 	{
 		ctx->last_exit_code = execute_builtin(cmd, ctx, ctx->envp);

@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:50:18 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 01:38:19 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:26:33 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * return the pointer to the current token so I can check whether its pointing
  * to a PIPE at this point I have created a full t_execv */
 static int	process_segment(t_token **curr_tok_ptr, t_exec **head_ptr,
-				t_exec **tail_ptr, t_context *ctx)
+		t_exec **tail_ptr, t_context *ctx)
 {
 	t_exec	*new_exec;
 	t_token	*start_segment_token;
@@ -82,9 +82,14 @@ static t_exec	*parse_token_loop(t_token *current_token, t_context *ctx)
 
 t_exec	*parser(t_token *token_list, t_context *ctx)
 {
-	if (g_signal == SIGINT)
-		return (NULL);
-	if (ctx == NULL || validate_init_tokens(token_list, ctx) != 0)
-		return (NULL);
-	return (parse_token_loop(token_list, ctx));
+    if (g_signal == SIGINT)
+        return (NULL);
+    if (ctx == NULL || validate_init_tokens(token_list, ctx) != 0)
+    {
+        return (NULL);
+    }
+
+    t_exec *result_exec_list = parse_token_loop(token_list, ctx);
+
+    return (result_exec_list);
 }

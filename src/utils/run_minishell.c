@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/31 17:35:38 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:43:51 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,47 +18,33 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 
 	if (!cmd || !token_list || !ctx)
 		return (-1);
-
 	*token_list = lexer(cmd, ctx);
-	
 	if (g_signal == SIGINT)
 		return (cleanup_after_sigint(cmd, token_list));
 	if (*token_list == NULL)
 		return (free(cmd), 0);
-
 	exec_list = parser(*token_list, ctx);
-
-	if (g_signal == SIGINT) // Check for SIGINT *after* parser returns
-	{
+	if (g_signal == SIGINT)
 		return (cleanup_after_sigint(cmd, token_list));
-	}
-	
-	if (!exec_list) // If parser returns NULL
-	{
+	if (!exec_list)
 		return (cleanup_failed_exec(cmd, token_list));
-	}
-
 	ctx->command_list = exec_list;
-	ctx->token_list = *token_list; // Note: Storing original token_list. Consider if this is needed or if exec_list is enough.
-
-    // If print_exec_list is available and DEBUG is defined, this is useful
-    // Ensure print_exec_list is defined in a header included by run_minishell.c
-    if (DEBUG && exec_list) {
-         printf("--- AST Structure (in process_command) ---\n");
-         print_exec_list(exec_list); // Make sure this function is declared/available
-         printf("--- End AST Structure (in process_command) ---\n");
-    }
-
-	if (!execute_pipeline(ctx))
+	ctx->token_list = *token_list;
+	if (DEBUG && exec_list)
 	{
-		return (free_exec_list(exec_list), ctx->command_list = NULL, 2);
+		printf("--- AST Structure (in process_command) ---\n");
+		print_exec_list(exec_list);
+		printf("--- End AST Structure (in process_command) ---\n");
 	}
-	
+	if (!execute_pipeline(ctx))
+		return (free_exec_list(exec_list), ctx->command_list = NULL, 2);
 	return (free_exec_list(exec_list), ctx->command_list = NULL, 1);
 }
 
 static int	manage_command_processing_outcome(int process_status,
-		char *cmd_line, t_token *tokens, t_context *ctx)
+												char *cmd_line,
+												t_token *tokens,
+												t_context *ctx)
 {
 	if (process_status == 1)
 	{
@@ -110,11 +96,7 @@ static int	handle_command_input_cycle(t_context *ctx)
 
 	tokens = NULL;
 	if (isatty(STDIN_FILENO))
-	{
-		// Revert the specific g_signal check and rl_* calls here.
-		// Responsibility is moved to read_heredoc_input.
-		g_signal = 0; // Reset for the upcoming readline call
-	}
+		g_signal = 0;
 	cmd_line = read_cmd(ctx);
 	input_result = handle_input_cases(cmd_line, ctx);
 	if (input_result != 0)

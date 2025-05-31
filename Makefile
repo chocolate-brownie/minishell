@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/05/30 16:22:14 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/05/31 18:38:22 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,10 +75,13 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/env/init_env.c \
        $(SRC_DIR)/execution/env/update_env_var.c \
        $(SRC_DIR)/execution/exec/exec.c \
+       $(SRC_DIR)/execution/exec/exec_pipe.c \
        $(SRC_DIR)/execution/exec/exec_utils.c \
        $(SRC_DIR)/execution/exec/args_to_array.c \
        $(SRC_DIR)/execution/exec/fork_and_execute.c \
+       $(SRC_DIR)/execution/exec/fork_and_execute_utils.c \
        $(SRC_DIR)/execution/redir/handle_redir.c \
+       $(SRC_DIR)/execution/redir/redir_utils.c \
        $(SRC_DIR)/execution/utils/get_command.c \
        $(SRC_DIR)/execution/utils/free_all.c \
        $(SRC_DIR)/execution/utils/signals.c \

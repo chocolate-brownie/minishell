@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/30 18:28:47 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/31 20:08:20 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,17 @@ void							remove_and_unlink_active_heredoc(t_context *ctx,
 									const char *filepath);
 void							cleanup_all_active_heredocs(t_context *ctx);
 int								handle_eof_case(t_heredoc_data *hdata);
+int								handle_heredoc_interrupt(char *line_read,
+									struct sigaction *sa_old_int,
+									t_context *ctx);
+void							restore_old_signals(
+									struct sigaction *sa_old_int);
+void							setup_heredoc_signals(
+									struct sigaction *sa_heredoc_int,
+									struct sigaction *sa_old_int);
+int								handle_sigint_case_for_heredoc(char *line_read,
+									t_context *ctx);
+void							heredoc_sigint_handler(int sig);
 
 /** ENVP functions */
 void							free_env_list(t_env *env_list_head);
@@ -200,6 +211,18 @@ int								update_env_var(t_env *env, char *id,
 char							*get_env_value(t_env *env, char *id);
 
 /*exec utils*/
+int								redir_input(t_redirs *redir);
+int								redir_output(t_redirs *redir);
+int								redir_append(t_redirs *redir);
+void							execute_command(t_resources *res,
+									t_context *ctx);
+void							handle_command_not_found(t_exec *cmd,
+									t_resources *res, t_context *ctx);
+int								execute_single_builtin(t_exec *cmd,
+									t_context *ctx);
+pid_t							cmd_loop(t_exec *cmd, t_context *ctx,
+									int *prev_read_end, int pipefd[2]);
+int								wait_for_childrens(pid_t last_pid);
 int								handle_redir(t_exec *cmd, t_context *ctx);
 int								restore_stdio(t_context *ctx);
 char							**args_to_array(t_exec *cmd,

@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/29 13:28:20 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/31 14:49:01 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,9 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 	if (!cmd || !token_list || !ctx)
 		return (-1);
 	*token_list = lexer(cmd, ctx);
-	if (g_signal == SIGINT)
-		return (cleanup_after_sigint(cmd, token_list));
 	if (*token_list == NULL)
 		return (free(cmd), 0);
 	exec_list = parser(*token_list, ctx);
-	if (g_signal == SIGINT)
-		return (cleanup_after_sigint(cmd, token_list));
 	if (!exec_list)
 		return (cleanup_failed_exec(cmd, token_list));
 	ctx->command_list = exec_list;
@@ -65,13 +61,7 @@ static int	manage_command_processing_outcome(int process_status,
 
 static int	handle_input_cases(char *cmd_line, t_context *ctx)
 {
-	if (g_signal == SIGINT)
-	{
-		if (cmd_line)
-			free(cmd_line);
-		ctx->last_exit_code = ERR_SIGINT;
-		return (CYCLE_CONTINUE);
-	}
+	(void)ctx;
 	if (cmd_line == NULL)
 		return (CYCLE_BREAK_SHELL);
 	if (cmd_line[0] == '\0')

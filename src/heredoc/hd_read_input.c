@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 00:39:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 01:56:22 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:44:50 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,30 +96,80 @@ static int	process_single_heredoc_line(char *line_read,
 	return (free(line_read), 1);
 }
 
-static int	handle_sigint_case(char *line_read, t_context *ctx)
+// NEW minimal signal handler for use only during heredoc's manual read
+static void heredoc_sigint_handler(int sig)
 {
-	if (line_read)
-		return (set_exit_code(ctx, ERR_SIGINT, ERMSG_SIGINT),
-			free(line_read), write(STDOUT_FILENO, "\n", 1), -1);
-	return (write(STDOUT_FILENO, "\n", 1), -1);
+	(void)sig;
+	g_signal = SIGINT; // ONLY set the flag
+}
+
+// Modified version of handle_sigint_case for the new heredoc-specific handler
+static int	handle_sigint_case_for_heredoc(char *line_read, t_context *ctx)
+{
+	if (line_read) // If a line was partially read before signal
+		free(line_read);
+	set_exit_code(ctx, ERR_SIGINT, ERMSG_SIGINT); // Set appropriate exit code
+	return (-1); // Indicate error/interruption
 }
 
 int	read_heredoc_input(t_heredoc_data *hdata, t_context *ctx)
 {
-	char	*line_read;
-	int		process_rc;
+	char				*line_read;
+	int					process_rc;
+	struct sigaction	sa_heredoc_int;
+	struct sigaction	sa_old_int;
+	// struct sigaction	sa_ignore_quit; // Optional: if you want to explicitly ignore SIGQUIT
+	// struct sigaction	sa_old_quit;    // Optional: and restore it
 
-	g_signal = 0;
+	// 1. Setup minimal SIGINT handler for heredoc duration
+	sigemptyset(&sa_heredoc_int.sa_mask);
+	sa_heredoc_int.sa_handler = heredoc_sigint_handler;
+	sa_heredoc_int.sa_flags = 0; 
+	sigaction(SIGINT, &sa_heredoc_int, &sa_old_int);
+
+	// Optional: Ignore SIGQUIT during heredoc input
+	// sigemptyset(&sa_ignore_quit.sa_mask);
+	// sa_ignore_quit.sa_handler = SIG_IGN;
+	// sa_ignore_quit.sa_flags = 0;
+	// sigaction(SIGQUIT, &sa_ignore_quit, &sa_old_quit);
+
+	g_signal = 0; // Reset our flag specifically for this heredoc reading session
 	while (1)
 	{
-		line_read = read_line_manual(ctx);
-		if (g_signal == SIGINT)
-			return (handle_sigint_case(line_read, ctx));
-		if (!line_read)
-			return (handle_eof_case(hdata));
+		line_read = read_line_manual(ctx); // This prints "heredoc> "
+
+		if (g_signal == SIGINT) // Check flag set by heredoc_sigint_handler
+		{
+			sigaction(SIGINT, &sa_old_int, NULL); // Restore original SIGINT handler
+			// if (sa_old_quit.sa_handler != NULL) // Restore SIGQUIT if changed
+			// 	sigaction(SIGQUIT, &sa_old_quit, NULL);
+
+			// Manually perform actions to prepare readline state, but don't redisplay here.
+			write(STDOUT_FILENO, "\n", 1);
+			rl_replace_line("", 0); 
+			rl_on_new_line(); 
+			
+			return (handle_sigint_case_for_heredoc(line_read, ctx));
+		}
+		if (!line_read) // EOF case (Ctrl+D on empty line)
+		{
+			sigaction(SIGINT, &sa_old_int, NULL);
+			// if (sa_old_quit.sa_handler != NULL)
+			// 	sigaction(SIGQUIT, &sa_old_quit, NULL);
+			return (handle_eof_case(hdata)); // Make sure handle_eof_case is defined
+		}
 		process_rc = process_single_heredoc_line(line_read, hdata, ctx);
-		if (process_rc <= 0)
+		if (process_rc <= 0) // Delimiter found or write error
+		{
+			sigaction(SIGINT, &sa_old_int, NULL);
+			// if (sa_old_quit.sa_handler != NULL)
+			// 	sigaction(SIGQUIT, &sa_old_quit, NULL);
 			return (process_rc);
+		}
 	}
-	return (0);
+	// Safeguard, though loop should always exit via return
+	sigaction(SIGINT, &sa_old_int, NULL);
+	// if (sa_old_quit.sa_handler != NULL)
+	// 	sigaction(SIGQUIT, &sa_old_quit, NULL);
+	return (0); 
 }

@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/30 18:26:38 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:35:38 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 
     // If print_exec_list is available and DEBUG is defined, this is useful
     // Ensure print_exec_list is defined in a header included by run_minishell.c
-    #ifdef DEBUG 
     if (DEBUG && exec_list) {
          printf("--- AST Structure (in process_command) ---\n");
          print_exec_list(exec_list); // Make sure this function is declared/available
          printf("--- End AST Structure (in process_command) ---\n");
     }
-    #endif
 
 	if (!execute_pipeline(ctx))
 	{
@@ -112,7 +110,11 @@ static int	handle_command_input_cycle(t_context *ctx)
 
 	tokens = NULL;
 	if (isatty(STDIN_FILENO))
-		g_signal = 0;
+	{
+		// Revert the specific g_signal check and rl_* calls here.
+		// Responsibility is moved to read_heredoc_input.
+		g_signal = 0; // Reset for the upcoming readline call
+	}
 	cmd_line = read_cmd(ctx);
 	input_result = handle_input_cases(cmd_line, ctx);
 	if (input_result != 0)

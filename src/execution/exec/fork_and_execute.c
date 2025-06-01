@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_and_execute.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:13:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/01 18:52:45 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:02:41 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,32 @@ static int	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
 	return (1);
 }
 
-static void	free_and_exit(t_resources *res, int type, t_context *ctx)
+static int	prepare_exec_resources(t_exec *cmd, t_context *ctx,
+		t_resources *res)
 {
-	if (type == 1)
-		exit(1);
-	if (type == 2)
+	res->args = args_to_array(cmd, 1);
+	if (!res->args)
+		return (0);
+	res->envp = env_to_envp(ctx->envp);
+	if (!res->envp)
 	{
-		free_child(res, ctx);
-		exit(1);
+		free_tab(res->args);
+		res->args = NULL;
+		return (0);
 	}
-	if (type == 3)
+	if (ft_strchr(cmd->cmd, '/'))
+		res->path = ft_strdup(cmd->cmd);
+	else
+		res->path = get_cmd_path(res->envp, cmd->cmd);
+	if (!res->path)
 	{
-		ft_putstr_fd(res->args[0], 2);
-		ft_putstr_fd(" : command not found\n", 2);
-		free_child(res, ctx);
-		exit(127);
+		free_tab(res->args);
+		res->args = NULL;
+		free_tab(res->envp);
+		res->envp = NULL;
+		return (0);
 	}
-	if (type == 4)
-	{
-		perror("execve");
-		free_child(res, ctx);
-		exit(126);
-	}
+	return (1);
 }
 
 static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
@@ -74,27 +78,28 @@ static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 {
 	t_resources	res;
 
-	setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx);
+	res.args = NULL;
+	res.envp = NULL;
+	res.path = NULL;
+	if (!setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx))
+	{
+		free_all(ctx);
+		exit(1);
+	}
 	if (is_builtin(cmd))
 	{
 		ctx->last_exit_code = execute_builtin(cmd, ctx, ctx->envp);
 		free_env(ctx->envp);
 		exit(ctx->last_exit_code);
 	}
-	res.args = args_to_array(cmd, 1);
-	if (!res.args)
-		free_and_exit(&res, 1, ctx);
-	res.envp = env_to_envp(ctx->envp);
-	if (!res.envp)
-		free_and_exit(&res, 2, ctx);
-	if (ft_strchr(cmd->cmd, '/'))
-		res.path = ft_strdup(cmd->cmd);
-	else
-		res.path = get_cmd_path(res.envp, cmd->cmd);
-	if (!res.path || access(res.path, X_OK) != 0)
-		free_and_exit(&res, 3, ctx);
-	execve(res.path, res.args, res.envp);
-	free_and_exit(&res, 4, ctx);
+	if (!prepare_exec_resources(cmd, ctx, &res))
+	{
+		free_all(ctx);
+		exit(1);
+	}
+	if (access(res.path, X_OK) != 0)
+		handle_command_not_found(cmd, &res, ctx);
+	execute_command(&res, ctx);
 }
 
 pid_t	fork_and_execute(t_context *ctx, t_exec *cmd, int pipefd[2],

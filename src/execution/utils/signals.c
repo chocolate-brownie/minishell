@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:55:37 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/23 10:32:01 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:46:51 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../includes/minishell.h"
 
 /*
 -we handle three (3) signals
@@ -18,12 +18,12 @@
 -the ctrl+\ : SIGQUIT, do nothing
 -the ctrl+D : EOF, exit*/
 
-volatile sig_atomic_t	g_signal_received = 0;
+volatile sig_atomic_t	g_signal = 0;
 
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	g_signal_received = 1;
+	g_signal = 1;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();

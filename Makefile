@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
+#    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/05/27 09:34:13 by shasinan         ###   ########.fr        #
+#    Updated: 2025/05/30 16:22:14 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,11 +62,10 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/utils/read.c \
        $(SRC_DIR)/utils/run_minishell.c \
        $(SRC_DIR)/utils/cleanup.c \
-       $(SRC_DIR)/utils/signals.c \
        $(SRC_DIR)/utils/env_utils.c \
        $(SRC_DIR)/debug/print_exec.c \
        $(SRC_DIR)/debug/print_tokens.c \
-	          $(SRC_DIR)/execution/builtins/echo.c \
+       $(SRC_DIR)/execution/builtins/echo.c \
        $(SRC_DIR)/execution/builtins/cd.c \
        $(SRC_DIR)/execution/builtins/pwd.c \
        $(SRC_DIR)/execution/builtins/env.c \
@@ -75,7 +74,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/builtins/exit.c \
        $(SRC_DIR)/execution/env/init_env.c \
        $(SRC_DIR)/execution/env/update_env_var.c \
-		$(SRC_DIR)/execution/exec/exec.c \
+       $(SRC_DIR)/execution/exec/exec.c \
        $(SRC_DIR)/execution/exec/exec_utils.c \
        $(SRC_DIR)/execution/exec/args_to_array.c \
        $(SRC_DIR)/execution/exec/fork_and_execute.c \

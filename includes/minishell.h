@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/28 19:29:11 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:28:47 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "error.h"
 # include "exec.h"
 # include "heredoc.h"
-# include "signal.h"
+# include <signal.h>
 # include <curses.h>
 # include <dirent.h>
 # include <fcntl.h>
@@ -35,7 +35,7 @@
 # include <unistd.h>
 
 # define PROMPT "minishell → "
-# define DEBUG 1
+# define DEBUG 0
 
 typedef enum e_token_type
 {
@@ -82,6 +82,10 @@ typedef struct s_context
 
 	t_token						*token_list;
 }								t_context;
+
+extern volatile sig_atomic_t	g_signal;
+
+/*-------------------parser functions--------------------------*/
 
 /** Main lexical analysis function */
 t_token							*lexer(const char *cmd, t_context *ctx);
@@ -157,7 +161,8 @@ void							cleanup_resources(char *cmd,
 									t_token *token_list, t_context *ctx);
 int								setup_signal_handlers(t_context *ctx);
 
-/** Heredoc functions */
+/*-------------------heredoc functions--------------------------*/
+
 char							*handle_heredoc(t_token **curr_token_ptr,
 									t_context *ctx);
 int								read_heredoc_input(t_heredoc_data *hdata,
@@ -229,7 +234,5 @@ void							print_signal_msg(int status,
 									int *message_printed);
 void							setup_signal_parent(void);
 void							setup_signal_child(void);
-
-extern volatile sig_atomic_t	g_signal;
 
 #endif

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:55 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/29 12:02:47 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:26:43 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../includes/minishell.h"
 
 static int	redir_input(t_redirs *redir)
 {
@@ -75,22 +75,47 @@ int	handle_redir(t_exec *cmd, t_context *ctx)
 
 	redir = cmd->redirs;
 	if (!redir)
+	{
 		return (1);
+	}
+
 	ctx->stdin_backup = dup(STDIN_FILENO);
 	ctx->stdout_backup = dup(STDOUT_FILENO);
+
 	if (ctx->stdin_backup == -1 || ctx->stdout_backup == -1)
+	{
+		perror("minishell: dup (for stdio backup)");
+		if(ctx->stdin_backup != -1) close(ctx->stdin_backup);
+		if(ctx->stdout_backup != -1) close(ctx->stdout_backup);
 		return (0);
+	}
+
 	while (redir)
 	{
-		if (redir->type == REDIR_INPUT)
+		if (redir->type == REDIR_INPUT || redir->type == REDIR_HEREDOC)
 		{
 			if (!redir_input(redir))
+			{
+				restore_stdio(ctx);
 				return (0);
+			}
 		}
-		else if (redir->type == REDIR_OUTPUT && !redir_output(redir))
-			return (0);
-		else if (redir->type == REDIR_APPEND && !redir_append(redir))
-			return (0);
+		else if (redir->type == REDIR_OUTPUT)
+		{
+			if (!redir_output(redir))
+			{
+				restore_stdio(ctx);
+				return (0);
+			}
+		}
+		else if (redir->type == REDIR_APPEND)
+		{
+			if (!redir_append(redir))
+			{
+				restore_stdio(ctx);
+				return (0);
+			}
+		}
 		redir = redir->next;
 	}
 	return (1);
@@ -98,22 +123,26 @@ int	handle_redir(t_exec *cmd, t_context *ctx)
 
 int	restore_stdio(t_context *ctx)
 {
-	if (ctx->stdin_backup != -1 && dup2(ctx->stdin_backup, STDIN_FILENO) == -1)
-	{
-		perror("dup stdin_backup");
-		return (0);
-	}
-	if (ctx->stdout_backup != -1 && dup2(ctx->stdout_backup,
-			STDOUT_FILENO) == -1)
-	{
-		perror("dup stdout_backup");
-		return (0);
-	}
 	if (ctx->stdin_backup != -1)
+	{
+		if (dup2(ctx->stdin_backup, STDIN_FILENO) == -1)
+		{
+			perror("minishell: dup2 (restore STDIN_FILENO)");
+			return (0);
+		}
 		close(ctx->stdin_backup);
+		ctx->stdin_backup = -1;
+	}
+
 	if (ctx->stdout_backup != -1)
+	{
+		if (dup2(ctx->stdout_backup, STDOUT_FILENO) == -1)
+		{
+			perror("minishell: dup2 (restore STDOUT_FILENO)");
+			return (0);
+		}
 		close(ctx->stdout_backup);
-	ctx->stdin_backup = -1;
-	ctx->stdout_backup = -1;
+		ctx->stdout_backup = -1;
+	}
 	return (1);
 }

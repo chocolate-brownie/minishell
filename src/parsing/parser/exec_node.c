@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:55:15 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/24 11:55:12 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:35:47 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,22 @@ static int	handle_redirection(t_exec *node, t_token **token_ptr,
 		t_context *ctx)
 {
 	t_redir_type	redir_type;
-	t_redir_type	invalid_redir;
 
-	invalid_redir = (t_redir_type)-1;
-	redir_type = get_redir_type((*token_ptr)->type);
-	if (redir_type != invalid_redir)
-	{
-		if (process_redir_token(node, token_ptr, ctx) != 0)
-			return (-1);
-	}
-	else
+	if (!token_ptr || !*token_ptr)
 		return (-1);
+	redir_type = get_redir_type((*token_ptr)->type);
+	if (redir_type == (t_redir_type)-1)
+	{
+		set_exit_code(ctx, ERR_SYNTAX, "minishell: invalid redirection\n");
+		*token_ptr = (*token_ptr)->next;
+		return (-1);
+	}
+	if (process_redir_token(node, token_ptr, ctx) != 0)
+	{
+		if (*token_ptr)
+			*token_ptr = (*token_ptr)->next;
+		return (-1);
+	}
 	return (0);
 }
 

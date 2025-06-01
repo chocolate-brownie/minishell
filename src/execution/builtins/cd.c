@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:37:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/16 15:29:31 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/01 10:48:17 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ static char	*get_path(t_exec *cmd, t_env *env)
 {
 	char	*final_path;
 
-	if (!cmd->args || !cmd->args->value || cmd->args->value[0] == '\0')
+	if (cmd->args->next)
+		return (ft_putstr_fd("cd : too many arguments\n", 2), NULL);
+	if (!cmd->args || !cmd->args->value || cmd->args->value[0] == '\0'
+		|| !ft_strcmp(cmd->args->value, "~") || !ft_strcmp(cmd->args->value,
+			"--"))
 	{
 		final_path = get_env_value(env, "HOME");
 		if (!final_path)
@@ -35,15 +39,13 @@ static char	*get_path(t_exec *cmd, t_env *env)
 			return (NULL);
 		}
 	}
-	else
+	else if (!ft_strcmp(cmd->args->value, "-"))
 	{
-		if (cmd->args->next)
-		{
-			ft_putstr_fd("cd : too many arguments\n", 2);
-			return (NULL);
-		}
-		final_path = ft_strdup(cmd->args->value);
+		final_path = get_env_value(env, "OLDPWD");
+		printf("%s\n", final_path);
 	}
+	else
+		final_path = ft_strdup(cmd->args->value);
 	return (final_path);
 }
 

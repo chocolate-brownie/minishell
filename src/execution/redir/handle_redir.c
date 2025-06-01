@@ -12,108 +12,92 @@
 
 #include "../../../includes/minishell.h"
 
-static int	redir_input(t_redirs *redir)
+static int	backup_stdio(t_context *ctx)
 {
-	int	fd;
-
-	fd = open(redir->path, O_RDONLY);
-	if (fd == -1)
+	ctx->stdin_backup = dup(STDIN_FILENO);
+	ctx->stdout_backup = dup(STDOUT_FILENO);
+	if (ctx->stdin_backup == -1 || ctx->stdout_backup == -1)
 	{
-		perror(redir->path);
+		perror("minishell: dup (for stdio backup)");
+		if (ctx->stdin_backup != -1)
+			close(ctx->stdin_backup);
+		if (ctx->stdout_backup != -1)
+			close(ctx->stdout_backup);
+		ctx->stdin_backup = -1;
+		ctx->stdout_backup = -1;
 		return (0);
 	}
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		perror("dup (input)");
-		return (0);
-	}
-	close(fd);
 	return (1);
 }
 
-static int	redir_output(t_redirs *redir)
+static int	apply_redirection(t_redirs *redir, t_context *ctx)
 {
-	int	fd;
-
-	fd = open(redir->path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	if (redir->type == REDIR_INPUT || redir->type == REDIR_HEREDOC)
 	{
-		perror(redir->path);
-		return (0);
+		if (!redir_input(redir))
+		{
+			restore_stdio(ctx);
+			return (0);
+		}
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	else if (redir->type == REDIR_OUTPUT)
 	{
-		perror("dup (output)");
-		return (0);
+		if (!redir_output(redir))
+		{
+			restore_stdio(ctx);
+			return (0);
+		}
 	}
-	close(fd);
-	return (1);
-}
-
-static int	redir_append(t_redirs *redir)
-{
-	int	fd;
-
-	fd = open(redir->path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
+	else if (redir->type == REDIR_APPEND)
 	{
-		perror(redir->path);
-		return (0);
+		if (!redir_append(redir))
+		{
+			restore_stdio(ctx);
+			return (0);
+		}
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("dup (append)");
-		return (0);
-	}
-	close(fd);
 	return (1);
 }
 
 int	handle_redir(t_exec *cmd, t_context *ctx)
 {
-	t_redirs	*redir;
+	t_redirs	*current_redir;
 
-	redir = cmd->redirs;
-	if (!redir)
+	current_redir = cmd->redirs;
+	if (!current_redir)
 		return (1);
-	ctx->stdin_backup = dup(STDIN_FILENO);
-	ctx->stdout_backup = dup(STDOUT_FILENO);
-	if (ctx->stdin_backup == -1 || ctx->stdout_backup == -1)
+	if (!backup_stdio(ctx))
 		return (0);
-	while (redir)
+	while (current_redir)
 	{
-		if (redir->type == REDIR_INPUT)
-		{
-			if (!redir_input(redir))
-				return (0);
-		}
-		else if (redir->type == REDIR_OUTPUT && !redir_output(redir))
+		if (!apply_redirection(current_redir, ctx))
 			return (0);
-		else if (redir->type == REDIR_APPEND && !redir_append(redir))
-			return (0);
-		redir = redir->next;
+		current_redir = current_redir->next;
 	}
 	return (1);
 }
 
 int	restore_stdio(t_context *ctx)
 {
-	if (ctx->stdin_backup != -1 && dup2(ctx->stdin_backup, STDIN_FILENO) == -1)
-	{
-		perror("dup stdin_backup");
-		return (0);
-	}
-	if (ctx->stdout_backup != -1 && dup2(ctx->stdout_backup,
-			STDOUT_FILENO) == -1)
-	{
-		perror("dup stdout_backup");
-		return (0);
-	}
 	if (ctx->stdin_backup != -1)
+	{
+		if (dup2(ctx->stdin_backup, STDIN_FILENO) == -1)
+		{
+			perror("minishell: dup2 (restore STDIN_FILENO)");
+			return (0);
+		}
 		close(ctx->stdin_backup);
+		ctx->stdin_backup = -1;
+	}
 	if (ctx->stdout_backup != -1)
+	{
+		if (dup2(ctx->stdout_backup, STDOUT_FILENO) == -1)
+		{
+			perror("minishell: dup2 (restore STDOUT_FILENO)");
+			return (0);
+		}
 		close(ctx->stdout_backup);
-	ctx->stdin_backup = -1;
-	ctx->stdout_backup = -1;
+		ctx->stdout_backup = -1;
+	}
 	return (1);
 }

@@ -6,113 +6,58 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:18:46 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/24 16:41:42 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/01 21:00:53 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	find_closing_quote(const char *cmd, int start_pos)
+/*
+** Finalizes the extraction of an unquoted value.
+*/
+static char	*finalize_unquoted_extraction(char *accumulated_value,
+											int start_idx,
+											int current_idx)
 {
-	char	quote_char;
-	int		i;
-
-	if (!cmd || start_pos < 0)
-		return (QUOTE_ERROR);
-	quote_char = cmd[start_pos];
-	if (quote_char != '\'' && quote_char != '\"')
-		return (QUOTE_ERROR);
-	i = start_pos + 1;
-	while (cmd[i] != '\0')
+	if (ft_strlen(accumulated_value) == 0 && current_idx == start_idx)
 	{
-		if (cmd[i] == quote_char)
-			return (i + 1);
-		i++;
+		free(accumulated_value);
+		return (NULL);
 	}
-	return (QUOTE_UNCLOSED);
+	return (accumulated_value);
 }
 
-static char	*get_quoted_val(const char *command, int *position, t_context *ctx)
+/*
+** Extracts an unquoted segment from `command` starting at `*position`.
+** An unquoted segment continues until a delimiter or a quote is encountered.
+** Handles expansion of `$?`.
+** Updates `*position` to point after the consumed unquoted segment.
+** Returns the extracted (and possibly expanded) string, or NULL if no unquoted
+** segment is found or an error occurs.
+*/
+char	*get_unquoted_val(const char *command, int *position, t_context *ctx)
 {
-	int		start;
-	int		end;
-	int		length;
-	char	*value;
-
-	if (!command || !position || !ctx)
-		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), NULL);
-	start = *position;
-	end = find_closing_quote(command, start);
-	if (end == QUOTE_UNCLOSED)
-		return (set_exit_code(ctx, ERR_SYNTAX,
-				"minishell: syntax error: unclosed quote\n"), NULL);
-	if (end == QUOTE_ERROR)
-		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), NULL);
-	length = (end - start) - 2;
-	if (length < 0)
-		length = 0;
-	value = ft_substr(command, start + 1, length);
-	if (!value)
-		return (set_exit_code(ctx, ERR_MALLOC,
-				"minishell: memory allocation failed\n"), NULL);
-	*position = end;
-	return (value);
-}
-
-static char	*get_unquoted_val(const char *command, int *position,
-		t_context *ctx)
-{
-	int		start;
+	int		start_idx;
+	char	*accumulated_value;
 	int		i;
-	int		length;
-	char	*value;
+	int		process_status;
 
 	if (!command || !position || !ctx)
 		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), NULL);
-	start = *position;
-	i = start;
-	while (command[i] && !is_delimiter(command[i]) && !is_quote(command[i]))
-		i++;
-	length = i - start;
-	if (length <= 0)
-		return (NULL);
-	value = ft_substr(command, start, length);
-	if (!value)
-		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
-	*position = i;
-	return (value);
-}
-
-char	*handle_quotes(const char *cmd, int *index, t_context *ctx)
-{
-	int		curr_pos;
-	char	*value;
-
-	if (!cmd || !index || !ctx)
-		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), NULL);
-	curr_pos = *index;
-	if (is_quote(cmd[curr_pos]))
-		value = get_quoted_val(cmd, &curr_pos, ctx);
-	else
-		value = get_unquoted_val(cmd, &curr_pos, ctx);
-	if (!value)
-		return (NULL);
-	*index = curr_pos;
-	return (value);
-}
-
-char	*append_extracted(char *accumulated_value, char *value, t_context *ctx)
-{
-	char	*temp;
-
-	if (!value)
-		return (accumulated_value);
+	start_idx = *position;
+	i = start_idx;
+	accumulated_value = ft_strdup("");
 	if (!accumulated_value)
-		return (value);
-	temp = ft_strjoin(accumulated_value, value);
-	free(accumulated_value);
-	free(value);
-	if (!temp)
-		return (set_exit_code(ctx, ERR_MALLOC, NULL), NULL);
-	return (temp);
+		return (set_exit_code(ctx, ERR_MALLOC, ERMSG_STRDUP_UQVAL), NULL);
+	while (command[i] && !is_delimiter(command[i]) && !is_quote(command[i]))
+	{
+		process_status = process_char_in_unquoted_val(command, &i,
+				&accumulated_value, ctx);
+		if (process_status == -1)
+			return (free(accumulated_value), NULL);
+		else if (process_status == 0)
+			continue ;
+	}
+	*position = i;
+	return (finalize_unquoted_extraction(accumulated_value, start_idx, i));
 }

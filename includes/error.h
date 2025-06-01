@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 21:45:58 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/01 12:18:22 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/01 20:55:40 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@
 # define ERMSG_HEREDOC_FOPEN "minishell: heredoc file open failed"
 
 # define ERMSG_MALLOC_FAILED "minishell: memory allocation failed"
+
+# define ERMSG_STRDUP_UQVAL "minishell: strdup in get_unquoted_val"
 
 #endif

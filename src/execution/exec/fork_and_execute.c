@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:13:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/01 17:02:41 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/01 19:14:22 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,42 +45,9 @@ static int	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
 	return (1);
 }
 
-static int	prepare_exec_resources(t_exec *cmd, t_context *ctx,
-		t_resources *res)
-{
-	res->args = args_to_array(cmd, 1);
-	if (!res->args)
-		return (0);
-	res->envp = env_to_envp(ctx->envp);
-	if (!res->envp)
-	{
-		free_tab(res->args);
-		res->args = NULL;
-		return (0);
-	}
-	if (ft_strchr(cmd->cmd, '/'))
-		res->path = ft_strdup(cmd->cmd);
-	else
-		res->path = get_cmd_path(res->envp, cmd->cmd);
-	if (!res->path)
-	{
-		free_tab(res->args);
-		res->args = NULL;
-		free_tab(res->envp);
-		res->envp = NULL;
-		return (0);
-	}
-	return (1);
-}
-
 static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 		int prev_pipe_end)
 {
-	t_resources	res;
-
-	res.args = NULL;
-	res.envp = NULL;
-	res.path = NULL;
 	if (!setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx))
 	{
 		free_all(ctx);
@@ -92,14 +59,7 @@ static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 		free_env(ctx->envp);
 		exit(ctx->last_exit_code);
 	}
-	if (!prepare_exec_resources(cmd, ctx, &res))
-	{
-		free_all(ctx);
-		exit(1);
-	}
-	if (access(res.path, X_OK) != 0)
-		handle_command_not_found(cmd, &res, ctx);
-	execute_command(&res, ctx);
+	child_execute_external_command(ctx, cmd);
 }
 
 pid_t	fork_and_execute(t_context *ctx, t_exec *cmd, int pipefd[2],

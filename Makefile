@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+         #
+#    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/06/01 18:14:26 by shasinan         ###   ########.fr        #
+#    Updated: 2025/06/01 20:01:49 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,14 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/parsing/lexer/get_next_tkn.c \
+       $(SRC_DIR)/parsing/lexer/expansion.c \
        $(SRC_DIR)/parsing/lexer/lexer.c \
        $(SRC_DIR)/parsing/lexer/tkn_utils.c \
        $(SRC_DIR)/parsing/lexer/handle_quotes.c \
+       $(SRC_DIR)/parsing/lexer/quote_utils.c \
+       $(SRC_DIR)/parsing/lexer/quoted_val_utils.c \
        $(SRC_DIR)/parsing/lexer/handle_word.c \
+       $(SRC_DIR)/parsing/lexer/lexer_string_utils.c \
        $(SRC_DIR)/parsing/parser/exec_err.c \
        $(SRC_DIR)/parsing/parser/exec_node.c \
        $(SRC_DIR)/parsing/parser/exec_utils.c \
@@ -81,6 +85,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/exec/args_to_array.c \
        $(SRC_DIR)/execution/exec/fork_and_execute.c \
        $(SRC_DIR)/execution/exec/fork_and_execute_utils.c \
+       $(SRC_DIR)/execution/exec/child_process_utils.c \
        $(SRC_DIR)/execution/redir/handle_redir.c \
        $(SRC_DIR)/execution/redir/redir_utils.c \
        $(SRC_DIR)/execution/utils/get_command.c \

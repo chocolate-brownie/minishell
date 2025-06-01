@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:27 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/01 16:18:44 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:02:41 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../includes/minishell.h"
 
 static void	close_unused_fd(t_exec *cmd, int pipefd[2], int *prev_read_end)
 {

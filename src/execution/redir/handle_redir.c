@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:55 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/29 12:02:47 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:02:23 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../includes/minishell.h"
 
 static int	redir_input(t_redirs *redir)
 {

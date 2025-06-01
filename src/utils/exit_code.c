@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:35:59 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 01:15:00 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/01 14:12:37 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static char	*build_formatted_error_message(const char *cmd,
-											const char *details_suffix)
+		const char *details_suffix)
 {
 	char	*base_message;
 	char	*final_message;
@@ -88,10 +88,13 @@ void	set_exit_code(t_context *ctx, int exit_code, char *cmd)
 	if (!ctx)
 		return ;
 	ctx->last_exit_code = exit_code;
+	if (ctx->has_syntax_error)
+		return ;
 	error_message = get_error_message(exit_code, cmd);
 	if (error_message)
 	{
 		write(2, error_message, ft_strlen(error_message));
 		free(error_message);
 	}
+	ctx->has_syntax_error = 1;
 }

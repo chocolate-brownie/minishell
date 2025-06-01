@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_minishell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/31 17:43:51 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/01 16:21:04 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 
 	if (!cmd || !token_list || !ctx)
 		return (-1);
+	ctx->has_syntax_error = 0;
 	*token_list = lexer(cmd, ctx);
-	if (g_signal == SIGINT)
-		return (cleanup_after_sigint(cmd, token_list));
 	if (*token_list == NULL)
 		return (free(cmd), 0);
 	exec_list = parser(*token_list, ctx);

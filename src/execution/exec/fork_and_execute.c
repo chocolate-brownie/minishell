@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_and_execute.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:13:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/01 19:14:22 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:21:58 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	setup_pipe_and_redir(t_exec *cmd, int pipefd[2], int prev_pipe_end,
 static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 		int prev_pipe_end)
 {
+	int	exit_code;
+
 	if (!setup_pipe_and_redir(cmd, pipefd, prev_pipe_end, ctx))
 	{
 		free_all(ctx);
@@ -55,9 +57,9 @@ static void	child_process(t_context *ctx, t_exec *cmd, int pipefd[2],
 	}
 	if (is_builtin(cmd))
 	{
-		ctx->last_exit_code = execute_builtin(cmd, ctx, ctx->envp);
-		free_env(ctx->envp);
-		exit(ctx->last_exit_code);
+		exit_code = execute_builtin(cmd, ctx, ctx->envp);
+		free_all(ctx);
+		exit(exit_code);
 	}
 	child_execute_external_command(ctx, cmd);
 }

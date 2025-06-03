@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 10:21:23 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/15 11:56:21 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:44:19 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**args_to_array(t_exec *cmd, int include_cmd_name)
 		arr[i] = ft_strdup(cmd->cmd);
 		if (!arr[i])
 		{
-			free(arr);
+			free_if_fail(arr, i);
 			return (NULL);
 		}
 		i++;

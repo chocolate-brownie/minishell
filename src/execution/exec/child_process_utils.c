@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:00:00 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/01 19:15:05 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:43:09 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ void	child_execute_external_command(t_context *ctx, t_exec *cmd)
 		exit(1);
 	}
 	if (access(res.path, X_OK) != 0)
-		handle_command_not_found(cmd, &res, ctx);
+		handle_command_error(cmd, &res, ctx);
 	execute_command(&res, ctx);
 }

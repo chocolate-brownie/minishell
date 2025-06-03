@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/01 22:20:51 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:06:01 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ int								ft_pwd(void);
 int								ft_env(t_env *env);
 int								ft_export(t_env *env, t_exec *cmd);
 int								ft_unset(t_env **env, t_exec *cmd);
-void							ft_exit(t_exec *cmd, t_context *ctx);
+int								ft_exit(t_exec *cmd, t_context *ctx);
 
 /*
 ** ------------------- Execution Utils --------------------------
@@ -290,7 +290,7 @@ int								redir_output(t_redirs *redir);
 int								redir_append(t_redirs *redir);
 void							execute_command(t_resources *res,
 									t_context *ctx);
-void							handle_command_not_found(t_exec *cmd,
+void							handle_command_error(t_exec *cmd,
 									t_resources *res, t_context *ctx);
 int								execute_single_builtin(t_exec *cmd,
 									t_context *ctx);

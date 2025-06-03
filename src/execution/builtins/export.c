@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:05:54 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/26 16:05:50 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:05:01 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ static int	handle_export_arg(t_env *env, char *arg)
 		return (0);
 	if (!valid_id(arg) || id[0] == '\0')
 	{
-		printf("export: `%s': not a valid identifier\n", arg);
+		ft_putstr_fd("export: ", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(" not a valid identifier\n", 2);
 		return (free(id), 0);
 	}
 	if (!ft_strchr(arg, '='))
-		return (free(id), 0);
+		return (free(id), 1);
 	value = ft_strdup(arg + j + 1);
 	if (!value)
 		return (free(id), 0);
 	if (!update_env_var(env, id, value))
 		return (free(id), free(value), 0);
-	free(id);
-	free(value);
-	return (1);
+	return (free(id), free(value), 1);
 }
 
 int	ft_export(t_env *env, t_exec *cmd)

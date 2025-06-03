@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:13:36 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/28 19:26:36 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:55:27 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	set_error_message_and_exit_code(t_context *ctx, char **args,
 	}
 }
 
-void	ft_exit(t_exec *cmd, t_context *ctx)
+int	ft_exit(t_exec *cmd, t_context *ctx)
 {
 	char	**args;
 	int		exit_code;
@@ -115,14 +115,14 @@ void	ft_exit(t_exec *cmd, t_context *ctx)
 	}
 	args = args_to_array(cmd, 0);
 	if (!args)
-		return ;
+		return (1);
 	exit_code = ft_atol_with_error(args[0], &error);
 	if (!error)
 		set_error_message_and_exit_code(ctx, args, 1);
 	if (args[1])
 	{
 		set_error_message_and_exit_code(ctx, args, 2);
-		return ;
+		return (1);
 	}
 	free_tab(args);
 	free_all(ctx);

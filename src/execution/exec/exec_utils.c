@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 10:16:59 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/31 17:50:46 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:56:27 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	execute_builtin(t_exec *cmd, t_context *ctx, t_env *env)
 	else if (ft_strcmp(cmd->cmd, "env") == 0)
 		return (ft_env(env));
 	else if (ft_strcmp(cmd->cmd, "exit") == 0)
-		ft_exit(cmd, ctx);
+		return (ft_exit(cmd, ctx));
 	return (0);
 }
 

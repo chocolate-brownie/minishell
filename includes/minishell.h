@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/03 17:06:01 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:30:58 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <limits.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -176,6 +177,7 @@ t_token							*create_token(char *value, t_token_type type);
 void							free_token_list(t_token *token_list);
 void							append_token(t_token **head, t_token **tail,
 									t_token *token);
+char							*append_char(char *str, char c, t_context *ctx);
 int								find_closing_quote(const char *cmd,
 									int start_pos);
 char							*append_extracted(char *accumulated_value,
@@ -196,7 +198,25 @@ char							*get_unquoted_val(const char *command,
 									int *position, t_context *ctx);
 int								append_eof_token(t_token **list_head,
 									t_token **list_tail, t_context *ctx);
+int								handle_backslash_dq(t_char_iter_params *params,
+									char **val_ptr, t_context *ctx);
+char							*append_char(char *str, char c, t_context *ctx);
 
+/*
+** ------------------- Lexer Env Var Utils -------------------
+*/
+int								is_valid_var_char_start(char c);
+int								is_valid_var_char_subsequent(char c);
+char							*extract_env_var_name(const char *cmd_str,
+									int *idx_ptr);
+int								process_backslash_unquoted(const char *command,
+									int *i, char **accumulated_value,
+									t_context *ctx);
+int								handle_unquoted_dollar_q(int *i,
+									char **accumulated_value, t_context *ctx);
+int								handle_unquoted_regular_char(
+									const char *command, int *i,
+									char **accumulated_value, t_context *ctx);
 /*
 ** ------------------- Parser -----------------------------------
 */
@@ -280,11 +300,20 @@ int								ft_pwd(void);
 int								ft_env(t_env *env);
 int								ft_export(t_env *env, t_exec *cmd);
 int								ft_unset(t_env **env, t_exec *cmd);
+void							process_unset_argument(char *arg, t_env **env,
+									int *return_status, int *malloc_error_flag);
 int								ft_exit(t_exec *cmd, t_context *ctx);
 
 /*
 ** ------------------- Execution Utils --------------------------
 */
+long long						ft_atol_with_error(char *str, int *error_flag);
+void							set_error_message_and_exit_code(t_context *ctx,
+									char **args, int type);
+
+void							process_unset_argument(char *arg, t_env **env,
+									int *return_status, int *malloc_error_flag);
+
 int								redir_input(t_redirs *redir);
 int								redir_output(t_redirs *redir);
 int								redir_append(t_redirs *redir);

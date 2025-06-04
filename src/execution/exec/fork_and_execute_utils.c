@@ -34,7 +34,8 @@ void	handle_command_error(t_exec *cmd, t_resources *res, t_context *ctx)
 
 void	execute_command(t_resources *res, t_context *ctx)
 {
-	struct stat st;
+	struct stat	st;
+
 	if (stat(res->path, &st) == 0 && S_ISDIR(st.st_mode))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);

@@ -39,7 +39,7 @@ static char	*get_env_path(char **envp)
 
 int	is_directory(const char *path)
 {
-	struct stat st;
+	struct stat	st;
 
 	if (stat(path, &st) != 0)
 		return (0);

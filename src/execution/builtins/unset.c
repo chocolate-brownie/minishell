@@ -3,86 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:41:39 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/15 10:37:23 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:47:08 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_id(char *args)
-{
-	int		i;
-	char	*id;
-
-	i = 0;
-	while (args[i] && args[i] != '=')
-		i++;
-	id = ft_strndup(args, i);
-	if (!id)
-		return (NULL);
-	return (id);
-}
-
-static void	free_node(t_env *curr)
-{
-	free(curr->id);
-	free(curr->value);
-	free(curr->raw);
-	free(curr);
-}
-
-static int	unset_var(t_env **env, char *args)
-{
-	t_env	*curr;
-	t_env	*prev;
-	char	*id;
-
-	curr = *env;
-	prev = NULL;
-	id = get_id(args);
-	if (!id)
-		return (0);
-	while (curr)
-	{
-		if (ft_strcmp(curr->id, id) == 0)
-		{
-			if (prev)
-				prev->next = curr->next;
-			else
-				*env = curr->next;
-			free_node(curr);
-			break ;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
-	free(id);
-	return (1);
-}
+/*
+All static helper functions (get_id, free_node, unset_var,
+is_valid_unset_identifier, process_unset_argument)
+have been moved to unset_utils.c
+*/
 
 int	ft_unset(t_env **env, t_exec *cmd)
 {
 	char	**args;
 	int		i;
-	int		error;
+	int		malloc_error_flag;
+	int		return_status;
 
 	args = args_to_array(cmd, 0);
 	if (!args)
 		return (1);
 	i = 0;
-	error = 0;
+	malloc_error_flag = 0;
+	return_status = 0;
 	while (args[i])
 	{
-		if (!unset_var(env, args[i]))
-			error = 1;
+		process_unset_argument(args[i], env, &return_status,
+			&malloc_error_flag);
 		i++;
 	}
 	free_tab(args);
-	if (error)
+	if (malloc_error_flag)
 		return (1);
-	else
-		return (0);
+	return (return_status);
 }

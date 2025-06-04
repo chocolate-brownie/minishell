@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/06/01 20:01:49 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/06/04 19:01:27 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,9 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/parsing/lexer/quoted_val_utils.c \
        $(SRC_DIR)/parsing/lexer/handle_word.c \
        $(SRC_DIR)/parsing/lexer/lexer_string_utils.c \
+       $(SRC_DIR)/parsing/lexer/unquoted_processing.c \
+       $(SRC_DIR)/parsing/lexer/unquoted_utils.c \
+       $(SRC_DIR)/parsing/lexer/lexer_env_var_utils.c \
        $(SRC_DIR)/parsing/parser/exec_err.c \
        $(SRC_DIR)/parsing/parser/exec_node.c \
        $(SRC_DIR)/parsing/parser/exec_utils.c \
@@ -76,7 +79,9 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/execution/builtins/env.c \
        $(SRC_DIR)/execution/builtins/export.c \
        $(SRC_DIR)/execution/builtins/unset.c \
+       $(SRC_DIR)/execution/builtins/unset_utils.c \
        $(SRC_DIR)/execution/builtins/exit.c \
+       $(SRC_DIR)/execution/builtins/exit_utils.c \
        $(SRC_DIR)/execution/env/init_env.c \
        $(SRC_DIR)/execution/env/update_env_var.c \
        $(SRC_DIR)/execution/exec/exec.c \

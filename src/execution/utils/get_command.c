@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 17:52:26 by shasinan          #+#    #+#             */
-/*   Updated: 2025/05/15 10:44:50 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:25:09 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ static char	*get_env_path(char **envp)
 	return (NULL);
 }
 
+int	is_directory(const char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st) != 0)
+		return (0);
+	return (S_ISDIR(st.st_mode));
+}
+
 static char	*paths_loop(char **paths, char *cmd)
 {
 	char	*tmp;
@@ -54,7 +63,7 @@ static char	*paths_loop(char **paths, char *cmd)
 			free_tabl(paths);
 			return (NULL);
 		}
-		if (access(full_path, X_OK) == 0)
+		if (access(full_path, X_OK) == 0 && !is_directory(full_path))
 		{
 			free_tabl(paths);
 			return (full_path);

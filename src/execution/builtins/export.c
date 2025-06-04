@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:05:54 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/03 17:05:01 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:48:08 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static int	handle_export_arg(t_env *env, char *arg)
 		return (0);
 	if (!valid_id(arg) || id[0] == '\0')
 	{
-		ft_putstr_fd("export: ", 2);
+		ft_putstr_fd("minishell: export: `", 2);
 		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(" not a valid identifier\n", 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (free(id), 0);
 	}
 	if (!ft_strchr(arg, '='))
@@ -80,44 +80,3 @@ int	ft_export(t_env *env, t_exec *cmd)
 	else
 		return (0);
 }
-
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_env *env;
-// 	t_exec cmd;
-// 	t_context ctx;
-
-// 	(void)ac;
-// 	(void)av;
-
-// 	env = init_env(envp);
-// 	cmd.cmd = "echo";
-// 	cmd.next = NULL;
-
-// 	// Création du premier nœud d'argument
-// 	cmd.args = malloc(sizeof(t_args));
-// 	if (!cmd.args)
-// 		return (1);
-// 	cmd.args->value = ft_strdup("23");
-// 	cmd.args->next = malloc(sizeof(t_args));
-// 	if (!cmd.args->next)
-// 		return (free(cmd.args), 1);
-
-// 	// Création du second nœud d'argument
-// 	cmd.args->next->value = ft_strdup("23d");
-// 	cmd.args->next->next = NULL;
-
-// 	//ft_export(env, &cmd, &ctx);
-//     //ft_unset(&env, &cmd, &ctx);
-// 	// ft_exit(&cmd, &ctx, env);
-// 	// printf("last exit code : %d\n", ctx.last_exit_code);
-// 	//ft_env(env, &ctx);
-// 	exec
-// 	// Nettoyage
-// 	free(cmd.args->value);
-// 	free(cmd.args->next->value);
-// 	free(cmd.args->next);
-// 	free(cmd.args);
-// 	free_env (env);
-// 	return (0);
-// }

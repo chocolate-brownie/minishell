@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 23:35:59 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/03 17:04:05 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:16:34 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*get_syntax_error(int exit_code, char *cmd)
 	char	*message;
 	char	*temp;
 
-	if (exit_code == ERR_SYNTAX && cmd)
+	if ((exit_code == ERR_SYNTAX && cmd))
 	{
 		message = ft_strjoin(ERMSG_UNXTKN, cmd);
 		temp = message;

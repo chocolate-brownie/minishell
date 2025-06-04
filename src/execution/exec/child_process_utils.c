@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:00:00 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/03 16:43:09 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:12:25 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ void	child_execute_external_command(t_context *ctx, t_exec *cmd)
 		free_all(ctx);
 		exit(1);
 	}
-	if (access(res.path, X_OK) != 0)
-		handle_command_error(cmd, &res, ctx);
+	else if (ft_strchr(cmd->cmd, '/'))
+	{
+		if (access(res.path, X_OK) != 0)
+			handle_command_error(cmd, &res, ctx);
+	}
 	execute_command(&res, ctx);
 }

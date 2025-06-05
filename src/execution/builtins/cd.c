@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:37:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/05 15:04:26 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:17:55 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,44 @@ static int	change_dir(char *final_path)
 	return (1);
 }
 
-static char	*get_path(t_exec *cmd, t_env *env)
+static char	*resolve_home_path(t_exec *cmd, t_env *env)
 {
 	char	*final_path;
 
-	if (cmd->args && cmd->args->next)
-		return (ft_putstr_fd("cd : too many arguments\n", 2), NULL);
 	if (!cmd->args || !cmd->args->value || cmd->args->value[0] == '\0'
 		|| !ft_strcmp(cmd->args->value, "~") || !ft_strcmp(cmd->args->value,
 			"--"))
 	{
 		final_path = get_env_value(env, "HOME");
 		if (!final_path)
-		{
-			ft_putstr_fd("$HOME not set\n", 2);
-			return (NULL);
-		}
+			return (ft_putstr_fd("$HOME not set\n", 2), NULL);
+		return (final_path);
 	}
+	return (NULL);
+}
+
+static char	*get_path(t_exec *cmd, t_env *env)
+{
+	char	*final_path;
+	char	*home;
+
+	if (cmd->args && cmd->args->next)
+		return (ft_putstr_fd("cd : too many arguments\n", 2), NULL);
+	final_path = resolve_home_path(cmd, env);
+	if (final_path)
+		return (final_path);
 	else if (!ft_strcmp(cmd->args->value, "-"))
 	{
 		final_path = get_env_value(env, "OLDPWD");
 		printf("%s\n", final_path);
+	}
+	else if (!ft_strncmp(cmd->args->value, "~/", 2))
+	{
+		home = get_env_value(env, "HOME");
+		if (!home)
+			return (ft_putstr_fd("$HOME not set\n", 2), NULL);
+		final_path = ft_strjoin(home, cmd->args->value + 1);
+		free(home);
 	}
 	else
 		final_path = ft_strdup(cmd->args->value);

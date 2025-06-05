@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:37:56 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/02 12:53:31 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:04:26 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static char	*get_path(t_exec *cmd, t_env *env)
 	else if (!ft_strcmp(cmd->args->value, "-"))
 	{
 		final_path = get_env_value(env, "OLDPWD");
-		if (!final_path)
-			return (ft_putstr_fd("$OLDPWD not set\n", 2), NULL);
 		printf("%s\n", final_path);
 	}
 	else

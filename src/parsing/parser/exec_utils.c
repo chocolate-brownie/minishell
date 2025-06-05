@@ -61,6 +61,11 @@ int	process_word_token(t_exec *exec_node, t_token **curr, t_context *ctx)
 		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), -1);
 	if (exec_node->cmd == NULL)
 	{
+		if ((*curr)->value && (*curr)->value[0] == '\0')
+		{
+			*curr = (*curr)->next;
+			return (0);
+		}
 		exec_node->cmd = ft_strdup((*curr)->value);
 		if (!exec_node->cmd)
 			return (set_exit_code(ctx, ERR_MALLOC, NULL), -1);

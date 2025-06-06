@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:00:00 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/04 09:12:25 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:07:52 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ static int	prepare_exec_resources(t_exec *cmd, t_context *ctx,
 	return (1);
 }
 
+static void	error_message(t_context *ctx, t_exec *cmd)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd->cmd, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	free_all(ctx);
+	exit(127);
+}
+
 /*
 ** Prepares resources and executes an external command in the child process.
 ** This function is called after built-in checks and will exit the child process.
@@ -48,19 +57,18 @@ void	child_execute_external_command(t_context *ctx, t_exec *cmd)
 {
 	t_resources	res;
 
+	if (!cmd->cmd || !cmd->cmd[0])
+	{
+		free_all(ctx);
+		exit(0);
+	}
 	res.args = NULL;
 	res.envp = NULL;
 	res.path = NULL;
 	if (!prepare_exec_resources(cmd, ctx, &res))
 	{
 		if (!res.path && cmd && cmd->cmd && !ft_strchr(cmd->cmd, '/'))
-		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(cmd->cmd, STDERR_FILENO);
-			ft_putstr_fd(": command not found\n", STDERR_FILENO);
-			free_all(ctx);
-			exit(127);
-		}
+			error_message(ctx, cmd);
 		free_all(ctx);
 		exit(1);
 	}

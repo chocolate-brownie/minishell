@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/04 18:30:58 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:02:53 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,10 +165,14 @@ extern volatile sig_atomic_t	g_signal;
 ** identifying words, operators, and other significant lexical units.
 */
 t_token							*lexer(const char *cmd, t_context *ctx);
+int								validate_input(const char *cmd, t_context *ctx);
+void							init_token_list(t_token **list_head,
+									t_token **list_tail);
 
 /*
 ** ------------------- Lexer Utils ------------------------------
 */
+
 int								is_quote(char c);
 int								is_delimiter(char c);
 t_token							*get_next_token(const char *cmd, int *i,

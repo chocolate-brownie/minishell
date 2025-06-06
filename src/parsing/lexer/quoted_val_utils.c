@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quoted_val_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:30:00 by ai-assistan       #+#    #+#             */
-/*   Updated: 2025/06/04 14:12:38 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:49:46 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static char	*handle_quote_closure(t_quote_finish_params *params,
 	else
 	{
 		free(accumulated_value);
-		set_exit_code(ctx, ERR_SYNTAX,
-			"minishell: syntax error: unclosed quote");
+		set_exit_code(ctx, ERR_UNCLOSED_QUOTE, NULL);
 		return (NULL);
 	}
 }

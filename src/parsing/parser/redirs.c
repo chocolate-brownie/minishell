@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:23:45 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/05 11:43:08 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:54:15 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ static char	*handle_other_redirs(t_token **curr_token_ptr, t_context *ctx)
 		return (NULL);
 	operator_token = *curr_token_ptr;
 	file_token = operator_token->next;
-	if (file_token == NULL || file_token->type != TOKEN_WORD)
+	if (file_token == NULL || file_token->type == TOKEN_EOF
+		|| file_token->type == TOKEN_PIPE)
 	{
-		if (file_token && ctx)
-			set_exit_code(ctx, ERR_SYNTAX, file_token->value);
-		else if (ctx)
-			set_exit_code(ctx, ERR_SYNTAX, "newline");
+		set_exit_code(ctx, ERR_SYNTAX, "newline");
+		return (NULL);
+	}
+	if (file_token->type != TOKEN_WORD)
+	{
+		set_exit_code(ctx, ERR_SYNTAX, file_token->value);
 		return (NULL);
 	}
 	*curr_token_ptr = file_token->next;
@@ -93,7 +96,7 @@ static int	do_append_and_cleanup(t_exec *cmd_node,
 	return (0);
 }
 
-/** Processes a redirection token. Parses redirection details, 
+/** Processes a redirection token. Parses redirection details,
 then appends and cleans up. This should be so fucking annoying*/
 int	process_redir_token(t_exec *cmd_node, t_token **curr_token_ptr,
 		t_context *ctx)

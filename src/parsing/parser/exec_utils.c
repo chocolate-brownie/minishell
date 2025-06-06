@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:07:08 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/19 15:26:07 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:14:18 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ int	process_word_token(t_exec *exec_node, t_token **curr, t_context *ctx)
 {
 	if (!exec_node || !curr || !*curr || !ctx)
 		return (set_exit_code(ctx, ERR_INVALID_INPUT, NULL), -1);
+	if (exec_node->cmd == NULL && (*curr)->value && (*curr)->value[0] == '\0')
+	{
+		*curr = (*curr)->next;
+		return (0);
+	}
 	if (exec_node->cmd == NULL)
 	{
 		exec_node->cmd = ft_strdup((*curr)->value);

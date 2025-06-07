@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 17:50:33 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/02 16:24:59 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/07 19:45:41 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	handle_early_exit_conditions(t_context *ctx,
 	else if (builtin_status == -2)
 	{
 		ctx->last_exit_code = 1;
-		*pipeline_exit_status = 0;
+		*pipeline_exit_status = 1;
 		return (1);
 	}
 	return (0);

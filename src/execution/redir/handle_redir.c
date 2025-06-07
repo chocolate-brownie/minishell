@@ -6,7 +6,7 @@
 /*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:51:55 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/05 11:41:53 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/07 19:45:07 by shasinan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	handle_redir(t_exec *cmd, t_context *ctx)
 
 	if (!cmd || !ctx)
 		return (0);
-	if (ctx->last_exit_code != 0)
-		return (1);
 	current_redir = cmd->redirs;
 	if (!current_redir)
 		return (1);

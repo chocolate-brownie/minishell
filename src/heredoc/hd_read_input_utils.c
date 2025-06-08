@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:02:19 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/08 17:41:25 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:15:05 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	heredoc_sigint_handler(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	write(STDOUT_FILENO, "^C", 2);
 }
 
 int	handle_sigint_case_for_heredoc(char *line_read, t_context *ctx)

@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/06 13:02:53 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:42:31 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,6 +277,10 @@ int								process_redir_token(t_exec *cmd_node,
 */
 char							*expand_dollar_question(char *acc_val,
 									int *cmd_idx_ptr, t_context *ctx);
+char							*expand_heredoc_line(char *line,
+									t_context *ctx);
+int								process_single_heredoc_line(char *line_read,
+									t_heredoc_data *hdata, t_context *ctx);
 
 /*
 ** ------------------- Expander Utils ---------------------------
@@ -391,6 +395,9 @@ void							setup_heredoc_signals(
 int								handle_sigint_case_for_heredoc(char *line_read,
 									t_context *ctx);
 void							heredoc_sigint_handler(int sig);
+void							handle_char_output(char c, int *current_len);
+int								process_char(char c, char *buffer,
+									int *current_len);
 
 /*
 ** ------------------- Environment Management -------------------
@@ -477,5 +484,9 @@ void							set_exit_code(t_context *ctx, int exit_code,
 */
 void							print_tokens(char *cmd, t_token *list_head);
 void							print_exec_list(t_exec *exec_list_head);
+
+int								setup_terminal_mode(struct termios *old_term,
+									struct termios *new_term);
+void							restore_terminal_mode(struct termios *old_term);
 
 #endif

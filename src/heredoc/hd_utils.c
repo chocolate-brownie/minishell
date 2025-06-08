@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:00:29 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 01:46:56 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:13:58 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	handle_eof_case(t_heredoc_data *hdata)
 {
-	ft_putstr_fd("minishell: warning: here-document ", STDERR_FILENO);
+	ft_putstr_fd("\nminishell: warning: here-document ", STDERR_FILENO);
 	ft_putstr_fd("delimited by end-of-file (wanted \'", STDERR_FILENO);
 	ft_putstr_fd(hdata->delimiter_str, STDERR_FILENO);
-	return (ft_putstr_fd("\')\\n", STDERR_FILENO), 0);
+	return (ft_putstr_fd("\')\n", STDERR_FILENO), 0);
 }
 
 int	heredoc_delim_validation(t_context *ctx, t_token *delim_token)

@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/06/06 13:03:45 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/06/08 16:41:34 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,9 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/heredoc/hd_manager.c\
        $(SRC_DIR)/heredoc/hd_read_input.c\
        $(SRC_DIR)/heredoc/hd_read_input_utils.c\
+       $(SRC_DIR)/heredoc/hd_char_utils.c\
+       $(SRC_DIR)/heredoc/hd_expansion.c\
+       $(SRC_DIR)/heredoc/hd_terminal_utils.c\
        $(SRC_DIR)/heredoc/hd_utils.c\
        $(SRC_DIR)/heredoc/hd_active_list_utils.c\
        $(SRC_DIR)/utils/err.c \

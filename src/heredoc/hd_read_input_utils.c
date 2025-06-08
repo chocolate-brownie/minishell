@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:02:19 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/31 20:02:46 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:15:05 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,28 @@ int	handle_sigint_case_for_heredoc(char *line_read, t_context *ctx)
 void	setup_heredoc_signals(struct sigaction *sa_heredoc_int,
 							struct sigaction *sa_old_int)
 {
+	struct sigaction	sa_ignore;
+
 	sigemptyset(&sa_heredoc_int->sa_mask);
 	sa_heredoc_int->sa_handler = heredoc_sigint_handler;
 	sa_heredoc_int->sa_flags = 0;
 	sigaction(SIGINT, sa_heredoc_int, sa_old_int);
+	sigemptyset(&sa_ignore.sa_mask);
+	sa_ignore.sa_handler = SIG_IGN;
+	sa_ignore.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_ignore, NULL);
 	g_signal = 0;
 }
 
 void	restore_old_signals(struct sigaction *sa_old_int)
 {
+	struct sigaction	sa_ignore;
+
 	sigaction(SIGINT, sa_old_int, NULL);
+	sigemptyset(&sa_ignore.sa_mask);
+	sa_ignore.sa_handler = SIG_IGN;
+	sa_ignore.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_ignore, NULL);
 }
 
 int	handle_heredoc_interrupt(char *line_read,

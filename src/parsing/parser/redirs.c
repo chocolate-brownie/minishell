@@ -6,24 +6,11 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:23:45 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/06 12:54:15 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:01:57 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static t_redir_type	get_exec_redir_type_from_token(t_token_type token_type)
-{
-	if (token_type == TOKEN_REDIR_IN)
-		return (REDIR_INPUT);
-	if (token_type == TOKEN_REDIR_OUT)
-		return (REDIR_OUTPUT);
-	if (token_type == TOKEN_REDIR_HEREDOC)
-		return (REDIR_HEREDOC);
-	if (token_type == TOKEN_REDIR_APPEND)
-		return (REDIR_APPEND);
-	return ((t_redir_type)-1);
-}
 
 /** Handle all the other redirections except for the heredoc, heredoc should
 have his own seperate folders and shit... */
@@ -36,17 +23,8 @@ static char	*handle_other_redirs(t_token **curr_token_ptr, t_context *ctx)
 		return (NULL);
 	operator_token = *curr_token_ptr;
 	file_token = operator_token->next;
-	if (file_token == NULL || file_token->type == TOKEN_EOF
-		|| file_token->type == TOKEN_PIPE)
-	{
-		set_exit_code(ctx, ERR_SYNTAX, "newline");
+	if (handle_invalid_token_syntax(file_token, ctx, curr_token_ptr))
 		return (NULL);
-	}
-	if (file_token->type != TOKEN_WORD)
-	{
-		set_exit_code(ctx, ERR_SYNTAX, file_token->value);
-		return (NULL);
-	}
 	*curr_token_ptr = file_token->next;
 	return (file_token->value);
 }
@@ -82,7 +60,7 @@ static int	do_append_and_cleanup(t_exec *cmd_node,
 
 	is_heredoc = (exec_redir_type == REDIR_HEREDOC);
 	if (append_redir(&(cmd_node->redirs), exec_redir_type, path_arg,
-			ctx) == NULL && ctx->last_exit_code != 0)
+			ctx) == NULL)
 	{
 		if (is_heredoc)
 		{

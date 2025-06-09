@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/06/08 16:41:34 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/06/09 19:02:48 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/parsing/parser/parser_utils.c \
        $(SRC_DIR)/parsing/parser/append_redir.c \
        $(SRC_DIR)/parsing/parser/redirs.c \
+$(SRC_DIR)/parsing/parser/redir_utils.c \
        $(SRC_DIR)/heredoc/hd_manager.c\
        $(SRC_DIR)/heredoc/hd_read_input.c\
        $(SRC_DIR)/heredoc/hd_read_input_utils.c\

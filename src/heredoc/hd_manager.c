@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:08:54 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/30 18:26:44 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:58:35 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	populate_heredoc_tempfile(t_heredoc_data *hdata, t_context *ctx)
 	read_status = read_heredoc_input(hdata, ctx);
 	if (hdata->fd != -1)
 	{
-		if (close(hdata->fd) == -1 && read_status == 0 && g_signal != SIGINT)
+		if (close(hdata->fd) == -1 && read_status != 0 && g_signal != SIGINT)
 		{
 			perror("minishell: heredoc close");
 			set_exit_code(ctx, 1, hdata->temp_filepath);
@@ -49,8 +49,16 @@ static int	populate_heredoc_tempfile(t_heredoc_data *hdata, t_context *ctx)
 	return (read_status);
 }
 
+static void	advance_past_invalid_delim(t_token **curr_token_ptr)
+{
+	if (*curr_token_ptr)
+		*curr_token_ptr = (*curr_token_ptr)->next;
+	if (*curr_token_ptr)
+		*curr_token_ptr = (*curr_token_ptr)->next;
+}
+
 /** Handles the entire heredoc process..
-gets delimeter, creates temp files and read input until delimiter EOF 
+gets delimeter, creates temp files and read input until delimiter EOF
 encounters and writes to temp file
 
 @param current_token_ptr points to the current token (should be the <<)
@@ -69,11 +77,16 @@ char	*handle_heredoc(t_token **curr_token_ptr, t_context *ctx)
 
 	if (g_signal == SIGINT)
 		return (NULL);
+	if (ctx && ctx->has_syntax_error)
+		return (NULL);
 	if (setup_heredoc_core_data(curr_token_ptr, &hdata, ctx,
 			&delimiter_token) != 0)
+	{
+		advance_past_invalid_delim(curr_token_ptr);
 		return (NULL);
+	}
 	read_status = populate_heredoc_tempfile(&hdata, ctx);
-	if (g_signal == SIGINT || read_status != 0)
+	if (g_signal == SIGINT || read_status < 0)
 		return (cleanup_hd_resources(&hdata), NULL);
 	add_active_heredoc(ctx, hdata.temp_filepath);
 	*curr_token_ptr = delimiter_token->next;

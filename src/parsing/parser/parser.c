@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:50:18 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/01 13:09:44 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:44:04 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_exec	*parse_token_loop(t_token *current_token, t_context *ctx)
 	tail_node = NULL;
 	while (current_token && current_token->type != TOKEN_EOF)
 	{
-		if (g_signal == SIGINT)
+		if (g_signal == SIGINT || ctx->has_syntax_error)
 			return (free_exec_list(head_node), NULL);
 		status = process_segment(&current_token, &head_node, &tail_node, ctx);
 		if (g_signal == SIGINT)

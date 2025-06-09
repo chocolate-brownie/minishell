@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:23:45 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/09 19:01:57 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:48:17 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ static char	*handle_other_redirs(t_token **curr_token_ptr, t_context *ctx)
 		return (NULL);
 	operator_token = *curr_token_ptr;
 	file_token = operator_token->next;
-	if (handle_invalid_token_syntax(file_token, ctx, curr_token_ptr))
+	if (handle_invalid_token_syntax(file_token, ctx))
+	{
+		*curr_token_ptr = (*curr_token_ptr)->next;
+		if (*curr_token_ptr)
+			*curr_token_ptr = (*curr_token_ptr)->next;
 		return (NULL);
+	}
 	*curr_token_ptr = file_token->next;
 	return (file_token->value);
 }

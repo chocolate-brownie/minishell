@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:08:54 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/09 18:58:35 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:39:57 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,6 @@ static int	populate_heredoc_tempfile(t_heredoc_data *hdata, t_context *ctx)
 	return (read_status);
 }
 
-static void	advance_past_invalid_delim(t_token **curr_token_ptr)
-{
-	if (*curr_token_ptr)
-		*curr_token_ptr = (*curr_token_ptr)->next;
-	if (*curr_token_ptr)
-		*curr_token_ptr = (*curr_token_ptr)->next;
-}
-
 /** Handles the entire heredoc process..
 gets delimeter, creates temp files and read input until delimiter EOF
 encounters and writes to temp file
@@ -82,7 +74,10 @@ char	*handle_heredoc(t_token **curr_token_ptr, t_context *ctx)
 	if (setup_heredoc_core_data(curr_token_ptr, &hdata, ctx,
 			&delimiter_token) != 0)
 	{
-		advance_past_invalid_delim(curr_token_ptr);
+		if (*curr_token_ptr)
+			*curr_token_ptr = (*curr_token_ptr)->next;
+		if (*curr_token_ptr)
+			*curr_token_ptr = (*curr_token_ptr)->next;
 		return (NULL);
 	}
 	read_status = populate_heredoc_tempfile(&hdata, ctx);

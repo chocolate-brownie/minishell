@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:15:37 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/15 16:07:24 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:48:17 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,10 @@ void	invalseg_after_pipe(t_exec **headptr, t_exec **newptr,
 	if (headptr && *headptr)
 		free_exec_list(*headptr);
 	if (newptr && *newptr)
-		free_exec_list(*newptr);
+	{
+		free_single_exec_node_content(*newptr);
+		free(*newptr);
+	}
 	if (startptr != NULL && *startptr != NULL)
 		set_exit_code(ctxptr, ERR_SYNTAX, (*startptr)->value);
 	else

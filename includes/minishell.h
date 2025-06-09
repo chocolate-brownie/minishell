@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/08 16:42:31 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:03:12 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,11 @@ t_args							*append_arg(t_args **args_list_head,
 									char *value, t_context *ctx);
 int								process_redir_token(t_exec *cmd_node,
 									t_token **curr_token_ptr, t_context *ctx);
+t_redir_type					get_exec_redir_type_from_token(
+									t_token_type token_type);
+int								handle_invalid_token_syntax(t_token *file_token,
+									t_context *ctx,
+									t_token **curr_token_ptr);
 
 /*
 ** ------------------- Expander ---------------------------------

@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:19:36 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/05/27 01:44:47 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:48:32 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_heredoc_data
 	char					*delimiter_str;
 	char					*temp_filepath;
 	int						fd;
-}			t_heredoc_data; 
+}			t_heredoc_data;
 */
 void	add_active_heredoc(t_context *ctx, const char *filepath)
 {
@@ -35,12 +35,12 @@ void	add_active_heredoc(t_context *ctx, const char *filepath)
 		return ;
 	new_node = (t_hd_temp_file *)malloc(sizeof(t_hd_temp_file));
 	if (!new_node)
-		return (set_exit_code(ctx, ERR_MALLOC, "add_active_heredoc node"));
+		return ;
 	new_node->path = ft_strdup(filepath);
 	if (!new_node->path)
 	{
 		free(new_node);
-		return (set_exit_code(ctx, ERR_MALLOC, "add_active_heredoc path"));
+		return ;
 	}
 	new_node->next = NULL;
 	if (ctx->active_heredocs == NULL)

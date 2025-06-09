@@ -6,11 +6,11 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:11:08 by shasinan          #+#    #+#             */
-/*   Updated: 2025/06/03 21:12:53 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:48:32 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../includes/minishell.h"
 
 void	free_all(t_context *ctx)
 {
@@ -31,7 +31,6 @@ void	free_all(t_context *ctx)
 		free_exec_list(ctx->command_list);
 		ctx->command_list = NULL;
 	}
-	cleanup_all_active_heredocs(ctx);
 	free(ctx);
 }
 

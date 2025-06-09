@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:55:15 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/01 13:35:47 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:51:13 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static t_exec	*fill_exec_node_from_tokens(t_exec *node, t_token **token_ptr,
 	while (*token_ptr && (*token_ptr)->type != TOKEN_EOF
 		&& (*token_ptr)->type != TOKEN_PIPE)
 	{
+		if (ctx->has_syntax_error)
+			return (token_failure(node, ctx), NULL);
 		if (process_token(node, token_ptr, ctx) != 0)
 			return (token_failure(node, ctx), NULL);
 	}

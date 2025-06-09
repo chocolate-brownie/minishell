@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_minishell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shasinan <shasinan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/01 16:21:04 by shasinan         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:48:32 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 
 	if (!cmd || !token_list || !ctx)
 		return (-1);
-	ctx->has_syntax_error = 0;
 	*token_list = lexer(cmd, ctx);
 	if (*token_list == NULL)
 		return (free(cmd), 0);
@@ -96,6 +95,7 @@ static int	handle_command_input_cycle(t_context *ctx)
 	tokens = NULL;
 	if (isatty(STDIN_FILENO))
 		g_signal = 0;
+	ctx->has_syntax_error = 0;
 	cmd_line = read_cmd(ctx);
 	input_result = handle_input_cases(cmd_line, ctx);
 	if (input_result != 0)

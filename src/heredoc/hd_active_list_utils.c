@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:19:36 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/09 18:48:32 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:46:12 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,27 @@ void	cleanup_all_active_heredocs(t_context *ctx)
 		current = next_node;
 	}
 	ctx->active_heredocs = NULL;
+}
+
+void	cleanup_command_heredocs(t_exec *exec_list, t_context *ctx)
+{
+	t_exec		*cmd_iter;
+	t_redirs	*redir_iter;
+
+	if (!exec_list || !ctx)
+		return ;
+	cmd_iter = exec_list;
+	while (cmd_iter)
+	{
+		redir_iter = cmd_iter->redirs;
+		while (redir_iter)
+		{
+			if (redir_iter->type == REDIR_HEREDOC && redir_iter->path)
+			{
+				remove_and_unlink_active_heredoc(ctx, redir_iter->path);
+			}
+			redir_iter = redir_iter->next;
+		}
+		cmd_iter = cmd_iter->next;
+	}
 }

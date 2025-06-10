@@ -1,73 +1,85 @@
-# Critical Fix: Resolve Parser Infinite Loop and Memory Corruption
+# Fix: Resolve Heredoc Memory Leaks After Command Execution
 
 ## Summary
-This pull request addresses a critical stability issue where providing multiple consecutive redirection operators (e.g., `>>>>`, `<<<<`) would cause the parser to enter an infinite loop, hanging the shell. The fix also resolves a memory corruption bug in the parser's error handling for invalid pipe syntax, which contributed to the shell's instability.
+This pull request resolves a memory leak associated with heredocs. The temporary files created for heredocs and their corresponding tracking structures were not being cleaned up after each command, leading to resource leakage for the entire duration of the shell session. The fix introduces a cleanup mechanism that runs after each command pipeline completes.
 
 ## Bug Description
-When a user entered a sequence of redirection tokens, the shell would hang indefinitely. A `Ctrl+C` would break the loop and provide a new prompt, but the shell would be in an unstable state where built-in commands like `exit` and `Ctrl+D` would no longer function. The only way to terminate the process was to suspend it with `Ctrl+Z` and then kill it manually.
+When a command involving a heredoc was executed, the memory allocated for tracking the temporary file and the file itself were not released. This leak was cumulative; running multiple commands with heredocs would consume more and more memory, only freeing it when the shell itself was terminated.
 
-**Example command that triggered the bug:**
-```bash
-minishell → >>>>>>>>>>>>
-# The shell hangs here. After Ctrl+C:
-minishell → exit
-# exit command does not work.
+This could be consistently reproduced and was identified using `valgrind`.
+
+**Example `valgrind` output showing the leak:**
+```
+==11945== LEAK SUMMARY:
+==11945==    definitely lost: 16 bytes in 1 blocks
+==11945==    indirectly lost: 20 bytes in 1 blocks
+==11945==      possibly lost: 0 bytes in 0 blocks
+==11945==    still reachable: 0 bytes in 0 blocks
+==11945==         suppressed: 208,315 bytes in 229 blocks
 ```
 
 ## Root Cause Analysis
-The instability was caused by two distinct but related bugs in the parser:
+The core issue was that the `minishell` process only cleaned up heredoc-related resources upon exiting the main shell loop. There was no mechanism to deallocate these resources after the command that used them had finished executing.
 
-1.  **Infinite Loop on Syntax Error**: The primary cause of the hang was that the main parsing loop in `src/parsing/parser/parser.c` did not check if a syntax error had already been flagged. When an error like `>>>>` was encountered, the error flag `ctx->has_syntax_error` was set, but the loop would not terminate. It would attempt to re-process the same invalid tokens endlessly.
-
-2.  **Memory Corruption in Pipe Error Handling**: A separate, severe bug was discovered in `src/parsing/parser/parser_utils.c`. The `invalseg_after_pipe` function, which handles errors like `cmd | |`, was incorrectly using `free_exec_list` to deallocate a single `t_exec` node. This function is designed to traverse a linked list, so calling it on a single node caused it to read uninitialized memory from the `->next` pointer, leading to heap corruption. This corruption is the likely reason `exit` and other functions failed after the initial hang was interrupted.
+Specifically:
+-   When `handle_heredoc` was called, it created a temporary file (e.g., `/tmp/minishell_hd_0`).
+-   It then called `add_active_heredoc` to add a `t_hd_temp_file` node to the global `ctx->active_heredocs` list.
+-   This list was only ever cleared by `cleanup_all_active_heredocs` when the shell was finally exiting, not between prompts.
 
 ## Changes Made
 
-### 1. Enforced Parser Termination on Error
-**File**: `src/parsing/parser/parser.c`
-- **Modified**: The main `while` loop in the `parse_token_loop` function was updated to check for `ctx->has_syntax_error`.
-- **Reason**: This ensures that the parser terminates immediately as soon as a syntax error is detected, preventing any possibility of an infinite loop.
+### 1. Implemented Per-Command Heredoc Cleanup
+**File**: `src/heredoc/hd_active_list_utils.c`
+-   **Added**: A new function `cleanup_command_heredocs(t_exec *exec_list, t_context *ctx)`.
+-   **Logic**: This function traverses the execution list (`t_exec`) of the just-completed command. It inspects every redirection, and if it finds a `REDIR_HEREDOC`, it calls `remove_and_unlink_active_heredoc` to free the tracking node and delete the associated temporary file.
 
-### 2. Corrected Heap Corruption Bug
-**File**: `src/parsing/parser/parser_utils.c`
-- **Fixed**: In the `invalseg_after_pipe` function, the call to `free_exec_list` was replaced with `free_single_exec_node_content` followed by `free`.
-- **Reason**: This ensures that a single `t_exec` node is deallocated correctly without reading uninitialized memory, preventing heap corruption and restoring shell stability after a syntax error.
+### 2. Integrated Cleanup into the Main Loop
+**File**: `src/utils/run_minishell.c`
+-   **Modified**: The `process_command` function was updated to call `cleanup_command_heredocs` immediately after `execute_pipeline` returns.
+-   **Reason**: This ensures that regardless of the pipeline's success or failure, the heredoc resources associated with it are always cleaned up before processing the next command.
 
-### 3. Refactored Redirection Error Handling
-- **Files**: `src/parsing/parser/redirs.c`, `src/heredoc/hd_manager.c`, `src/parsing/parser/redir_utils.c`, `includes/minishell.h`
-- **Refactored**: As part of the debugging process, the logic for advancing the token pointer after a redirection syntax error was centralized. This responsibility was moved from utility functions to the primary redirection handling functions (`handle_other_redirs` and `handle_heredoc`), making the parser's state management more robust and predictable.
+### 3. Added Function Declaration
+**File**: `includes/minishell.h`
+-   **Added**: The function prototype for `cleanup_command_heredocs` was added to make it accessible across the application.
 
 ## Testing Results
 
-### ✅ Before Fix (Bug Present)
-```bash
-minishell → >>>>>>>>>
-# Shell hangs. After Ctrl+C, exit is unresponsive.
-# Requires Ctrl+Z and `kill` to terminate.
+### ✅ Before Fix (Leak Present)
+Running a heredoc command and then another command would show leaks in `valgrind`:
+```
+valgrind --leak-check=full ./minishell
+minishell → ls << EOF
+heredoc> EOF
+...
+minishell → some_other_command
+...
+==11945== LEAK SUMMARY:
+==11945==    definitely lost: 16 bytes in 1 blocks
+==11945==    indirectly lost: 20 bytes in 1 blocks
 ```
 
-### ✅ After Fix (Bug Resolved)
-```bash
-minishell → >>>>>>>>>
-minishell: syntax error near unexpected token `>>'
-minishell → exit
-# Shell exits cleanly with status 2.
+### ✅ After Fix (Leak Resolved)
+The same sequence of commands now shows no leaks when exiting the shell.
+```
+valgrind --leak-check=full ./minishell
+...
+==11850== HEAP SUMMARY:
+==11850==     in use at exit: 0 bytes in 0 blocks
+==11850==   total heap usage: ...
+==11850==
+==11850== All heap blocks were freed -- no leaks are possible
 ```
 
 ## Verification
 The fix has been verified to:
-- ✅ Eliminate the infinite loop when parsing invalid redirection sequences.
-- ✅ Prevent heap corruption, ensuring the shell remains stable after a syntax error.
-- ✅ Allow `exit` and `Ctrl+D` to function correctly after a syntax error is reported.
-- ✅ Return the correct exit code (`2`) for syntax errors.
+-   ✅ Completely eliminate the memory leak associated with heredocs.
+-   ✅ Ensure temporary files are unlinked promptly after command execution.
+-   ✅ Not introduce any regressions in heredoc functionality or overall shell behavior.
 
 ## Files Modified
-- `src/parsing/parser/parser.c`
-- `src/parsing/parser/parser_utils.c`
-- `src/parsing/parser/redirs.c`
-- `src/parsing/parser/redir_utils.c`
-- `src/heredoc/hd_manager.c`
-- `includes/minishell.h`
+-   `src/heredoc/hd_active_list_utils.c`
+-   `includes/minishell.h`
+-   `src/utils/run_minishell.c`
 
 ## Impact
-This fix resolves a major stability flaw in the parser, significantly improving its resilience to syntax errors. The shell no longer hangs or crashes on invalid input, leading to a much more robust and reliable user experience.
+This fix is crucial for the long-term stability and reliability of the shell. By preventing cumulative memory leaks, it ensures that `minishell` can run indefinitely without consuming ever-increasing system resources.

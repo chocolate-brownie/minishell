@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:52 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/09 22:39:45 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:46:12 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,6 +402,8 @@ void							heredoc_sigint_handler(int sig);
 void							handle_char_output(char c, int *current_len);
 int								process_char(char c, char *buffer,
 									int *current_len);
+void							cleanup_command_heredocs(t_exec *exec_list,
+									t_context *ctx);
 
 /*
 ** ------------------- Environment Management -------------------
@@ -452,6 +454,8 @@ int								setup_signal_handlers(t_context *ctx);
 ** until termination.
 */
 int								run_minishell(t_context *ctx);
+int								execute_command_list(t_exec *exec_list,
+									t_context *ctx);
 /*
 ** Reads a line of command input from the user.
 ** Often utilizes a library like readline for enhanced input editing

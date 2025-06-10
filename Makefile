@@ -6,7 +6,7 @@
 #    By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/17 18:47:24 by mgodawat          #+#    #+#              #
-#    Updated: 2025/06/09 19:02:48 by mgodawat         ###   ########.fr        #
+#    Updated: 2025/06/10 12:46:12 by mgodawat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,7 @@ $(SRC_DIR)/parsing/parser/redir_utils.c \
        $(SRC_DIR)/utils/exit_code.c \
        $(SRC_DIR)/utils/read.c \
        $(SRC_DIR)/utils/run_minishell.c \
+       $(SRC_DIR)/utils/command_executor.c \
        $(SRC_DIR)/utils/cleanup.c \
        $(SRC_DIR)/utils/env_utils.c \
        $(SRC_DIR)/debug/print_exec.c \

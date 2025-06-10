@@ -6,7 +6,7 @@
 /*   By: mgodawat <mgodawat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 00:35:07 by mgodawat          #+#    #+#             */
-/*   Updated: 2025/06/09 18:48:32 by mgodawat         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:46:01 by mgodawat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static int	process_command(char *cmd, t_token **token_list, t_context *ctx)
 		print_exec_list(exec_list);
 		printf("--- End AST Structure (in process_command) ---\n");
 	}
-	if (!execute_pipeline(ctx))
-		return (free_exec_list(exec_list), ctx->command_list = NULL, 2);
-	return (free_exec_list(exec_list), ctx->command_list = NULL, 1);
+	return (execute_command_list(exec_list, ctx));
 }
 
 static int	manage_command_processing_outcome(int process_status,
